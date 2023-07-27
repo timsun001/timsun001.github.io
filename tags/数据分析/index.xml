@@ -84,6 +84,9 @@
 &lt;li&gt;一个负值表示样本更接近于其它簇的样本，聚类效果不好。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;因此，轮廓系数越接近于1，聚类效果越好，越接近于-1或小于0，聚类效果越差。在使用轮廓系数时，我们希望找到最高的轮廓系数，以获得最优的聚类结果。&lt;/p&gt;
+&lt;h4 id=&#34;在tableau-public查看可交互的数据&#34;&gt;在Tableau Public查看可交互的数据&lt;/h4&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://public.tableau.com/app/profile/t.s1480/viz/_16904499350480/sheet0&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://public.tableau.com/app/profile/t.s1480/viz/_16904499350480/sheet0&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
