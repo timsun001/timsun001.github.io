@@ -6,7 +6,87 @@
         <description>Recent content in 技能 on Tim Sun</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sat, 15 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://timsun001.github.io/categories/skill/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 27 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://timsun001.github.io/categories/skill/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>基于点密度的聚类算法</title>
+        <link>https://timsun001.github.io/p/s2/</link>
+        <pubDate>Thu, 27 Jul 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://timsun001.github.io/p/s2/</guid>
+        <description>&lt;img src="https://timsun001.github.io/p/s2/cover.png" alt="Featured image of post 基于点密度的聚类算法" /&gt;&lt;h3 id=&#34;前情提要&#34;&gt;前情提要&lt;/h3&gt;
+&lt;p&gt;在&lt;a class=&#34;link&#34; href=&#34;https://timsun001.github.io/p/s1/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;上一篇关于小红书笔记标题聚类的研究&lt;/a&gt;中，我们用BERT输出初步的分类结果，再用T-SNE对分类结果做了降维，最后根据各笔记的分布密度识别出了“妆容教程类”、“二手交易类”和“商业推广类”三类笔记。
+显然，最后一步非常依赖人的判断，难以规模化并且不太客观。&lt;/p&gt;
+&lt;h3 id=&#34;基于点密度的聚类算法&#34;&gt;基于点密度的聚类算法&lt;/h3&gt;
+&lt;p&gt;本次我们在之前的基础上增加了基于&lt;a class=&#34;link&#34; href=&#34;https://arxiv.org/pdf/1706.03113.pdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;DBSCAN&lt;/a&gt;的聚类（DBSCAN是基于点密度的分类算法，通过“同类内的最小距离”（eps）和“最小样本数”(min_samples)来调节聚类效果）。
+相较于传统的KMeans算法（通过指定集群数量来调节聚类效果），该算法具有以下优势：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;无需指定集群数量（很显然我们是无法知道小红书标题中集群的总数的）&lt;/li&gt;
+&lt;li&gt;没有明显集群关系的点会被归至其他类&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;同时，运用该算法也要克服一个挑战，即如何找到合适的eps及min_samples参数。&lt;/p&gt;
+&lt;h3 id=&#34;参数调优&#34;&gt;参数调优&lt;/h3&gt;
+&lt;h4 id=&#34;将轮廓系数作为评价指标&#34;&gt;将轮廓系数作为评价指标&lt;/h4&gt;
+&lt;p&gt;显然，如果eps或min_samples设置的过大，会导致大量的点被分至同一类进而丢失有效信息，反之亦然。
+为解决这一问题，我们首先引入“&lt;a class=&#34;link&#34; href=&#34;#%e8%bd%ae%e5%bb%93%e7%b3%bb%e6%95%b0&#34; &gt;轮廓系数&lt;/a&gt;”作为算法的评价指标，测试不同参数下的“轮廓系数”大小。理想情况下，“轮廓系数”越大越好（说明分类界限越分明）。然而，在上述任务中，轮廓系数大可能引起两方面的负面影响：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;分类总数变少&lt;/li&gt;
+&lt;li&gt;“其他”类中的样本数变多&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;引入其他类样本占比和分类总数来优化评价指标&#34;&gt;引入“其他类样本占比”和“分类总数”来优化评价指标&lt;/h4&gt;
+&lt;p&gt;为克服上述负面影响，我们引入了“其他类样本占比”，用此指标与轮廓系数求调和平均作为聚类评分值（越大越好）。同时我们计算了不同参数下的分类总数。下表展示了部分参数下的聚类评分值（weighted_silhouette）。
+&lt;img src=&#34;https://timsun001.github.io/p/s2/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86.png&#34;
+	width=&#34;1654&#34;
+	height=&#34;1402&#34;
+	srcset=&#34;https://timsun001.github.io/p/s2/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86_hu9427fa2b231c5d3c7070556e3d91c439_163137_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s2/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86_hu9427fa2b231c5d3c7070556e3d91c439_163137_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;聚类评分&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;117&#34;
+		data-flex-basis=&#34;283px&#34;
+	
+&gt;
+我们最终选取的是n_labels大于10中weighted_silhouette最大的方案。最终聚类效果如下图。可见，我们不仅清晰区分出了此前方案已识别出的“妆容教程类”、“二手交易类”和“商业推广类”三类笔记，还额外识别出了额外的7类笔记。
+&lt;img src=&#34;https://timsun001.github.io/p/s2/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C.png&#34;
+	width=&#34;2000&#34;
+	height=&#34;1600&#34;
+	srcset=&#34;https://timsun001.github.io/p/s2/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C_hubdfcf3b8245a662f0eaedc4b937f8257_1152908_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s2/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C_hubdfcf3b8245a662f0eaedc4b937f8257_1152908_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;聚类效果&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;125&#34;
+		data-flex-basis=&#34;300px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h3 id=&#34;附录&#34;&gt;附录&lt;/h3&gt;
+&lt;h4 id=&#34;轮廓系数&#34;&gt;轮廓系数&lt;/h4&gt;
+&lt;p&gt;轮廓系数是一种用于评估聚类质量的指标，旨在衡量聚类结果中样本的紧密度和分离度。它可以帮助我们了解聚类算法对数据的划分效果如何，即样本是否被正确地分为相似的簇并且不同的簇之间有明显的区别。&lt;/p&gt;
+&lt;p&gt;具体来说，对于每个样本，轮廓系数考虑了两个因素：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;样本与同一簇中其他样本的相似程度：衡量了样本与其簇内其他样本之间的平均距离。这个值越小，说明样本在其所属的簇内越紧密，聚类效果越好。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;样本与最近邻不同簇中样本的相似程度：衡量了样本与其最近邻的其他簇之间的平均距离。这个值越大，说明样本与其它簇的样本之间的距离越远，聚类效果越好。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;综合考虑这两个因素，轮廓系数的取值范围在[-1, 1]之间：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一个较高的正值表示样本与其簇内样本更接近，同时与其他簇的样本距离较远，表示聚类效果较好。&lt;/li&gt;
+&lt;li&gt;一个接近于零的值表示样本与其簇内样本的距离近似于与其他簇的样本距离，聚类效果不明确。&lt;/li&gt;
+&lt;li&gt;一个负值表示样本更接近于其它簇的样本，聚类效果不好。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;因此，轮廓系数越接近于1，聚类效果越好，越接近于-1或小于0，聚类效果越差。在使用轮廓系数时，我们希望找到最高的轮廓系数，以获得最优的聚类结果。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>小红书笔记语义信息挖掘</title>
         <link>https://timsun001.github.io/p/s1/</link>
         <pubDate>Sat, 15 Jul 2023 00:00:00 +0000</pubDate>
@@ -70,6 +150,9 @@
 &lt;li&gt;出现次数靠前的词多是无语义的助词或标点&lt;/li&gt;
 &lt;li&gt;由于小红书平台话题高度分散，大量有语义的词出现次数较低&lt;/li&gt;
 &lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;h4 id=&#34;2-词义聚类&#34;&gt;2. 词义聚类&lt;/h4&gt;
 &lt;p&gt;基于词义的聚类基本原理是：&lt;/p&gt;
