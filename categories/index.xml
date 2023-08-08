@@ -6,7 +6,15 @@
         <description>Recent content in Categories on Tim Sun</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Thu, 27 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://timsun001.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 03 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://timsun001.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>行研</title>
+        <link>https://timsun001.github.io/categories/sector_research/</link>
+        <pubDate>Thu, 03 Aug 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://timsun001.github.io/categories/sector_research/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>技能</title>
         <link>https://timsun001.github.io/categories/skill/</link>
         <pubDate>Thu, 27 Jul 2023 00:00:00 +0000</pubDate>
@@ -15,11 +23,11 @@
         <description></description>
         </item>
         <item>
-        <title>行研</title>
-        <link>https://timsun001.github.io/categories/sector_research/</link>
-        <pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate>
+        <title>Example Category</title>
+        <link>https://timsun001.github.io/categories/example-category/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://timsun001.github.io/categories/sector_research/</guid>
+        <guid>https://timsun001.github.io/categories/example-category/</guid>
         <description></description>
         </item>
         <item>
