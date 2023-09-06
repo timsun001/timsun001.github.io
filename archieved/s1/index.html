@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='NLP技术视角'>
+<title>小红书笔记语义信息挖掘</title>
+
+<link rel='canonical' href='https://timsun001.github.io/archieved/s1/'>
+
+<link rel="stylesheet" href="/scss/style.min.f2f21d9d961219a01621263328d8997e1ae3b4f0371d455628df1fdc27d57bd6.css"><meta property='og:title' content='小红书笔记语义信息挖掘'>
+<meta property='og:description' content='NLP技术视角'>
+<meta property='og:url' content='https://timsun001.github.io/archieved/s1/'>
+<meta property='og:site_name' content='Tim Sun'>
+<meta property='og:type' content='article'><meta property='article:section' content='Archieved' /><meta property='article:tag' content='小红书' /><meta property='article:tag' content='数据分析' /><meta property='article:published_time' content='2023-07-15T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-07-15T00:00:00&#43;00:00'/><meta property='og:image' content='https://timsun001.github.io/archieved/s1/cover.png' />
+<meta name="twitter:title" content="小红书笔记语义信息挖掘">
+<meta name="twitter:description" content="NLP技术视角"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://timsun001.github.io/archieved/s1/cover.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9NB7SC1BWT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-9NB7SC1BWT', { 'anonymize_ip': false });
+}
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu160321c5ceec23ee05260745cea3d29d_71851_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🕶️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Tim Sun</a></h1>
+            <h2 class="site-description">Get something done</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:timsun001@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 112c-8.8 0-16 7.2-16 16v22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16H64zM48 212.2V384c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64H448c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128z"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#一社交电商时代的nlp信息挖掘">一、社交电商时代的NLP信息挖掘</a></li>
+        <li><a href="#二对比三种分析方案词频统计词义聚类和句义聚类">二、对比三种分析方案：词频统计、词义聚类和句义聚类</a>
+          <ol>
+            <li><a href="#三种方法采用的模型">三种方法采用的模型</a></li>
+            <li><a href="#1-词频统计">1. 词频统计</a></li>
+            <li><a href="#2-词义聚类">2. 词义聚类</a></li>
+            <li><a href="#3-句义聚类">3. 句义聚类</a></li>
+          </ol>
+        </li>
+        <li><a href="#三句义聚类的优化空间">三、句义聚类的优化空间</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/archieved/s1/">
+                <img src="/archieved/s1/cover_hu5c588fa652e57b4ca8a674a4435d1023_326333_800x0_resize_box_3.png"
+                        srcset="/archieved/s1/cover_hu5c588fa652e57b4ca8a674a4435d1023_326333_800x0_resize_box_3.png 800w, /archieved/s1/cover_hu5c588fa652e57b4ca8a674a4435d1023_326333_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="398" 
+                        loading="lazy"
+                        alt="Featured image of post 小红书笔记语义信息挖掘" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/skill/" style="background-color: #E67E22; color: #fff;">
+                技能
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/archieved/s1/">小红书笔记语义信息挖掘</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            NLP技术视角
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 15, 2023</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h3 id="一社交电商时代的nlp信息挖掘">一、社交电商时代的NLP信息挖掘</h3>
+<p>小红书笔记数据中蕴含大量信息，但其内容往往较为发散。如果能聚焦到其中与消费决策相关的部分，则可以帮助消费品品牌更了解消费者，提升产品研发和营销的效率。</p>
+<p>使用传统的分词统计词频方法很难识别不同信息间的差异。
+本文介绍了一种方法，来对小红书中的各类信息进行高效且效果显著的聚类。</p>
+<p><img src="/archieved/s1/p1.png"
+	width="686"
+	height="624"
+	srcset="/archieved/s1/p1_hub379b53efbae407affc5defcc794b322_453650_480x0_resize_box_3.png 480w, /archieved/s1/p1_hub379b53efbae407affc5defcc794b322_453650_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="图表1"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="109"
+		data-flex-basis="263px"
+	
+></p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p><img src="/archieved/s1/p2.png"
+	width="1540"
+	height="1627"
+	srcset="/archieved/s1/p2_hu7846b560b61886d114af488c764e3b09_506381_480x0_resize_box_3.png 480w, /archieved/s1/p2_hu7846b560b61886d114af488c764e3b09_506381_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="图表2"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="94"
+		data-flex-basis="227px"
+	
+></p>
+<!-- raw HTML omitted -->
+<h3 id="二对比三种分析方案词频统计词义聚类和句义聚类">二、对比三种分析方案：词频统计、词义聚类和句义聚类</h3>
+<h4 id="三种方法采用的模型">三种方法采用的模型</h4>
+<p><img src="/archieved/s1/p5.png"
+	width="1485"
+	height="307"
+	srcset="/archieved/s1/p5_hu36293c3340b249fdf1bf1a2bb0b35b82_66190_480x0_resize_box_3.png 480w, /archieved/s1/p5_hu36293c3340b249fdf1bf1a2bb0b35b82_66190_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="图表3"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="483"
+		data-flex-basis="1160px"
+	
+></p>
+<!-- raw HTML omitted -->
+<h4 id="1-词频统计">1. 词频统计</h4>
+<p>词频统计是最传统的NLP分析方法。在此任务中，其表现不佳，主要因为以下两方面问题：</p>
+<ol>
+<li>出现次数靠前的词多是无语义的助词或标点</li>
+<li>由于小红书平台话题高度分散，大量有语义的词出现次数较低</li>
+</ol>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h4 id="2-词义聚类">2. 词义聚类</h4>
+<p>基于词义的聚类基本原理是：</p>
+<ol>
+<li>将句子拆分成词</li>
+<li>将词编码，每个编码定义为句子的一个维度（若句子中出现了某词，则在该词的维度记1，反之记0）</li>
+<li>使用聚类算法计算句子间的相似度，或是使用降维算法将将高维信息映射至二维以便可视化展示。为了方便直观理解，我们选用了后者（降维）的方法</li>
+</ol>
+<!-- raw HTML omitted -->
+<p>基于词义的聚类存在以下局限性：</p>
+<ol>
+<li>未考虑词本身的相关性。而如果要做近义词的修正又要涉及大量的人工标注工作</li>
+<li>词聚类的结果反映出的最显著信息与词频统计的结果高度相似，缺少信息量</li>
+<li>词聚类的结果可能会聚焦于词级别的含义，而缺少句级别的理解时词级别的含义借鉴意义较小。比如图中A区域的共性是都提到了“女大学生”，B区域的共性是都提到了“修容”，C区域的共性是都提到了“高光”，D区域的共性是都提到了“花西子”。这些共性对品牌做营销决策的参考价值很低
+<img src="/archieved/s1/p6.png"
+	width="2635"
+	height="2475"
+	srcset="/archieved/s1/p6_hu4b73ff1eac4a31663f91a0b73ecb7f8b_3590781_480x0_resize_box_3.png 480w, /archieved/s1/p6_hu4b73ff1eac4a31663f91a0b73ecb7f8b_3590781_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="图表6"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="106"
+		data-flex-basis="255px"
+	
+></li>
+</ol>
+<!-- raw HTML omitted -->
+<h4 id="3-句义聚类">3. 句义聚类</h4>
+<p>基于句义聚类的核心思想是采用预训练的NLP模型，结合一定程度的fine-tune来实现对句义的更准确理解。
+我们采用了<a class="link" href="https://arxiv.org/abs/1810.04805"  target="_blank" rel="noopener"
+    >BERT</a>(BERT是GOOGLE实验室在2018年发布的基于<a class="link" href="https://arxiv.org/abs/1706.03762"  target="_blank" rel="noopener"
+    >注意力机制</a>的NLP模型)，在未进行任何fine-tune的情况下，其聚类结果已经相当理想。
+其基本原理如下：</p>
+<ol>
+<li>选取合适的预训练模型</li>
+<li>这里选取的BERT的输出中的第一位代表句子分类，共有768个维度，每个维度中均可在0～1间取值（相当于BERT的输出会将句子分成最多768个类，每个维度中的值代表句子被分为某类的概率）</li>
+<li>使用聚类算法计算句子间的相似度，或是使用降维算法将将高维信息映射至二维以便可视化展示。为了方便直观理解，我们选用了后者（降维）的方法</li>
+</ol>
+<p>应用此方法，我们发现两个品牌在A、B、C三个区域的笔记数有显著差异。这三个区域分别是：
+A. 妆容教程类笔记
+B. 二手交易类笔记
+C. 商业推广类笔记
+相较词义聚类的结果，句义聚类对信息的理解更加宏观且更加贴近人类直觉。</p>
+<p><img src="/archieved/s1/p1.png"
+	width="686"
+	height="624"
+	srcset="/archieved/s1/p1_hub379b53efbae407affc5defcc794b322_453650_480x0_resize_box_3.png 480w, /archieved/s1/p1_hub379b53efbae407affc5defcc794b322_453650_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="图表10"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="109"
+		data-flex-basis="263px"
+	
+></p>
+<!-- raw HTML omitted -->
+<h3 id="三句义聚类的优化空间">三、句义聚类的优化空间</h3>
+<p>基于上述句义聚类的结果，如果辅以进一步的人工标注，并基于小红书的语料对BERT模型进行fine-tune，预计能取得更加符合预期的结果。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%B0%8F%E7%BA%A2%E4%B9%A6/">小红书</a>
+        
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">数据分析</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/archieved/s2/">
+        
+        
+            <div class="article-image">
+                <img src="/archieved/s2/cover.94c91fc4ed268daa207a9e8b38794d6e_hu5d484754d5be117c65767436165a93f4_160414_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于点密度的聚类算法"
+                        data-key="s2" 
+                        data-hash="md5-lMkfxO0mjaogep6LOHlNbg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于点密度的聚类算法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/s1_eng/">
+        
+        
+            <div class="article-image">
+                <img src="/p/s1_eng/cover.dd625f7ddff60ac82abfd756e9a63fe5_hu5c588fa652e57b4ca8a674a4435d1023_326333_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Semantic Information Mining in Xiaohongshu Notes"
+                        data-key="s1_eng" 
+                        data-hash="md5-3WJffd/2Csgqv9dW6aY/5Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Semantic Information Mining in Xiaohongshu Notes</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/s2_eng/">
+        
+        
+            <div class="article-image">
+                <img src="/p/s2_eng/cover.94c91fc4ed268daa207a9e8b38794d6e_hu5d484754d5be117c65767436165a93f4_160414_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Density-Based Clustering Algorithm"
+                        data-key="s2_eng" 
+                        data-hash="md5-lMkfxO0mjaogep6LOHlNbg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Density-Based Clustering Algorithm</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 Tim Sun
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.18.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='An NLP Perspective'>
+<title>Semantic Information Mining in Xiaohongshu Notes</title>
+
+<link rel='canonical' href='https://timsun001.github.io/p/s1_eng/'>
+
+<link rel="stylesheet" href="/scss/style.min.f2f21d9d961219a01621263328d8997e1ae3b4f0371d455628df1fdc27d57bd6.css"><meta property='og:title' content='Semantic Information Mining in Xiaohongshu Notes'>
+<meta property='og:description' content='An NLP Perspective'>
+<meta property='og:url' content='https://timsun001.github.io/p/s1_eng/'>
+<meta property='og:site_name' content='Tim Sun'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='小红书' /><meta property='article:tag' content='数据分析' /><meta property='article:published_time' content='2023-07-15T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-07-15T00:00:00&#43;00:00'/><meta property='og:image' content='https://timsun001.github.io/p/s1_eng/cover.png' />
+<meta name="twitter:title" content="Semantic Information Mining in Xiaohongshu Notes">
+<meta name="twitter:description" content="An NLP Perspective"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://timsun001.github.io/p/s1_eng/cover.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9NB7SC1BWT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-9NB7SC1BWT', { 'anonymize_ip': false });
+}
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu160321c5ceec23ee05260745cea3d29d_71851_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🕶️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Tim Sun</a></h1>
+            <h2 class="site-description">Get something done</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:timsun001@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 112c-8.8 0-16 7.2-16 16v22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16H64zM48 212.2V384c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64H448c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128z"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#i-nlp-information-mining-in-the-era-of-social-e-commerce">I. NLP Information Mining in the Era of Social E-commerce</a></li>
+        <li><a href="#ii-comparing-three-analysis-approaches-word-frequency-statistics-semantic-clustering-and-sentence-semantic-clustering">II. Comparing Three Analysis Approaches: Word Frequency Statistics, Semantic Clustering, and Sentence Semantic Clustering</a>
+          <ol>
+            <li><a href="#models-used-by-the-three-approaches">Models Used by the Three Approaches</a></li>
+            <li><a href="#1-word-frequency-statistics">1. Word Frequency Statistics</a></li>
+            <li><a href="#2-semantic-clustering">2. Semantic Clustering</a></li>
+            <li><a href="#3-sentence-semantic-clustering">3. Sentence Semantic Clustering</a></li>
+          </ol>
+        </li>
+        <li><a href="#iii-optimization-space-for-sentence-semantic-clustering">III. Optimization Space for Sentence Semantic Clustering</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/s1_eng/">
+                <img src="/p/s1_eng/cover_hu5c588fa652e57b4ca8a674a4435d1023_326333_800x0_resize_box_3.png"
+                        srcset="/p/s1_eng/cover_hu5c588fa652e57b4ca8a674a4435d1023_326333_800x0_resize_box_3.png 800w, /p/s1_eng/cover_hu5c588fa652e57b4ca8a674a4435d1023_326333_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="398" 
+                        loading="lazy"
+                        alt="Featured image of post Semantic Information Mining in Xiaohongshu Notes" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/skill/" style="background-color: #E67E22; color: #fff;">
+                技能
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/s1_eng/">Semantic Information Mining in Xiaohongshu Notes</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            An NLP Perspective
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 15, 2023</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h3 id="i-nlp-information-mining-in-the-era-of-social-e-commerce">I. NLP Information Mining in the Era of Social E-commerce</h3>
+<p>Xiaohongshu (Little Red Book) note data contains a wealth of information, but its content often tends to be divergent. If we can focus on the part related to consumer decision-making, it can help consumer goods brands better understand consumers and improve product development and marketing efficiency.</p>
+<p>Using traditional word segmentation and frequency statistics, it is challenging to identify differences between various pieces of information. This article introduces an efficient and effective method to cluster different types of information in Xiaohongshu effectively.</p>
+<p><img src="/p/s1_eng/p1.png"
+	width="686"
+	height="624"
+	srcset="/p/s1_eng/p1_hub379b53efbae407affc5defcc794b322_453650_480x0_resize_box_3.png 480w, /p/s1_eng/p1_hub379b53efbae407affc5defcc794b322_453650_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Chart 1"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="109"
+		data-flex-basis="263px"
+	
+></p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p><img src="/p/s1_eng/p2.png"
+	width="1540"
+	height="1627"
+	srcset="/p/s1_eng/p2_hu7846b560b61886d114af488c764e3b09_506381_480x0_resize_box_3.png 480w, /p/s1_eng/p2_hu7846b560b61886d114af488c764e3b09_506381_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Chart 2"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="94"
+		data-flex-basis="227px"
+	
+></p>
+<!-- raw HTML omitted -->
+<h3 id="ii-comparing-three-analysis-approaches-word-frequency-statistics-semantic-clustering-and-sentence-semantic-clustering">II. Comparing Three Analysis Approaches: Word Frequency Statistics, Semantic Clustering, and Sentence Semantic Clustering</h3>
+<h4 id="models-used-by-the-three-approaches">Models Used by the Three Approaches</h4>
+<p><img src="/p/s1_eng/p5.png"
+	width="1485"
+	height="307"
+	srcset="/p/s1_eng/p5_hu36293c3340b249fdf1bf1a2bb0b35b82_66190_480x0_resize_box_3.png 480w, /p/s1_eng/p5_hu36293c3340b249fdf1bf1a2bb0b35b82_66190_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Chart 3"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="483"
+		data-flex-basis="1160px"
+	
+></p>
+<!-- raw HTML omitted -->
+<h4 id="1-word-frequency-statistics">1. Word Frequency Statistics</h4>
+<p>Word frequency statistics are the most traditional method in NLP analysis. In this task, it performs poorly primarily due to two issues:</p>
+<ol>
+<li>The most frequent words are often semantically meaningless particles or punctuation marks.</li>
+<li>Due to the highly scattered nature of topics on Xiaohongshu, many semantically meaningful words have low frequencies.</li>
+</ol>
+<p><img src="/p/s1_eng/p4.png"
+	width="660"
+	height="2209"
+	srcset="/p/s1_eng/p4_hu91df84232e7c9767bc042e288aa21b83_145955_480x0_resize_box_3.png 480w, /p/s1_eng/p4_hu91df84232e7c9767bc042e288aa21b83_145955_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Chart 4"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="29"
+		data-flex-basis="71px"
+	
+></p>
+<!-- raw HTML omitted -->
+<p><img src="/p/s1_eng/p3.png"
+	width="1659"
+	height="1035"
+	srcset="/p/s1_eng/p3_hu983ae6caf4f3c53bb9eda7c40f45adfa_86104_480x0_resize_box_3.png 480w, /p/s1_eng/p3_hu983ae6caf4f3c53bb9eda7c40f45adfa_86104_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Chart 5"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="160"
+		data-flex-basis="384px"
+	
+></p>
+<!-- raw HTML omitted -->
+<h4 id="2-semantic-clustering">2. Semantic Clustering</h4>
+<p>The basic principle of semantic clustering is as follows:</p>
+<ol>
+<li>Split sentences into words.</li>
+<li>Encode words, defining each encoding as a dimension of the sentence (if a word appears in the sentence, mark it as 1; otherwise, mark it as 0).</li>
+<li>Use clustering algorithms to calculate the similarity between sentences or use dimension reduction algorithms to map high-dimensional information to two dimensions for visualization. For intuitive understanding, we chose the latter method (dimension reduction).</li>
+</ol>
+<p>Semantic clustering based on word meanings has the following limitations:</p>
+<ol>
+<li>It does not consider the relevance of words themselves. To address this, a significant amount of manual annotation work is required for synonym correction.</li>
+<li>The results of word clustering largely reflect the same information as word frequency statistics, lacking information richness.</li>
+<li>The results of word clustering may focus on word-level meanings and lack sentence-level understanding, which limits its usefulness. For example, Area A in the chart focuses on mentioning &ldquo;female college students,&rdquo; Area B on &ldquo;contouring,&rdquo; Area C on &ldquo;highlighting,&rdquo; and Area D on &ldquo;Huaxizi.&rdquo; These commonalities have limited marketing decision-making value for brands.</li>
+</ol>
+<p><img src="/p/s1_eng/p6.png"
+	width="2635"
+	height="2475"
+	srcset="/p/s1_eng/p6_hu4b73ff1eac4a31663f91a0b73ecb7f8b_3590781_480x0_resize_box_3.png 480w, /p/s1_eng/p6_hu4b73ff1eac4a31663f91a0b73ecb7f8b_3590781_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Chart 6"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="106"
+		data-flex-basis="255px"
+	
+></p>
+<!-- raw HTML omitted -->
+<h4 id="3-sentence-semantic-clustering">3. Sentence Semantic Clustering</h4>
+<p>The core idea behind sentence semantic clustering is to use pre-trained NLP models, combined with some degree of fine-tuning, to achieve more accurate understanding of semantics. We used <a class="link" href="https://arxiv.org/abs/1810.04805"  target="_blank" rel="noopener"
+    >BERT</a> (BERT is a pre-trained NLP model based on <a class="link" href="https://arxiv.org/abs/1706.03762"  target="_blank" rel="noopener"
+    >attention mechanisms</a> released by Google Labs in 2018). Even without any fine-tuning, its clustering results are quite satisfactory.</p>
+<p>The basic principle is as follows:</p>
+<ol>
+<li>Choose an appropriate pre-trained model.</li>
+<li>In this case, we selected BERT&rsquo;s output, where the first dimension represents sentence classification, with a total of 768 dimensions. Each dimension can take values between 0 and 1 (corresponding to BERT&rsquo;s output classifying sentences into a maximum of 768 classes, with each dimension&rsquo;s value representing the probability of the sentence being assigned to a certain class).</li>
+<li>Use clustering algorithms to calculate the similarity between sentences or use dimension reduction algorithms to map high-dimensional information to two dimensions for visualization. For intuitive understanding, we chose the latter method (dimension reduction).</li>
+</ol>
+<p>Applying this method, we found significant differences in the number of notes for two brands in three regions: A, B, and C. These three areas are:
+A. Makeup tutorial notes
+B. Second-hand trade notes
+C. Commercial promotion notes
+Compared to the results of semantic clustering, sentence semantic clustering provides a more macroscopic and human-intuitive understanding of information.</p>
+<p><img src="/p/s1_eng/p1.png"
+	width="686"
+	height="624"
+	srcset="/p/s1_eng/p1_hub379b53efbae407affc5defcc794b322_453650_480x0_resize_box_3.png 480w, /p/s1_eng/p1_hub379b53efbae407affc5defcc794b322_453650_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Chart 7"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="109"
+		data-flex-basis="263px"
+	
+></p>
+<!-- raw HTML omitted -->
+<h3 id="iii-optimization-space-for-sentence-semantic-clustering">III. Optimization Space for Sentence Semantic Clustering</h3>
+<p>Based on the results of sentence semantic clustering, further manual annotation and fine-tuning of the BERT model based on Xiaohongshu&rsquo;s corpus are expected to yield more desired results.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%B0%8F%E7%BA%A2%E4%B9%A6/">小红书</a>
+        
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">数据分析</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/archieved/s2/">
+        
+        
+            <div class="article-image">
+                <img src="/archieved/s2/cover.94c91fc4ed268daa207a9e8b38794d6e_hu5d484754d5be117c65767436165a93f4_160414_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于点密度的聚类算法"
+                        data-key="s2" 
+                        data-hash="md5-lMkfxO0mjaogep6LOHlNbg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于点密度的聚类算法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/archieved/s1/">
+        
+        
+            <div class="article-image">
+                <img src="/archieved/s1/cover.dd625f7ddff60ac82abfd756e9a63fe5_hu5c588fa652e57b4ca8a674a4435d1023_326333_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 小红书笔记语义信息挖掘"
+                        data-key="s1" 
+                        data-hash="md5-3WJffd/2Csgqv9dW6aY/5Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">小红书笔记语义信息挖掘</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/s2_eng/">
+        
+        
+            <div class="article-image">
+                <img src="/p/s2_eng/cover.94c91fc4ed268daa207a9e8b38794d6e_hu5d484754d5be117c65767436165a93f4_160414_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Density-Based Clustering Algorithm"
+                        data-key="s2_eng" 
+                        data-hash="md5-lMkfxO0mjaogep6LOHlNbg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Density-Based Clustering Algorithm</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 Tim Sun
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.18.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

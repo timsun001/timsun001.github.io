@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Significant Improvement in Clustering with DBSCAN and Harmonic Silhouette Score'>
+<title>Density-Based Clustering Algorithm</title>
+
+<link rel='canonical' href='https://timsun001.github.io/p/s2_eng/'>
+
+<link rel="stylesheet" href="/scss/style.min.f2f21d9d961219a01621263328d8997e1ae3b4f0371d455628df1fdc27d57bd6.css"><meta property='og:title' content='Density-Based Clustering Algorithm'>
+<meta property='og:description' content='Significant Improvement in Clustering with DBSCAN and Harmonic Silhouette Score'>
+<meta property='og:url' content='https://timsun001.github.io/p/s2_eng/'>
+<meta property='og:site_name' content='Tim Sun'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Xiaohongshu' /><meta property='article:tag' content='Data Analysis' /><meta property='article:published_time' content='2023-07-27T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-07-27T00:00:00&#43;00:00'/><meta property='og:image' content='https://timsun001.github.io/p/s2_eng/cover.png' />
+<meta name="twitter:title" content="Density-Based Clustering Algorithm">
+<meta name="twitter:description" content="Significant Improvement in Clustering with DBSCAN and Harmonic Silhouette Score"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://timsun001.github.io/p/s2_eng/cover.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9NB7SC1BWT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-9NB7SC1BWT', { 'anonymize_ip': false });
+}
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu160321c5ceec23ee05260745cea3d29d_71851_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🕶️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Tim Sun</a></h1>
+            <h2 class="site-description">Get something done</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:timsun001@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 112c-8.8 0-16 7.2-16 16v22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16H64zM48 212.2V384c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64H448c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128z"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#previous-context">Previous Context</a></li>
+        <li><a href="#density-based-clustering-algorithm">Density-Based Clustering Algorithm</a></li>
+        <li><a href="#parameter-tuning">Parameter Tuning</a>
+          <ol>
+            <li><a href="#using-silhouette-score-as-an-evaluation-metric">Using Silhouette Score as an Evaluation Metric</a></li>
+            <li><a href="#introducing-percentage-of-other-class-samples-and-total-number-of-clusters-to-optimize-the-evaluation-metric">Introducing &ldquo;Percentage of Other Class Samples&rdquo; and &ldquo;Total Number of Clusters&rdquo; to Optimize the Evaluation Metric</a></li>
+          </ol>
+        </li>
+        <li><a href="#appendix">Appendix</a>
+          <ol>
+            <li><a href="#silhouette-score">Silhouette Score</a></li>
+            <li><a href="#view-interactive-data-on-tableau-public">View Interactive Data on Tableau Public</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/s2_eng/">
+                <img src="/p/s2_eng/cover_hu5d484754d5be117c65767436165a93f4_160414_800x0_resize_box_3.png"
+                        srcset="/p/s2_eng/cover_hu5d484754d5be117c65767436165a93f4_160414_800x0_resize_box_3.png 800w, /p/s2_eng/cover_hu5d484754d5be117c65767436165a93f4_160414_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="357" 
+                        loading="lazy"
+                        alt="Featured image of post Density-Based Clustering Algorithm" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/skill/" style="background-color: #E67E22; color: #fff;">
+                技能
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/s2_eng/">Density-Based Clustering Algorithm</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Significant Improvement in Clustering with DBSCAN and Harmonic Silhouette Score
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 27, 2023</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h3 id="previous-context">Previous Context</h3>
+<p>In the <a class="link" href="https://timsun001.github.io/p/s1_eng/"  target="_blank" rel="noopener"
+    >previous study on Xiaohongshu note title clustering</a>, we initially classified the results using BERT output, reduced the dimensions of the classification results using T-SNE, and finally identified three types of notes: &ldquo;Makeup Tutorial,&rdquo; &ldquo;Second-hand Trade,&rdquo; and &ldquo;Commercial Promotion.&rdquo; Obviously, the final step heavily relies on human judgment, making it difficult to scale and less objective.</p>
+<h3 id="density-based-clustering-algorithm">Density-Based Clustering Algorithm</h3>
+<p>This time, we have added clustering based on <a class="link" href="https://arxiv.org/pdf/1706.03113.pdf"  target="_blank" rel="noopener"
+    >DBSCAN</a> on top of what we did previously (DBSCAN is a density-based clustering algorithm that adjusts clustering results based on &ldquo;minimum distance within the same class&rdquo; (eps) and &ldquo;minimum number of samples&rdquo; (min_samples)). Compared to traditional KMeans clustering (which adjusts clustering results by specifying the number of clusters), this algorithm has several advantages:</p>
+<ol>
+<li>No need to specify the number of clusters (clearly, we cannot know the total number of clusters in Xiaohongshu titles).</li>
+<li>Points with no clear cluster relationships will be assigned to other classes.</li>
+</ol>
+<p>However, applying this algorithm also comes with a challenge: how to find suitable values for the eps and min_samples parameters.</p>
+<h3 id="parameter-tuning">Parameter Tuning</h3>
+<h4 id="using-silhouette-score-as-an-evaluation-metric">Using Silhouette Score as an Evaluation Metric</h4>
+<p>Clearly, if eps or min_samples are set too large, it will result in a large number of points being grouped into the same class, leading to the loss of useful information, and vice versa. To address this issue, we first introduced the &ldquo;<a class="link" href="#silhouette-score" >Silhouette Score</a>&rdquo; as an evaluation metric for the algorithm, testing the &ldquo;Silhouette Score&rdquo; for different parameters. Ideally, a larger &ldquo;Silhouette Score&rdquo; is better (indicating clearer classification boundaries). However, in the task mentioned above, a large Silhouette Score can have two negative effects:</p>
+<ol>
+<li>Reduced total number of clusters.</li>
+<li>Increased number of samples in the &ldquo;other&rdquo; class.</li>
+</ol>
+<h4 id="introducing-percentage-of-other-class-samples-and-total-number-of-clusters-to-optimize-the-evaluation-metric">Introducing &ldquo;Percentage of Other Class Samples&rdquo; and &ldquo;Total Number of Clusters&rdquo; to Optimize the Evaluation Metric</h4>
+<p>To overcome the above negative effects, we introduced the &ldquo;Percentage of Other Class Samples&rdquo; and used the harmonic mean of this metric with the Silhouette Score as the clustering score (the higher, the better). At the same time, we calculated the total number of clusters for different parameters. The table below shows the clustering scores (weighted_silhouette) for some parameter settings.
+<img src="/ClusteringScores.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Clustering Scores"
+	
+	
+></p>
+<p>The final solution we selected was the one with the highest weighted_silhouette score among cases where n_labels is greater than 10. The final clustering result is as shown in the following figure. We not only clearly distinguished the three types of notes (&ldquo;Makeup Tutorial,&rdquo; &ldquo;Second-hand Trade,&rdquo; and &ldquo;Commercial Promotion&rdquo;) identified by the previous solution but also identified an additional 7 classes of notes.
+<img src="/ClusteringResult.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Clustering Result"
+	
+	
+></p>
+<!-- raw HTML omitted -->
+<h3 id="appendix">Appendix</h3>
+<h4 id="silhouette-score">Silhouette Score</h4>
+<p>The Silhouette Score is a metric used to evaluate the quality of clustering. It aims to measure both the compactness and separation of samples in clustering results. It helps us understand how well a clustering algorithm has divided samples into similar clusters with distinct boundaries.</p>
+<p>Specifically, for each sample, the Silhouette Score considers two factors:</p>
+<ol>
+<li>
+<p>The similarity of a sample to other samples in the same cluster: It measures the average distance between the sample and other samples within its cluster. A smaller value indicates that the sample is tightly packed with other samples in its cluster, indicating better clustering.</p>
+</li>
+<li>
+<p>The similarity of a sample to samples in the nearest different cluster: It measures the average distance between the sample and samples in the nearest cluster other than its own. A larger value indicates that the sample is further from samples in other clusters, also indicating better clustering.</p>
+</li>
+</ol>
+<p>Considering both of these factors, the Silhouette Score&rsquo;s value ranges from -1 to 1:</p>
+<ul>
+<li>A higher positive value indicates that the sample is closer to other samples in its cluster and farther from samples in other clusters, indicating better clustering.</li>
+<li>A value close to zero indicates that the distance of the sample to samples in its own cluster is similar to the distance to samples in other clusters, indicating unclear clustering.</li>
+<li>A negative value indicates that the sample is closer to samples in other clusters, indicating poor clustering.</li>
+</ul>
+<p>Therefore, a Silhouette Score closer to 1 indicates better clustering, while a score closer to -1 or less than 0 indicates worse clustering. When using the Silhouette Score, we aim to find the highest score to achieve the best clustering results.</p>
+<h4 id="view-interactive-data-on-tableau-public">View Interactive Data on Tableau Public</h4>
+<p><a class="link" href="https://public.tableau.com/app/profile/t.s1480/viz/_16905304270770/sheet0"  target="_blank" rel="noopener"
+    >View the interactive data on Tableau Public</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/xiaohongshu/">Xiaohongshu</a>
+        
+            <a href="/tags/data-analysis/">Data Analysis</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/archieved/s2/">
+        
+        
+            <div class="article-image">
+                <img src="/archieved/s2/cover.94c91fc4ed268daa207a9e8b38794d6e_hu5d484754d5be117c65767436165a93f4_160414_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于点密度的聚类算法"
+                        data-key="s2" 
+                        data-hash="md5-lMkfxO0mjaogep6LOHlNbg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于点密度的聚类算法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/s1_eng/">
+        
+        
+            <div class="article-image">
+                <img src="/p/s1_eng/cover.dd625f7ddff60ac82abfd756e9a63fe5_hu5c588fa652e57b4ca8a674a4435d1023_326333_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Semantic Information Mining in Xiaohongshu Notes"
+                        data-key="s1_eng" 
+                        data-hash="md5-3WJffd/2Csgqv9dW6aY/5Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Semantic Information Mining in Xiaohongshu Notes</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/archieved/s1/">
+        
+        
+            <div class="article-image">
+                <img src="/archieved/s1/cover.dd625f7ddff60ac82abfd756e9a63fe5_hu5c588fa652e57b4ca8a674a4435d1023_326333_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 小红书笔记语义信息挖掘"
+                        data-key="s1" 
+                        data-hash="md5-3WJffd/2Csgqv9dW6aY/5Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">小红书笔记语义信息挖掘</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 Tim Sun
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.18.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

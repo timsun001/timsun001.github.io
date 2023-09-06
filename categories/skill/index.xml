@@ -7,12 +7,84 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <lastBuildDate>Thu, 27 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://timsun001.github.io/categories/skill/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>基于点密度的聚类算法</title>
-        <link>https://timsun001.github.io/p/s2/</link>
+        <title>Density-Based Clustering Algorithm</title>
+        <link>https://timsun001.github.io/p/s2_eng/</link>
         <pubDate>Thu, 27 Jul 2023 00:00:00 +0000</pubDate>
         
-        <guid>https://timsun001.github.io/p/s2/</guid>
-        <description>&lt;img src="https://timsun001.github.io/p/s2/cover.png" alt="Featured image of post 基于点密度的聚类算法" /&gt;&lt;h3 id=&#34;前情提要&#34;&gt;前情提要&lt;/h3&gt;
+        <guid>https://timsun001.github.io/p/s2_eng/</guid>
+        <description>&lt;img src="https://timsun001.github.io/p/s2_eng/cover.png" alt="Featured image of post Density-Based Clustering Algorithm" /&gt;&lt;h3 id=&#34;previous-context&#34;&gt;Previous Context&lt;/h3&gt;
+&lt;p&gt;In the &lt;a class=&#34;link&#34; href=&#34;https://timsun001.github.io/p/s1_eng/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;previous study on Xiaohongshu note title clustering&lt;/a&gt;, we initially classified the results using BERT output, reduced the dimensions of the classification results using T-SNE, and finally identified three types of notes: &amp;ldquo;Makeup Tutorial,&amp;rdquo; &amp;ldquo;Second-hand Trade,&amp;rdquo; and &amp;ldquo;Commercial Promotion.&amp;rdquo; Obviously, the final step heavily relies on human judgment, making it difficult to scale and less objective.&lt;/p&gt;
+&lt;h3 id=&#34;density-based-clustering-algorithm&#34;&gt;Density-Based Clustering Algorithm&lt;/h3&gt;
+&lt;p&gt;This time, we have added clustering based on &lt;a class=&#34;link&#34; href=&#34;https://arxiv.org/pdf/1706.03113.pdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;DBSCAN&lt;/a&gt; on top of what we did previously (DBSCAN is a density-based clustering algorithm that adjusts clustering results based on &amp;ldquo;minimum distance within the same class&amp;rdquo; (eps) and &amp;ldquo;minimum number of samples&amp;rdquo; (min_samples)). Compared to traditional KMeans clustering (which adjusts clustering results by specifying the number of clusters), this algorithm has several advantages:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;No need to specify the number of clusters (clearly, we cannot know the total number of clusters in Xiaohongshu titles).&lt;/li&gt;
+&lt;li&gt;Points with no clear cluster relationships will be assigned to other classes.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;However, applying this algorithm also comes with a challenge: how to find suitable values for the eps and min_samples parameters.&lt;/p&gt;
+&lt;h3 id=&#34;parameter-tuning&#34;&gt;Parameter Tuning&lt;/h3&gt;
+&lt;h4 id=&#34;using-silhouette-score-as-an-evaluation-metric&#34;&gt;Using Silhouette Score as an Evaluation Metric&lt;/h4&gt;
+&lt;p&gt;Clearly, if eps or min_samples are set too large, it will result in a large number of points being grouped into the same class, leading to the loss of useful information, and vice versa. To address this issue, we first introduced the &amp;ldquo;&lt;a class=&#34;link&#34; href=&#34;#silhouette-score&#34; &gt;Silhouette Score&lt;/a&gt;&amp;rdquo; as an evaluation metric for the algorithm, testing the &amp;ldquo;Silhouette Score&amp;rdquo; for different parameters. Ideally, a larger &amp;ldquo;Silhouette Score&amp;rdquo; is better (indicating clearer classification boundaries). However, in the task mentioned above, a large Silhouette Score can have two negative effects:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Reduced total number of clusters.&lt;/li&gt;
+&lt;li&gt;Increased number of samples in the &amp;ldquo;other&amp;rdquo; class.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;introducing-percentage-of-other-class-samples-and-total-number-of-clusters-to-optimize-the-evaluation-metric&#34;&gt;Introducing &amp;ldquo;Percentage of Other Class Samples&amp;rdquo; and &amp;ldquo;Total Number of Clusters&amp;rdquo; to Optimize the Evaluation Metric&lt;/h4&gt;
+&lt;p&gt;To overcome the above negative effects, we introduced the &amp;ldquo;Percentage of Other Class Samples&amp;rdquo; and used the harmonic mean of this metric with the Silhouette Score as the clustering score (the higher, the better). At the same time, we calculated the total number of clusters for different parameters. The table below shows the clustering scores (weighted_silhouette) for some parameter settings.
+&lt;img src=&#34;https://timsun001.github.io/ClusteringScores.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Clustering Scores&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;The final solution we selected was the one with the highest weighted_silhouette score among cases where n_labels is greater than 10. The final clustering result is as shown in the following figure. We not only clearly distinguished the three types of notes (&amp;ldquo;Makeup Tutorial,&amp;rdquo; &amp;ldquo;Second-hand Trade,&amp;rdquo; and &amp;ldquo;Commercial Promotion&amp;rdquo;) identified by the previous solution but also identified an additional 7 classes of notes.
+&lt;img src=&#34;https://timsun001.github.io/ClusteringResult.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Clustering Result&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h3 id=&#34;appendix&#34;&gt;Appendix&lt;/h3&gt;
+&lt;h4 id=&#34;silhouette-score&#34;&gt;Silhouette Score&lt;/h4&gt;
+&lt;p&gt;The Silhouette Score is a metric used to evaluate the quality of clustering. It aims to measure both the compactness and separation of samples in clustering results. It helps us understand how well a clustering algorithm has divided samples into similar clusters with distinct boundaries.&lt;/p&gt;
+&lt;p&gt;Specifically, for each sample, the Silhouette Score considers two factors:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The similarity of a sample to other samples in the same cluster: It measures the average distance between the sample and other samples within its cluster. A smaller value indicates that the sample is tightly packed with other samples in its cluster, indicating better clustering.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The similarity of a sample to samples in the nearest different cluster: It measures the average distance between the sample and samples in the nearest cluster other than its own. A larger value indicates that the sample is further from samples in other clusters, also indicating better clustering.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Considering both of these factors, the Silhouette Score&amp;rsquo;s value ranges from -1 to 1:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A higher positive value indicates that the sample is closer to other samples in its cluster and farther from samples in other clusters, indicating better clustering.&lt;/li&gt;
+&lt;li&gt;A value close to zero indicates that the distance of the sample to samples in its own cluster is similar to the distance to samples in other clusters, indicating unclear clustering.&lt;/li&gt;
+&lt;li&gt;A negative value indicates that the sample is closer to samples in other clusters, indicating poor clustering.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Therefore, a Silhouette Score closer to 1 indicates better clustering, while a score closer to -1 or less than 0 indicates worse clustering. When using the Silhouette Score, we aim to find the highest score to achieve the best clustering results.&lt;/p&gt;
+&lt;h4 id=&#34;view-interactive-data-on-tableau-public&#34;&gt;View Interactive Data on Tableau Public&lt;/h4&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://public.tableau.com/app/profile/t.s1480/viz/_16905304270770/sheet0&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;View the interactive data on Tableau Public&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>基于点密度的聚类算法</title>
+        <link>https://timsun001.github.io/archieved/s2/</link>
+        <pubDate>Thu, 27 Jul 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://timsun001.github.io/archieved/s2/</guid>
+        <description>&lt;img src="https://timsun001.github.io/archieved/s2/cover.png" alt="Featured image of post 基于点密度的聚类算法" /&gt;&lt;h3 id=&#34;前情提要&#34;&gt;前情提要&lt;/h3&gt;
 &lt;p&gt;在&lt;a class=&#34;link&#34; href=&#34;https://timsun001.github.io/p/s1/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;上一篇关于小红书笔记标题聚类的研究&lt;/a&gt;中，我们用BERT输出初步的分类结果，再用T-SNE对分类结果做了降维，最后根据各笔记的分布密度识别出了“妆容教程类”、“二手交易类”和“商业推广类”三类笔记。
 显然，最后一步非常依赖人的判断，难以规模化并且不太客观。&lt;/p&gt;
@@ -35,10 +107,10 @@
 &lt;/ol&gt;
 &lt;h4 id=&#34;引入其他类样本占比和分类总数来优化评价指标&#34;&gt;引入“其他类样本占比”和“分类总数”来优化评价指标&lt;/h4&gt;
 &lt;p&gt;为克服上述负面影响，我们引入了“其他类样本占比”，用此指标与轮廓系数求调和平均作为聚类评分值（越大越好）。同时我们计算了不同参数下的分类总数。下表展示了部分参数下的聚类评分值（weighted_silhouette）。
-&lt;img src=&#34;https://timsun001.github.io/p/s2/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86.png&#34;
+&lt;img src=&#34;https://timsun001.github.io/archieved/s2/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86.png&#34;
 	width=&#34;1654&#34;
 	height=&#34;1402&#34;
-	srcset=&#34;https://timsun001.github.io/p/s2/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86_hu9427fa2b231c5d3c7070556e3d91c439_163137_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s2/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86_hu9427fa2b231c5d3c7070556e3d91c439_163137_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://timsun001.github.io/archieved/s2/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86_hu9427fa2b231c5d3c7070556e3d91c439_163137_480x0_resize_box_3.png 480w, https://timsun001.github.io/archieved/s2/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86_hu9427fa2b231c5d3c7070556e3d91c439_163137_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;聚类评分&#34;
@@ -50,10 +122,10 @@
 	
 &gt;
 我们最终选取的是n_labels大于10中weighted_silhouette最大的方案。最终聚类效果如下图。可见，我们不仅清晰区分出了此前方案已识别出的“妆容教程类”、“二手交易类”和“商业推广类”三类笔记，还额外识别出了额外的7类笔记。
-&lt;img src=&#34;https://timsun001.github.io/p/s2/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C.png&#34;
+&lt;img src=&#34;https://timsun001.github.io/archieved/s2/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C.png&#34;
 	width=&#34;2000&#34;
 	height=&#34;1600&#34;
-	srcset=&#34;https://timsun001.github.io/p/s2/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C_hubdfcf3b8245a662f0eaedc4b937f8257_1152908_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s2/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C_hubdfcf3b8245a662f0eaedc4b937f8257_1152908_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://timsun001.github.io/archieved/s2/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C_hubdfcf3b8245a662f0eaedc4b937f8257_1152908_480x0_resize_box_3.png 480w, https://timsun001.github.io/archieved/s2/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C_hubdfcf3b8245a662f0eaedc4b937f8257_1152908_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;聚类效果&#34;
@@ -90,19 +162,174 @@
 </description>
         </item>
         <item>
-        <title>小红书笔记语义信息挖掘</title>
-        <link>https://timsun001.github.io/p/s1/</link>
+        <title>Semantic Information Mining in Xiaohongshu Notes</title>
+        <link>https://timsun001.github.io/p/s1_eng/</link>
         <pubDate>Sat, 15 Jul 2023 00:00:00 +0000</pubDate>
         
-        <guid>https://timsun001.github.io/p/s1/</guid>
-        <description>&lt;img src="https://timsun001.github.io/p/s1/cover.png" alt="Featured image of post 小红书笔记语义信息挖掘" /&gt;&lt;h3 id=&#34;一社交电商时代的nlp信息挖掘&#34;&gt;一、社交电商时代的NLP信息挖掘&lt;/h3&gt;
+        <guid>https://timsun001.github.io/p/s1_eng/</guid>
+        <description>&lt;img src="https://timsun001.github.io/p/s1_eng/cover.png" alt="Featured image of post Semantic Information Mining in Xiaohongshu Notes" /&gt;&lt;h3 id=&#34;i-nlp-information-mining-in-the-era-of-social-e-commerce&#34;&gt;I. NLP Information Mining in the Era of Social E-commerce&lt;/h3&gt;
+&lt;p&gt;Xiaohongshu (Little Red Book) note data contains a wealth of information, but its content often tends to be divergent. If we can focus on the part related to consumer decision-making, it can help consumer goods brands better understand consumers and improve product development and marketing efficiency.&lt;/p&gt;
+&lt;p&gt;Using traditional word segmentation and frequency statistics, it is challenging to identify differences between various pieces of information. This article introduces an efficient and effective method to cluster different types of information in Xiaohongshu effectively.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/s1_eng/p1.png&#34;
+	width=&#34;686&#34;
+	height=&#34;624&#34;
+	srcset=&#34;https://timsun001.github.io/p/s1_eng/p1_hub379b53efbae407affc5defcc794b322_453650_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1_eng/p1_hub379b53efbae407affc5defcc794b322_453650_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Chart 1&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;109&#34;
+		data-flex-basis=&#34;263px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/s1_eng/p2.png&#34;
+	width=&#34;1540&#34;
+	height=&#34;1627&#34;
+	srcset=&#34;https://timsun001.github.io/p/s1_eng/p2_hu7846b560b61886d114af488c764e3b09_506381_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1_eng/p2_hu7846b560b61886d114af488c764e3b09_506381_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Chart 2&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;94&#34;
+		data-flex-basis=&#34;227px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h3 id=&#34;ii-comparing-three-analysis-approaches-word-frequency-statistics-semantic-clustering-and-sentence-semantic-clustering&#34;&gt;II. Comparing Three Analysis Approaches: Word Frequency Statistics, Semantic Clustering, and Sentence Semantic Clustering&lt;/h3&gt;
+&lt;h4 id=&#34;models-used-by-the-three-approaches&#34;&gt;Models Used by the Three Approaches&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/s1_eng/p5.png&#34;
+	width=&#34;1485&#34;
+	height=&#34;307&#34;
+	srcset=&#34;https://timsun001.github.io/p/s1_eng/p5_hu36293c3340b249fdf1bf1a2bb0b35b82_66190_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1_eng/p5_hu36293c3340b249fdf1bf1a2bb0b35b82_66190_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Chart 3&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;483&#34;
+		data-flex-basis=&#34;1160px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h4 id=&#34;1-word-frequency-statistics&#34;&gt;1. Word Frequency Statistics&lt;/h4&gt;
+&lt;p&gt;Word frequency statistics are the most traditional method in NLP analysis. In this task, it performs poorly primarily due to two issues:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The most frequent words are often semantically meaningless particles or punctuation marks.&lt;/li&gt;
+&lt;li&gt;Due to the highly scattered nature of topics on Xiaohongshu, many semantically meaningful words have low frequencies.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/s1_eng/p4.png&#34;
+	width=&#34;660&#34;
+	height=&#34;2209&#34;
+	srcset=&#34;https://timsun001.github.io/p/s1_eng/p4_hu91df84232e7c9767bc042e288aa21b83_145955_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1_eng/p4_hu91df84232e7c9767bc042e288aa21b83_145955_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Chart 4&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;29&#34;
+		data-flex-basis=&#34;71px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/s1_eng/p3.png&#34;
+	width=&#34;1659&#34;
+	height=&#34;1035&#34;
+	srcset=&#34;https://timsun001.github.io/p/s1_eng/p3_hu983ae6caf4f3c53bb9eda7c40f45adfa_86104_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1_eng/p3_hu983ae6caf4f3c53bb9eda7c40f45adfa_86104_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Chart 5&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;160&#34;
+		data-flex-basis=&#34;384px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h4 id=&#34;2-semantic-clustering&#34;&gt;2. Semantic Clustering&lt;/h4&gt;
+&lt;p&gt;The basic principle of semantic clustering is as follows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Split sentences into words.&lt;/li&gt;
+&lt;li&gt;Encode words, defining each encoding as a dimension of the sentence (if a word appears in the sentence, mark it as 1; otherwise, mark it as 0).&lt;/li&gt;
+&lt;li&gt;Use clustering algorithms to calculate the similarity between sentences or use dimension reduction algorithms to map high-dimensional information to two dimensions for visualization. For intuitive understanding, we chose the latter method (dimension reduction).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Semantic clustering based on word meanings has the following limitations:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;It does not consider the relevance of words themselves. To address this, a significant amount of manual annotation work is required for synonym correction.&lt;/li&gt;
+&lt;li&gt;The results of word clustering largely reflect the same information as word frequency statistics, lacking information richness.&lt;/li&gt;
+&lt;li&gt;The results of word clustering may focus on word-level meanings and lack sentence-level understanding, which limits its usefulness. For example, Area A in the chart focuses on mentioning &amp;ldquo;female college students,&amp;rdquo; Area B on &amp;ldquo;contouring,&amp;rdquo; Area C on &amp;ldquo;highlighting,&amp;rdquo; and Area D on &amp;ldquo;Huaxizi.&amp;rdquo; These commonalities have limited marketing decision-making value for brands.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/s1_eng/p6.png&#34;
+	width=&#34;2635&#34;
+	height=&#34;2475&#34;
+	srcset=&#34;https://timsun001.github.io/p/s1_eng/p6_hu4b73ff1eac4a31663f91a0b73ecb7f8b_3590781_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1_eng/p6_hu4b73ff1eac4a31663f91a0b73ecb7f8b_3590781_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Chart 6&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;106&#34;
+		data-flex-basis=&#34;255px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h4 id=&#34;3-sentence-semantic-clustering&#34;&gt;3. Sentence Semantic Clustering&lt;/h4&gt;
+&lt;p&gt;The core idea behind sentence semantic clustering is to use pre-trained NLP models, combined with some degree of fine-tuning, to achieve more accurate understanding of semantics. We used &lt;a class=&#34;link&#34; href=&#34;https://arxiv.org/abs/1810.04805&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;BERT&lt;/a&gt; (BERT is a pre-trained NLP model based on &lt;a class=&#34;link&#34; href=&#34;https://arxiv.org/abs/1706.03762&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;attention mechanisms&lt;/a&gt; released by Google Labs in 2018). Even without any fine-tuning, its clustering results are quite satisfactory.&lt;/p&gt;
+&lt;p&gt;The basic principle is as follows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Choose an appropriate pre-trained model.&lt;/li&gt;
+&lt;li&gt;In this case, we selected BERT&amp;rsquo;s output, where the first dimension represents sentence classification, with a total of 768 dimensions. Each dimension can take values between 0 and 1 (corresponding to BERT&amp;rsquo;s output classifying sentences into a maximum of 768 classes, with each dimension&amp;rsquo;s value representing the probability of the sentence being assigned to a certain class).&lt;/li&gt;
+&lt;li&gt;Use clustering algorithms to calculate the similarity between sentences or use dimension reduction algorithms to map high-dimensional information to two dimensions for visualization. For intuitive understanding, we chose the latter method (dimension reduction).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Applying this method, we found significant differences in the number of notes for two brands in three regions: A, B, and C. These three areas are:
+A. Makeup tutorial notes
+B. Second-hand trade notes
+C. Commercial promotion notes
+Compared to the results of semantic clustering, sentence semantic clustering provides a more macroscopic and human-intuitive understanding of information.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/s1_eng/p1.png&#34;
+	width=&#34;686&#34;
+	height=&#34;624&#34;
+	srcset=&#34;https://timsun001.github.io/p/s1_eng/p1_hub379b53efbae407affc5defcc794b322_453650_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1_eng/p1_hub379b53efbae407affc5defcc794b322_453650_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Chart 7&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;109&#34;
+		data-flex-basis=&#34;263px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h3 id=&#34;iii-optimization-space-for-sentence-semantic-clustering&#34;&gt;III. Optimization Space for Sentence Semantic Clustering&lt;/h3&gt;
+&lt;p&gt;Based on the results of sentence semantic clustering, further manual annotation and fine-tuning of the BERT model based on Xiaohongshu&amp;rsquo;s corpus are expected to yield more desired results.&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>小红书笔记语义信息挖掘</title>
+        <link>https://timsun001.github.io/archieved/s1/</link>
+        <pubDate>Sat, 15 Jul 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://timsun001.github.io/archieved/s1/</guid>
+        <description>&lt;img src="https://timsun001.github.io/archieved/s1/cover.png" alt="Featured image of post 小红书笔记语义信息挖掘" /&gt;&lt;h3 id=&#34;一社交电商时代的nlp信息挖掘&#34;&gt;一、社交电商时代的NLP信息挖掘&lt;/h3&gt;
 &lt;p&gt;小红书笔记数据中蕴含大量信息，但其内容往往较为发散。如果能聚焦到其中与消费决策相关的部分，则可以帮助消费品品牌更了解消费者，提升产品研发和营销的效率。&lt;/p&gt;
 &lt;p&gt;使用传统的分词统计词频方法很难识别不同信息间的差异。
 本文介绍了一种方法，来对小红书中的各类信息进行高效且效果显著的聚类。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/s1/p1.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/archieved/s1/p1.png&#34;
 	width=&#34;686&#34;
 	height=&#34;624&#34;
-	srcset=&#34;https://timsun001.github.io/p/s1/p1_hub379b53efbae407affc5defcc794b322_453650_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1/p1_hub379b53efbae407affc5defcc794b322_453650_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://timsun001.github.io/archieved/s1/p1_hub379b53efbae407affc5defcc794b322_453650_480x0_resize_box_3.png 480w, https://timsun001.github.io/archieved/s1/p1_hub379b53efbae407affc5defcc794b322_453650_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;图表1&#34;
@@ -115,10 +342,10 @@
 &gt;&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;!-- raw HTML omitted --&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/s1/p2.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/archieved/s1/p2.png&#34;
 	width=&#34;1540&#34;
 	height=&#34;1627&#34;
-	srcset=&#34;https://timsun001.github.io/p/s1/p2_hu7846b560b61886d114af488c764e3b09_506381_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1/p2_hu7846b560b61886d114af488c764e3b09_506381_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://timsun001.github.io/archieved/s1/p2_hu7846b560b61886d114af488c764e3b09_506381_480x0_resize_box_3.png 480w, https://timsun001.github.io/archieved/s1/p2_hu7846b560b61886d114af488c764e3b09_506381_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;图表2&#34;
@@ -132,10 +359,10 @@
 &lt;!-- raw HTML omitted --&gt;
 &lt;h3 id=&#34;二对比三种分析方案词频统计词义聚类和句义聚类&#34;&gt;二、对比三种分析方案：词频统计、词义聚类和句义聚类&lt;/h3&gt;
 &lt;h4 id=&#34;三种方法采用的模型&#34;&gt;三种方法采用的模型&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/s1/p5.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/archieved/s1/p5.png&#34;
 	width=&#34;1485&#34;
 	height=&#34;307&#34;
-	srcset=&#34;https://timsun001.github.io/p/s1/p5_hu36293c3340b249fdf1bf1a2bb0b35b82_66190_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1/p5_hu36293c3340b249fdf1bf1a2bb0b35b82_66190_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://timsun001.github.io/archieved/s1/p5_hu36293c3340b249fdf1bf1a2bb0b35b82_66190_480x0_resize_box_3.png 480w, https://timsun001.github.io/archieved/s1/p5_hu36293c3340b249fdf1bf1a2bb0b35b82_66190_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;图表3&#34;
@@ -170,10 +397,10 @@
 &lt;li&gt;未考虑词本身的相关性。而如果要做近义词的修正又要涉及大量的人工标注工作&lt;/li&gt;
 &lt;li&gt;词聚类的结果反映出的最显著信息与词频统计的结果高度相似，缺少信息量&lt;/li&gt;
 &lt;li&gt;词聚类的结果可能会聚焦于词级别的含义，而缺少句级别的理解时词级别的含义借鉴意义较小。比如图中A区域的共性是都提到了“女大学生”，B区域的共性是都提到了“修容”，C区域的共性是都提到了“高光”，D区域的共性是都提到了“花西子”。这些共性对品牌做营销决策的参考价值很低
-&lt;img src=&#34;https://timsun001.github.io/p/s1/p6.png&#34;
+&lt;img src=&#34;https://timsun001.github.io/archieved/s1/p6.png&#34;
 	width=&#34;2635&#34;
 	height=&#34;2475&#34;
-	srcset=&#34;https://timsun001.github.io/p/s1/p6_hu4b73ff1eac4a31663f91a0b73ecb7f8b_3590781_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1/p6_hu4b73ff1eac4a31663f91a0b73ecb7f8b_3590781_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://timsun001.github.io/archieved/s1/p6_hu4b73ff1eac4a31663f91a0b73ecb7f8b_3590781_480x0_resize_box_3.png 480w, https://timsun001.github.io/archieved/s1/p6_hu4b73ff1eac4a31663f91a0b73ecb7f8b_3590781_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;图表6&#34;
@@ -202,10 +429,10 @@ A. 妆容教程类笔记
 B. 二手交易类笔记
 C. 商业推广类笔记
 相较词义聚类的结果，句义聚类对信息的理解更加宏观且更加贴近人类直觉。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/s1/p1.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/archieved/s1/p1.png&#34;
 	width=&#34;686&#34;
 	height=&#34;624&#34;
-	srcset=&#34;https://timsun001.github.io/p/s1/p1_hub379b53efbae407affc5defcc794b322_453650_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s1/p1_hub379b53efbae407affc5defcc794b322_453650_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://timsun001.github.io/archieved/s1/p1_hub379b53efbae407affc5defcc794b322_453650_480x0_resize_box_3.png 480w, https://timsun001.github.io/archieved/s1/p1_hub379b53efbae407affc5defcc794b322_453650_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;图表10&#34;

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Data Analysis on Tim Sun</title>
+        <link>https://timsun001.github.io/tags/data-analysis/</link>
+        <description>Recent content in Data Analysis on Tim Sun</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Thu, 27 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://timsun001.github.io/tags/data-analysis/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Density-Based Clustering Algorithm</title>
+        <link>https://timsun001.github.io/p/s2_eng/</link>
+        <pubDate>Thu, 27 Jul 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://timsun001.github.io/p/s2_eng/</guid>
+        <description>&lt;img src="https://timsun001.github.io/p/s2_eng/cover.png" alt="Featured image of post Density-Based Clustering Algorithm" /&gt;&lt;h3 id=&#34;previous-context&#34;&gt;Previous Context&lt;/h3&gt;
+&lt;p&gt;In the &lt;a class=&#34;link&#34; href=&#34;https://timsun001.github.io/p/s1_eng/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;previous study on Xiaohongshu note title clustering&lt;/a&gt;, we initially classified the results using BERT output, reduced the dimensions of the classification results using T-SNE, and finally identified three types of notes: &amp;ldquo;Makeup Tutorial,&amp;rdquo; &amp;ldquo;Second-hand Trade,&amp;rdquo; and &amp;ldquo;Commercial Promotion.&amp;rdquo; Obviously, the final step heavily relies on human judgment, making it difficult to scale and less objective.&lt;/p&gt;
+&lt;h3 id=&#34;density-based-clustering-algorithm&#34;&gt;Density-Based Clustering Algorithm&lt;/h3&gt;
+&lt;p&gt;This time, we have added clustering based on &lt;a class=&#34;link&#34; href=&#34;https://arxiv.org/pdf/1706.03113.pdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;DBSCAN&lt;/a&gt; on top of what we did previously (DBSCAN is a density-based clustering algorithm that adjusts clustering results based on &amp;ldquo;minimum distance within the same class&amp;rdquo; (eps) and &amp;ldquo;minimum number of samples&amp;rdquo; (min_samples)). Compared to traditional KMeans clustering (which adjusts clustering results by specifying the number of clusters), this algorithm has several advantages:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;No need to specify the number of clusters (clearly, we cannot know the total number of clusters in Xiaohongshu titles).&lt;/li&gt;
+&lt;li&gt;Points with no clear cluster relationships will be assigned to other classes.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;However, applying this algorithm also comes with a challenge: how to find suitable values for the eps and min_samples parameters.&lt;/p&gt;
+&lt;h3 id=&#34;parameter-tuning&#34;&gt;Parameter Tuning&lt;/h3&gt;
+&lt;h4 id=&#34;using-silhouette-score-as-an-evaluation-metric&#34;&gt;Using Silhouette Score as an Evaluation Metric&lt;/h4&gt;
+&lt;p&gt;Clearly, if eps or min_samples are set too large, it will result in a large number of points being grouped into the same class, leading to the loss of useful information, and vice versa. To address this issue, we first introduced the &amp;ldquo;&lt;a class=&#34;link&#34; href=&#34;#silhouette-score&#34; &gt;Silhouette Score&lt;/a&gt;&amp;rdquo; as an evaluation metric for the algorithm, testing the &amp;ldquo;Silhouette Score&amp;rdquo; for different parameters. Ideally, a larger &amp;ldquo;Silhouette Score&amp;rdquo; is better (indicating clearer classification boundaries). However, in the task mentioned above, a large Silhouette Score can have two negative effects:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Reduced total number of clusters.&lt;/li&gt;
+&lt;li&gt;Increased number of samples in the &amp;ldquo;other&amp;rdquo; class.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;introducing-percentage-of-other-class-samples-and-total-number-of-clusters-to-optimize-the-evaluation-metric&#34;&gt;Introducing &amp;ldquo;Percentage of Other Class Samples&amp;rdquo; and &amp;ldquo;Total Number of Clusters&amp;rdquo; to Optimize the Evaluation Metric&lt;/h4&gt;
+&lt;p&gt;To overcome the above negative effects, we introduced the &amp;ldquo;Percentage of Other Class Samples&amp;rdquo; and used the harmonic mean of this metric with the Silhouette Score as the clustering score (the higher, the better). At the same time, we calculated the total number of clusters for different parameters. The table below shows the clustering scores (weighted_silhouette) for some parameter settings.
+&lt;img src=&#34;https://timsun001.github.io/ClusteringScores.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Clustering Scores&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;The final solution we selected was the one with the highest weighted_silhouette score among cases where n_labels is greater than 10. The final clustering result is as shown in the following figure. We not only clearly distinguished the three types of notes (&amp;ldquo;Makeup Tutorial,&amp;rdquo; &amp;ldquo;Second-hand Trade,&amp;rdquo; and &amp;ldquo;Commercial Promotion&amp;rdquo;) identified by the previous solution but also identified an additional 7 classes of notes.
+&lt;img src=&#34;https://timsun001.github.io/ClusteringResult.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Clustering Result&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h3 id=&#34;appendix&#34;&gt;Appendix&lt;/h3&gt;
+&lt;h4 id=&#34;silhouette-score&#34;&gt;Silhouette Score&lt;/h4&gt;
+&lt;p&gt;The Silhouette Score is a metric used to evaluate the quality of clustering. It aims to measure both the compactness and separation of samples in clustering results. It helps us understand how well a clustering algorithm has divided samples into similar clusters with distinct boundaries.&lt;/p&gt;
+&lt;p&gt;Specifically, for each sample, the Silhouette Score considers two factors:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The similarity of a sample to other samples in the same cluster: It measures the average distance between the sample and other samples within its cluster. A smaller value indicates that the sample is tightly packed with other samples in its cluster, indicating better clustering.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The similarity of a sample to samples in the nearest different cluster: It measures the average distance between the sample and samples in the nearest cluster other than its own. A larger value indicates that the sample is further from samples in other clusters, also indicating better clustering.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Considering both of these factors, the Silhouette Score&amp;rsquo;s value ranges from -1 to 1:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A higher positive value indicates that the sample is closer to other samples in its cluster and farther from samples in other clusters, indicating better clustering.&lt;/li&gt;
+&lt;li&gt;A value close to zero indicates that the distance of the sample to samples in its own cluster is similar to the distance to samples in other clusters, indicating unclear clustering.&lt;/li&gt;
+&lt;li&gt;A negative value indicates that the sample is closer to samples in other clusters, indicating poor clustering.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Therefore, a Silhouette Score closer to 1 indicates better clustering, while a score closer to -1 or less than 0 indicates worse clustering. When using the Silhouette Score, we aim to find the highest score to achieve the best clustering results.&lt;/p&gt;
+&lt;h4 id=&#34;view-interactive-data-on-tableau-public&#34;&gt;View Interactive Data on Tableau Public&lt;/h4&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://public.tableau.com/app/profile/t.s1480/viz/_16905304270770/sheet0&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;View the interactive data on Tableau Public&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
