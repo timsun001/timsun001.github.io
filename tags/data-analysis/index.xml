@@ -8,11 +8,11 @@
         <language>en-us</language>
         <lastBuildDate>Thu, 27 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://timsun001.github.io/tags/data-analysis/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Density-Based Clustering Algorithm</title>
-        <link>https://timsun001.github.io/p/s2_eng/</link>
+        <link>https://timsun001.github.io/archieved/%E8%8B%B1%E6%96%87%E7%89%88/s2_eng/</link>
         <pubDate>Thu, 27 Jul 2023 00:00:00 +0000</pubDate>
         
-        <guid>https://timsun001.github.io/p/s2_eng/</guid>
-        <description>&lt;img src="https://timsun001.github.io/p/s2_eng/cover.png" alt="Featured image of post Density-Based Clustering Algorithm" /&gt;&lt;h3 id=&#34;previous-context&#34;&gt;Previous Context&lt;/h3&gt;
+        <guid>https://timsun001.github.io/archieved/%E8%8B%B1%E6%96%87%E7%89%88/s2_eng/</guid>
+        <description>&lt;img src="https://timsun001.github.io/archieved/%E8%8B%B1%E6%96%87%E7%89%88/s2_eng/cover.png" alt="Featured image of post Density-Based Clustering Algorithm" /&gt;&lt;h3 id=&#34;previous-context&#34;&gt;Previous Context&lt;/h3&gt;
 &lt;p&gt;In the &lt;a class=&#34;link&#34; href=&#34;https://timsun001.github.io/p/s1_eng/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;previous study on Xiaohongshu note title clustering&lt;/a&gt;, we initially classified the results using BERT output, reduced the dimensions of the classification results using T-SNE, and finally identified three types of notes: &amp;ldquo;Makeup Tutorial,&amp;rdquo; &amp;ldquo;Second-hand Trade,&amp;rdquo; and &amp;ldquo;Commercial Promotion.&amp;rdquo; Obviously, the final step heavily relies on human judgment, making it difficult to scale and less objective.&lt;/p&gt;
 &lt;h3 id=&#34;density-based-clustering-algorithm&#34;&gt;Density-Based Clustering Algorithm&lt;/h3&gt;
@@ -32,10 +32,10 @@
 &lt;/ol&gt;
 &lt;h4 id=&#34;introducing-percentage-of-other-class-samples-and-total-number-of-clusters-to-optimize-the-evaluation-metric&#34;&gt;Introducing &amp;ldquo;Percentage of Other Class Samples&amp;rdquo; and &amp;ldquo;Total Number of Clusters&amp;rdquo; to Optimize the Evaluation Metric&lt;/h4&gt;
 &lt;p&gt;To overcome the above negative effects, we introduced the &amp;ldquo;Percentage of Other Class Samples&amp;rdquo; and used the harmonic mean of this metric with the Silhouette Score as the clustering score (the higher, the better). At the same time, we calculated the total number of clusters for different parameters. The table below shows the clustering scores (weighted_silhouette) for some parameter settings.
-&lt;img src=&#34;https://timsun001.github.io/p/s2_eng/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86.png&#34;
+&lt;img src=&#34;https://timsun001.github.io/archieved/%E8%8B%B1%E6%96%87%E7%89%88/s2_eng/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86.png&#34;
 	width=&#34;1654&#34;
 	height=&#34;1402&#34;
-	srcset=&#34;https://timsun001.github.io/p/s2_eng/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86_hu9427fa2b231c5d3c7070556e3d91c439_163137_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s2_eng/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86_hu9427fa2b231c5d3c7070556e3d91c439_163137_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://timsun001.github.io/archieved/%E8%8B%B1%E6%96%87%E7%89%88/s2_eng/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86_hu9427fa2b231c5d3c7070556e3d91c439_163137_480x0_resize_box_3.png 480w, https://timsun001.github.io/archieved/%E8%8B%B1%E6%96%87%E7%89%88/s2_eng/%E7%AE%97%E6%B3%95%E8%AF%84%E5%88%86_hu9427fa2b231c5d3c7070556e3d91c439_163137_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Clustering Scores&#34;
@@ -47,10 +47,10 @@
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;The final solution we selected was the one with the highest weighted_silhouette score among cases where n_labels is greater than 10. The final clustering result is as shown in the following figure. We not only clearly distinguished the three types of notes (&amp;ldquo;Makeup Tutorial,&amp;rdquo; &amp;ldquo;Second-hand Trade,&amp;rdquo; and &amp;ldquo;Commercial Promotion&amp;rdquo;) identified by the previous solution but also identified an additional 7 classes of notes.
-&lt;img src=&#34;https://timsun001.github.io/p/s2_eng/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C.png&#34;
+&lt;img src=&#34;https://timsun001.github.io/archieved/%E8%8B%B1%E6%96%87%E7%89%88/s2_eng/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C.png&#34;
 	width=&#34;2000&#34;
 	height=&#34;1600&#34;
-	srcset=&#34;https://timsun001.github.io/p/s2_eng/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C_hubdfcf3b8245a662f0eaedc4b937f8257_1152908_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/s2_eng/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C_hubdfcf3b8245a662f0eaedc4b937f8257_1152908_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://timsun001.github.io/archieved/%E8%8B%B1%E6%96%87%E7%89%88/s2_eng/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C_hubdfcf3b8245a662f0eaedc4b937f8257_1152908_480x0_resize_box_3.png 480w, https://timsun001.github.io/archieved/%E8%8B%B1%E6%96%87%E7%89%88/s2_eng/%E8%81%9A%E7%B1%BB%E6%95%88%E6%9E%9C_hubdfcf3b8245a662f0eaedc4b937f8257_1152908_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Clustering Result&#34;
