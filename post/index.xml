@@ -6,313 +6,7 @@
         <description>Recent content in Posts on Tim Sun</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 20 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://timsun001.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>拼多多海外电商（Temu）研究</title>
-        <link>https://timsun001.github.io/p/t1/</link>
-        <pubDate>Sun, 20 Aug 2023 00:00:00 +0000</pubDate>
-        
-        <guid>https://timsun001.github.io/p/t1/</guid>
-        <description>&lt;img src="https://timsun001.github.io/p/t1/cover.png" alt="Featured image of post 拼多多海外电商（Temu）研究" /&gt;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;
-&lt;p&gt;　　Temu项目发起于2022年9月，是拼多多继国内电商、多多买菜后的第三大战略级项目。拼多多内部高度重视Temu项目，团队由原多多买菜负责人顾娉娉直接带队，甚至有坊间传闻称拼多多创始人黄峥也返回公司为Temu项目设定方向。2023年2月，Temu豪掷千金买下超级碗30秒广告，一度成为当时的热点新闻。业内一致认为Temu将逐渐取代Wish在美国电商领域的地位。&lt;/p&gt;
-&lt;p&gt;　　我们整理了主流研报的核心观点以及部分美国民众对Temu的看法，尝试洞察Temu未来的发展前景。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p1_temu%E5%95%86%E4%B8%9A%E6%A8%A1%E5%BC%8F.png&#34;
-	width=&#34;1492&#34;
-	height=&#34;710&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p1_temu%E5%95%86%E4%B8%9A%E6%A8%A1%E5%BC%8F_hu0966b3f3252856150d9ceecd5777c6fc_176527_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p1_temu%E5%95%86%E4%B8%9A%E6%A8%A1%E5%BC%8F_hu0966b3f3252856150d9ceecd5777c6fc_176527_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;Temu商业模式&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;210&#34;
-		data-flex-basis=&#34;504px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;h2 id=&#34;结论&#34;&gt;结论&lt;/h2&gt;
-&lt;p&gt;　　Temu短期内背靠拼多多强大的现金流，通过大量的广告投放快速建立了在美国的业务，然而考虑到美国市场与中国市场用户及竞争环境的差异，及Temu管理团队的决策偏好，&lt;strong&gt;Temu未来的盈利能力仍充满不确定性&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;　　1. Temu借助拼多多在国内积累的货源侧优势，定位“低价好货”，试图复制拼多多在国内的成功路径，但此模式在美国存在以下挑战：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;脱离了微信背书提供的信任加成，Temu可能难以在美国消费者心目中建立“低价好货”的印象&lt;/strong&gt;。拼多多早期拓展国内业务时很大程度上依赖了其与微信的合作，亲友间的转发极大的降低了信任门槛，短期内快速提升了用户量。在美国,Temu将失去微信这一有力获客渠道，这势必将导致Temu与消费者建立信任的过程更加漫长，成本也更加高昂（见下文）；&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Temu在海外或将面临比国内更激烈的竞争&lt;/strong&gt;。一方面，美国在中高品质市场有亚马逊这种量级的巨头（其市值是阿里巴巴的3倍），另一方面，在新兴的高性价比推荐电商市场，亦存在SheIn、TikTok等竞争者。SheIn在女装垂直领域已经与消费者建立了充分信任，并且在积极拓展其他品类市场；TikTok则坐拥全球近16亿日活，有着多年海外流量运作的经验。Temu将如何在竞争如此激烈的环境中找到可持续盈利的一袭之地还有待观察；&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;海外的流量成本可能超过Temu管理团队的预期，这将迫使Temu更快做出转型&lt;/strong&gt;。综上所述，为了与消费者建立信任，并在激烈竞争中占据一席之地，Temu必将投入大量成本。同时，我们观察到美国社交平台似乎对拼多多式的病毒营销有更强的管制（见下文），如果这些管制造成的影响超出Temu管理团队的预期，那么为应对高昂的流量和物流成本，Temu将不得不降低商品质量，提价或做品类结构的转型，无论哪种行为都将为Temu在海外的拓展进一步增加阻力：
-1. 降低商品质量无疑将重蹈Wish的覆辙；
-2. 提价会对平台的流量和销量造成重大影响，然而当亏损过大时，提价也是不得已而为之的必要操作。据&lt;a class=&#34;link&#34; href=&#34;https://36kr.com/p/2392005566208642&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;报道&lt;/a&gt;，Temu在8月16日对品类做了一次整体提价；
-3. 要做品类结构的转型可能需要近一步烧钱补贴来与用户建立信任（类似拼多多在国内做的百亿补贴）。就Temu近期的提价操作来看，短期内他们似乎不会有大规模烧钱补贴的行动。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;Temu管理团队有着成功打造多多买菜的经验。Temu项目上线初期，其管理团队被被主流研究机构普遍看好。然而据我们的调查，多多买菜的实际体验对比美团买菜或其他线下买菜体验都更差；而货源侧也有供货商抱怨多多买菜的竞价政策，该供货商表示在此竞价环境下将导致劣币驱逐良币，造成商品整体品质下降。关于多多买菜的表现我们会在&lt;a class=&#34;link&#34; href=&#34;#Temu%e5%9b%a2%e9%98%9f%e7%9a%84%e4%b8%8a%e4%b8%aa%e4%bd%9c%e5%93%81%ef%bc%9a%e5%a4%9a%e5%a4%9a%e4%b9%b0%e8%8f%9c&#34; &gt;下文&lt;/a&gt;详细展开。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;决策建议&#34;&gt;决策建议&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;对于计划入驻Temu的供应商&lt;/strong&gt;：可以将Temu作为消化富余产能的渠道之一，短期内Temu还将持续用母公司拼多多的补贴拓展美国业务，这期间与Temu的合作可能都是有利可图的。但应避免将资源过度倾斜至Temu，而在后期逐渐失去定价权，或是承担Temu流量衰退的风险。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;对于拼多多的投资方&lt;/strong&gt;：拼多多核心电商业务势头尚好，但Temu的盈利能力仍充满不确定性，如果无法顺利进行品牌形象升级并提升消费者体验，Temu甚至可能面临失败。对Temu的投资应持谨慎态度，后续能否顺利进行品牌形象的升级或将成为其能否在美国长期生存的关键。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;主流研报的核心观点&#34;&gt;主流研报的核心观点&lt;/h2&gt;
-&lt;p&gt;　　主流研报普遍看好Temu，认为拼多多在国内供应链侧的优势、营销玩法的创新以及有成功案例的多多买菜团队能帮助Temu取得成功。&lt;/p&gt;
-&lt;p&gt;　　而这些研究机构均未提及美国消费者与中国消费者的差异，以及拼多多、多多买菜或Temu购物的实际体验。忽略这些因素可导致对Temu过于乐观的判断，我们将在下文展开讨论我们对这些因素的调研结论。&lt;/p&gt;
-&lt;h3 id=&#34;浙商证券2023年1月9日&#34;&gt;浙商证券（2023年1月9日）&lt;/h3&gt;
-&lt;p&gt;　　浙商证券看好Temu项目及拼多多股价。主要论据为：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Temu汇集多多买菜原班人员，团队具备超强战斗力；&lt;/li&gt;
-&lt;li&gt;Temu复刻国内主站花式流量玩法，赋能迅速冷启拉新；&lt;/li&gt;
-&lt;li&gt;Temu背靠国内强势供应链，具备供应硬实力；&lt;/li&gt;
-&lt;li&gt;Temu推荐电商模式领先于海外现有搜索电商。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p4_%E6%B5%99%E5%95%86230109.png&#34;
-	width=&#34;826&#34;
-	height=&#34;1169&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p4_%E6%B5%99%E5%95%86230109_hu2ea6ebfb1230f05ad60f9de8de02d891_3435213_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p4_%E6%B5%99%E5%95%86230109_hu2ea6ebfb1230f05ad60f9de8de02d891_3435213_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;浙商证券于2023年1月9日发布的研报&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;70&#34;
-		data-flex-basis=&#34;169px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;h3 id=&#34;hayden-capital2023年1月5日httpshaydencapitalcomwp-contentuploadshayden-capital_pinduoduo-memopdf&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://haydencapital.com/wp-content/uploads/Hayden-Capital_Pinduoduo-Memo.pdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Hayden Capital（2023年1月5日）&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;　　Hayden Capital暂时还没有对Temu项目的表现做出最终评断。然而，他们认为拼多多在Temu项目上的投资时机经过精心策划，体现了管理团队的卓越判断力，因此他们对拼多多的股价前景持乐观态度。在涉及Temu项目的观点方面，Hayden Capital的看法如下：&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;拼多多高度重视Temu项目&lt;/strong&gt;：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;由之前主导多多买菜项目的顾娉娉团队领导Temu项目。&lt;/li&gt;
-&lt;li&gt;拼多多通过高薪（3～5倍薪资）挖SheIn的员工，获得了宝贵的人才资源。&lt;/li&gt;
-&lt;li&gt;预计将在一年内投入约70亿人民币。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;拼多多在Temu项目的择时具备精心计划&lt;/strong&gt;：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;全球经济下行导致中国工厂有大量的产能富余。&lt;/li&gt;
-&lt;li&gt;美国消费者可支配收入减少，推动消费者寻求更为经济实惠的商品（而Temu定价通常相当于亚马逊的30%~50%）。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Temu将受益于拼多多对国内供应商的整合&lt;/strong&gt;：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;拼多多通过缩短供应链、减少中间商数量等举措，提高了供应商的利润率。此外，他们还推出了适用于工厂操作逻辑的广告营销自动化工具，进一步增强了供应商的利润潜力。在此期间，拼多多与供应商之间建立的信任将在其未来拓展海外业务时构筑壁垒。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;海外扩张过程中流量是Temu的主要挑战&lt;/strong&gt;：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;因失去与微信的合作，Temu难以在海外实现像拼多多国内那样迅速的增长。&lt;/li&gt;
-&lt;li&gt;与Temu直接竞争的TikTok是海外最大的流量来源之一，这直接削弱了Temu获取流量的渠道。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&#34;招商证券2022年11月10日&#34;&gt;招商证券（2022年11月10日）&lt;/h3&gt;
-&lt;p&gt;　　Temu在海外的竞争中具备两方面优势可能帮助其取得成功：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;其在国内业务中积累了非常成熟的&lt;strong&gt;低价优质供应商资源&lt;/strong&gt;及&lt;strong&gt;运营能力&lt;/strong&gt;；&lt;/li&gt;
-&lt;li&gt;其在开展国外业务时充分借鉴了前人经验。比如其回避了Wish的平台模式而采用自营模式，确保了商品质量和用户体验。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;　　招商证券认为，Temu前期每年约50亿元的亏损不足以对其母公司整体利润（2022年315亿元）造成影响。而后期Temu大概率会开展商业模式（从自营转为平台）和品类结构（从低单价转为高单价）的转型，以获得更大的利润空间。&lt;/p&gt;
-&lt;p&gt;　　招商证券对Temu母公司拼多多的股票给出了“强烈推荐”的评级。基于3年的利润预估（同比增速115%、39%、30%），招商证券认为其股价有望从59美元增长至92美元（以20221109股价为参考）。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p3_%E6%8B%9B%E5%95%86221110.png&#34;
-	width=&#34;826&#34;
-	height=&#34;1169&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p3_%E6%8B%9B%E5%95%86221110_hua7c75fd684772959e0cb7fb34922d6e5_4559604_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p3_%E6%8B%9B%E5%95%86221110_hua7c75fd684772959e0cb7fb34922d6e5_4559604_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;招商证券于2022年11月10日发布的研报&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;70&#34;
-		data-flex-basis=&#34;169px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;h3 id=&#34;浙商证券2022年9月28日&#34;&gt;浙商证券（2022年9月28日）&lt;/h3&gt;
-&lt;p&gt;　　Temu在&lt;strong&gt;需求背景&lt;/strong&gt;、&lt;strong&gt;组织能力&lt;/strong&gt;和&lt;strong&gt;商业模式&lt;/strong&gt;上具有优势，同时也面临物流成本高昂、流量成本攀升、电商巨头竞争等挑战。其发展值得看好，能否成功还需观察其业务开展后的实际表现。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;需求背景：世界经济下行，人均购买力下降。Temu切入的低价赛道增长势头好&lt;/li&gt;
-&lt;li&gt;组织能力：Temu团队以多多买菜为主体搭建，有望复制多多买菜的运营能力及成功经验&lt;/li&gt;
-&lt;li&gt;商业模式：借鉴了Wish的前车之鉴，在商家入驻和选品上强把关，提升用户体验&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p2_%E6%B5%99%E5%95%86220928.png&#34;
-	width=&#34;832&#34;
-	height=&#34;460&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p2_%E6%B5%99%E5%95%86220928_hufe9ff07126fcbd4ebb14bed14d1b333c_277513_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p2_%E6%B5%99%E5%95%86220928_hufe9ff07126fcbd4ebb14bed14d1b333c_277513_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;浙商证券于2022年9月28日发布的研报&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;180&#34;
-		data-flex-basis=&#34;434px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;h2 id=&#34;美国民众对temu的看法&#34;&gt;美国民众对Temu的看法&lt;/h2&gt;
-&lt;p&gt;　　我们在美国社交论坛Reddit搜集了关键词“Temu”搜索结果中点赞评论量最多的帖子中用户讨论的要点。从中我们总结出美国民众对Temu的以下看法：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;对Temu低价的顾虑&lt;/strong&gt;。点赞量较高的讨论中，意见领袖认为低价会伴随着某些对应的代价，这些代价包括：&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;不道德（Ethical）的劳工关系&lt;/strong&gt;。有用户指出低价商品往往伴随着对劳工的压榨，同时也有反对声音指出劳工压榨的现象不仅存在于Temu，Temu至少提供了更低的价格；&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;个人隐私的泄漏&lt;/strong&gt;。有用户怀疑Temu可能是在用低价商品来换取用户个人信息，而个人信息才是Temu的主要获利手段；&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;对产品质量的不抱期望&lt;/strong&gt;。相当多用户认为Temu就是Wish 2.0，甚至更差，虽然Temu已经借鉴Wish的失败，通过自营模式加强了对商品的审核，但用户对此的感知似乎并不强。也有用户表示在Temu的消费“基本值得你付出的钱，一笔订单中一半的商品可能存在质量问题”。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;　　事实上，我们认为Temu目前的低价主要是由母公司的现金流补贴支持的（而非对劳工的压榨）；而且在美国严格的个人信息法规下，通过转卖个人信息获利的风险与回报完全不成正比，也并非Temu拓展海外业务的初衷。但&lt;strong&gt;这些信息无疑反映了美国民众对Temu的不信任，Temu可能需要考虑如何扭转自己的低价定位在用户心目中的印象&lt;/strong&gt;。至于针对产品质量的批评，在Temu追求极致低价的策略下确实可能有较多产品存在质量问题，这也是Temu后期需要投入大量资源去克服的问题，否则很可能重蹈Wish的覆辙。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p5_%E5%8A%B3%E5%B7%A5%E7%A6%8F%E5%88%A9.png&#34;
-	width=&#34;832&#34;
-	height=&#34;216&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p5_%E5%8A%B3%E5%B7%A5%E7%A6%8F%E5%88%A9_hu9ca757986ca607ae366ace3f065fb31e_72008_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p5_%E5%8A%B3%E5%B7%A5%E7%A6%8F%E5%88%A9_hu9ca757986ca607ae366ace3f065fb31e_72008_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;美国用户对Temu劳工福利的担忧&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;385&#34;
-		data-flex-basis=&#34;924px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p6_%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8.png&#34;
-	width=&#34;832&#34;
-	height=&#34;282&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p6_%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8_hu0879e5077e4d1d13371a4bc6f32b0125_74872_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p6_%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8_hu0879e5077e4d1d13371a4bc6f32b0125_74872_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;美国用户对个人信息安全的担忧&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;295&#34;
-		data-flex-basis=&#34;708px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p7_%E4%BA%A7%E5%93%81%E8%B4%A8%E9%87%8F.png&#34;
-	width=&#34;832&#34;
-	height=&#34;462&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p7_%E4%BA%A7%E5%93%81%E8%B4%A8%E9%87%8F_hu633702e0505d50ed32208e7276425c4f_99199_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p7_%E4%BA%A7%E5%93%81%E8%B4%A8%E9%87%8F_hu633702e0505d50ed32208e7276425c4f_99199_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;美国用户对Temu产品质量的预期很低&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;180&#34;
-		data-flex-basis=&#34;432px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p8_wish.png&#34;
-	width=&#34;832&#34;
-	height=&#34;298&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p8_wish_hud87d07220517d500c43a9a6ebd7d4b80_47943_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p8_wish_hud87d07220517d500c43a9a6ebd7d4b80_47943_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;美国用户认为Temu是Wish 2.0&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;279&#34;
-		data-flex-basis=&#34;670px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p13_wish%E8%82%A1%E4%BB%B7.png&#34;
-	width=&#34;832&#34;
-	height=&#34;430&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p13_wish%E8%82%A1%E4%BB%B7_hu60707d31fb57e3d128363fd03363658d_88187_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p13_wish%E8%82%A1%E4%BB%B7_hu60707d31fb57e3d128363fd03363658d_88187_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;过去两年Wish股价随着用户的流失一路下跌&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;193&#34;
-		data-flex-basis=&#34;464px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;&lt;strong&gt;对Temu营销方式的不满&lt;/strong&gt;。点赞量较多的帖子中，美国民众对Temu营销的方案主要体现在两个个方面：&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;对Temu洗脑式营销的反感&lt;/strong&gt;。有用户反映Temu提供的产品和服务与其广告语“Shop Like a Billionaire”（向亿万富翁一样购物）严重不符，这些用户认为亿万富翁不会购买如此低价的产品。Temu重金投入的广告效果可能适得其反；&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;怀疑Temu是骗局&lt;/strong&gt;。直到2023年6月，“Scam”（骗局）一直是Reddit论坛“Temu”搜索结果中最常的关键词。用户普遍对Temu带来的体验感到迷惑：一方面过低的价格让用户对商品质量和个人隐私产生忧虑，另一方面与广告宣传脱节的使用体验也引起用户不满。再加之很多美国用户已经有过在Wish购物的糟糕体验，许多用户对Temu的出现持警惕态度。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p9_scam.png&#34;
-	width=&#34;832&#34;
-	height=&#34;436&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p9_scam_hud08c6a7ea86172eb8346c3e20b20b62c_163046_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p9_scam_hud08c6a7ea86172eb8346c3e20b20b62c_163046_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;用户不满于Temu大量的垃圾营销信息，认为Temu是个骗局&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;190&#34;
-		data-flex-basis=&#34;457px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;　　Temu目前在美国民众中的印象与拼多多早期在中国时非常相像。拼多多是在微信的熟人社交的加持下，加之重金投入百亿补贴，才逐渐扭转了品牌在消费者心中的糟糕印象。而&lt;strong&gt;Temu脱离了微信的流量，再加之中国互联网企业整体融资困难，未来Temu是否能有能力和财力来扭转其在美国民众心目中的印象还不得而知&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;　　此外，我们发现在美国进行拼多多式的病毒营销并不容易。在本项研究进行的过程中，Reddit已经大量关闭了Temu分享邀请码的Subreddits和帖子，而微信早期对拼多多的病毒式营销分享则是持相对开放态度的。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p10_banned.png&#34;
-	width=&#34;832&#34;
-	height=&#34;360&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p10_banned_hu10d0cd51f483040bba0ec8efe86a30db_57306_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p10_banned_hu10d0cd51f483040bba0ec8efe86a30db_57306_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;Reddit已经关闭大量共享Reddit邀请码的帖子&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;231&#34;
-		data-flex-basis=&#34;554px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;综上，我们认为主流研报很可能低估了美国消费者与中国消费者的差异，相较中国消费者，美国消费者会更多的考虑劳工福利及个人隐私，这意味着更高的信任建立成本；同时，美国的互联网环境也与中国大不相同，脱离了微信的流量加持，面临着更强的病毒营销监管，Temu在海外很可能面临着超出管理团队预期的获客成本。&lt;/p&gt;
-&lt;h2 id=&#34;temu团队的上个作品多多买菜&#34;&gt;Temu团队的上个作品：多多买菜&lt;/h2&gt;
-&lt;p&gt;主流研究机构普遍看好多多买菜团队，认为其在短时间内快速占领了相当部分的线上生鲜市场。而民众间的声音则截然不同。
-　　1. 消费者侧，自提点波动过大的提货体验被诟病。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;一方面，自提点自身的素质和硬件设施差异化较大，茶叶店、洗衣店这类平时客流量较小的线下店成为了多多买菜的完美宿主。有用户反映部分自提点没有冰箱。在我们自己测试的订单中，自提点对货物的管理相当混乱，消费者需要花费10分钟以上的时间自行在货物堆中分拣出自己的订单，而这种模式难免将导致较多的订单错配。我们测试的500g阳光玫瑰订单中，500g的水果被分装了成了2盒（各250g），自提时稍有不慎没有检查订单重量即有可能拿错。&lt;/li&gt;
-&lt;li&gt;另一方面，自提点所依赖的店铺发生店铺转让或关店并非小概率事件。一旦出现关店、转让的情况，不仅用户当次的订单会受影响，后续重新与其他自提点建立信任又是个漫长的过程。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p11_%E5%A4%9A%E5%A4%9A%E4%B9%B0%E8%8F%9C.jpg&#34;
-	width=&#34;828&#34;
-	height=&#34;1316&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p11_%E5%A4%9A%E5%A4%9A%E4%B9%B0%E8%8F%9C_hu00179e06dbbaa1bbfcb293208e799479_129759_480x0_resize_q75_box.jpg 480w, https://timsun001.github.io/p/t1/p11_%E5%A4%9A%E5%A4%9A%E4%B9%B0%E8%8F%9C_hu00179e06dbbaa1bbfcb293208e799479_129759_1024x0_resize_q75_box.jpg 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;多多买菜自提点分布的相当密集，其中不乏茶叶店这种与生鲜无关的店铺&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;62&#34;
-		data-flex-basis=&#34;151px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;　　2. 供应商侧，有供应商抱怨拼多多的竞价制度，称在此竞争环境下大概率会导致劣币驱逐良币。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p12_%E8%8F%9C%E5%86%9C.png&#34;
-	width=&#34;832&#34;
-	height=&#34;870&#34;
-	srcset=&#34;https://timsun001.github.io/p/t1/p12_%E8%8F%9C%E5%86%9C_hu2b4e53200b38dcca0483663d42fea563_368478_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p12_%E8%8F%9C%E5%86%9C_hu2b4e53200b38dcca0483663d42fea563_368478_1024x0_resize_box_3.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;失望的多多买菜供应商菜农在知乎的发帖&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;95&#34;
-		data-flex-basis=&#34;229px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;　　综上，我们认为多多买菜在项目启动前期或许确实具备用更小资金撬动更大市场占有率的能力。但作为交换，他们可能会弱化维持用户体验和供应商关系的重要性。而后者是关乎项目能否长期盈利的至关重要因素。&lt;/p&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;　　Temu在业务拓展早期交上了亮眼的答卷，但后续能否持续提升用户体验，能否持续与供应商共赢，以及能否顶住海外流量的激烈竞争还尚不可知。仅从目前美国民众的声音及Temu团队的过往经验来看，Temu的未来发展似乎并不乐观。接下来仍需关注Temu在提升用户体验和转变品牌形象上有哪些作为来避免自己滑落成为Wish 2.0。&lt;/p&gt;
-</description>
-        </item>
-        <item>
+        <lastBuildDate>Thu, 03 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://timsun001.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>男性美妆市场探索</title>
         <link>https://timsun001.github.io/p/r3/</link>
         <pubDate>Thu, 03 Aug 2023 00:00:00 +0000</pubDate>
@@ -1081,6 +775,312 @@ C. 商业推广类笔记
 		data-flex-basis=&#34;169px&#34;
 	
 &gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>拼多多海外电商（Temu）研究</title>
+        <link>https://timsun001.github.io/p/t1/</link>
+        <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://timsun001.github.io/p/t1/</guid>
+        <description>&lt;img src="https://timsun001.github.io/p/t1/cover.png" alt="Featured image of post 拼多多海外电商（Temu）研究" /&gt;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;
+&lt;p&gt;　　Temu项目发起于2022年9月，是拼多多继国内电商、多多买菜后的第三大战略级项目。拼多多内部高度重视Temu项目，团队由原多多买菜负责人顾娉娉直接带队，甚至有坊间传闻称拼多多创始人黄峥也返回公司为Temu项目设定方向。2023年2月，Temu豪掷千金买下超级碗30秒广告，一度成为当时的热点新闻。业内一致认为Temu将逐渐取代Wish在美国电商领域的地位。&lt;/p&gt;
+&lt;p&gt;　　我们整理了主流研报的核心观点以及部分美国民众对Temu的看法，尝试洞察Temu未来的发展前景。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p1_temu%E5%95%86%E4%B8%9A%E6%A8%A1%E5%BC%8F.png&#34;
+	width=&#34;1492&#34;
+	height=&#34;710&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p1_temu%E5%95%86%E4%B8%9A%E6%A8%A1%E5%BC%8F_hu0966b3f3252856150d9ceecd5777c6fc_176527_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p1_temu%E5%95%86%E4%B8%9A%E6%A8%A1%E5%BC%8F_hu0966b3f3252856150d9ceecd5777c6fc_176527_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Temu商业模式&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;210&#34;
+		data-flex-basis=&#34;504px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;结论&#34;&gt;结论&lt;/h2&gt;
+&lt;p&gt;　　Temu短期内背靠拼多多强大的现金流，通过大量的广告投放快速建立了在美国的业务，然而考虑到美国市场与中国市场用户及竞争环境的差异，及Temu管理团队的决策偏好，&lt;strong&gt;Temu未来的盈利能力仍充满不确定性&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;　　1. Temu借助拼多多在国内积累的货源侧优势，定位“低价好货”，试图复制拼多多在国内的成功路径，但此模式在美国存在以下挑战：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;脱离了微信背书提供的信任加成，Temu可能难以在美国消费者心目中建立“低价好货”的印象&lt;/strong&gt;。拼多多早期拓展国内业务时很大程度上依赖了其与微信的合作，亲友间的转发极大的降低了信任门槛，短期内快速提升了用户量。在美国,Temu将失去微信这一有力获客渠道，这势必将导致Temu与消费者建立信任的过程更加漫长，成本也更加高昂（见下文）；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Temu在海外或将面临比国内更激烈的竞争&lt;/strong&gt;。一方面，美国在中高品质市场有亚马逊这种量级的巨头（其市值是阿里巴巴的3倍），另一方面，在新兴的高性价比推荐电商市场，亦存在SheIn、TikTok等竞争者。SheIn在女装垂直领域已经与消费者建立了充分信任，并且在积极拓展其他品类市场；TikTok则坐拥全球近16亿日活，有着多年海外流量运作的经验。Temu将如何在竞争如此激烈的环境中找到可持续盈利的一袭之地还有待观察；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;海外的流量成本可能超过Temu管理团队的预期，这将迫使Temu更快做出转型&lt;/strong&gt;。综上所述，为了与消费者建立信任，并在激烈竞争中占据一席之地，Temu必将投入大量成本。同时，我们观察到美国社交平台似乎对拼多多式的病毒营销有更强的管制（见下文），如果这些管制造成的影响超出Temu管理团队的预期，那么为应对高昂的流量和物流成本，Temu将不得不降低商品质量，提价或做品类结构的转型，无论哪种行为都将为Temu在海外的拓展进一步增加阻力：
+1. 降低商品质量无疑将重蹈Wish的覆辙；
+2. 提价会对平台的流量和销量造成重大影响，然而当亏损过大时，提价也是不得已而为之的必要操作。据&lt;a class=&#34;link&#34; href=&#34;https://36kr.com/p/2392005566208642&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;报道&lt;/a&gt;，Temu在8月16日对品类做了一次整体提价；
+3. 要做品类结构的转型可能需要近一步烧钱补贴来与用户建立信任（类似拼多多在国内做的百亿补贴）。就Temu近期的提价操作来看，短期内他们似乎不会有大规模烧钱补贴的行动。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;Temu管理团队有着成功打造多多买菜的经验。Temu项目上线初期，其管理团队被被主流研究机构普遍看好。然而据我们的调查，多多买菜的实际体验对比美团买菜或其他线下买菜体验都更差；而货源侧也有供货商抱怨多多买菜的竞价政策，该供货商表示在此竞价环境下将导致劣币驱逐良币，造成商品整体品质下降。关于多多买菜的表现我们会在&lt;a class=&#34;link&#34; href=&#34;#Temu%e5%9b%a2%e9%98%9f%e7%9a%84%e4%b8%8a%e4%b8%aa%e4%bd%9c%e5%93%81%ef%bc%9a%e5%a4%9a%e5%a4%9a%e4%b9%b0%e8%8f%9c&#34; &gt;下文&lt;/a&gt;详细展开。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;决策建议&#34;&gt;决策建议&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;对于计划入驻Temu的供应商&lt;/strong&gt;：可以将Temu作为消化富余产能的渠道之一，短期内Temu还将持续用母公司拼多多的补贴拓展美国业务，这期间与Temu的合作可能都是有利可图的。但应避免将资源过度倾斜至Temu，而在后期逐渐失去定价权，或是承担Temu流量衰退的风险。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;对于拼多多的投资方&lt;/strong&gt;：拼多多核心电商业务势头尚好，但Temu的盈利能力仍充满不确定性，如果无法顺利进行品牌形象升级并提升消费者体验，Temu甚至可能面临失败。对Temu的投资应持谨慎态度，后续能否顺利进行品牌形象的升级或将成为其能否在美国长期生存的关键。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;主流研报的核心观点&#34;&gt;主流研报的核心观点&lt;/h2&gt;
+&lt;p&gt;　　主流研报普遍看好Temu，认为拼多多在国内供应链侧的优势、营销玩法的创新以及有成功案例的多多买菜团队能帮助Temu取得成功。&lt;/p&gt;
+&lt;p&gt;　　而这些研究机构均未提及美国消费者与中国消费者的差异，以及拼多多、多多买菜或Temu购物的实际体验。忽略这些因素可导致对Temu过于乐观的判断，我们将在下文展开讨论我们对这些因素的调研结论。&lt;/p&gt;
+&lt;h3 id=&#34;浙商证券2023年1月9日&#34;&gt;浙商证券（2023年1月9日）&lt;/h3&gt;
+&lt;p&gt;　　浙商证券看好Temu项目及拼多多股价。主要论据为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Temu汇集多多买菜原班人员，团队具备超强战斗力；&lt;/li&gt;
+&lt;li&gt;Temu复刻国内主站花式流量玩法，赋能迅速冷启拉新；&lt;/li&gt;
+&lt;li&gt;Temu背靠国内强势供应链，具备供应硬实力；&lt;/li&gt;
+&lt;li&gt;Temu推荐电商模式领先于海外现有搜索电商。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p4_%E6%B5%99%E5%95%86230109.png&#34;
+	width=&#34;826&#34;
+	height=&#34;1169&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p4_%E6%B5%99%E5%95%86230109_hu2ea6ebfb1230f05ad60f9de8de02d891_3435213_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p4_%E6%B5%99%E5%95%86230109_hu2ea6ebfb1230f05ad60f9de8de02d891_3435213_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;浙商证券于2023年1月9日发布的研报&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;70&#34;
+		data-flex-basis=&#34;169px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;hayden-capital2023年1月5日httpshaydencapitalcomwp-contentuploadshayden-capital_pinduoduo-memopdf&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://haydencapital.com/wp-content/uploads/Hayden-Capital_Pinduoduo-Memo.pdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Hayden Capital（2023年1月5日）&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;　　Hayden Capital暂时还没有对Temu项目的表现做出最终评断。然而，他们认为拼多多在Temu项目上的投资时机经过精心策划，体现了管理团队的卓越判断力，因此他们对拼多多的股价前景持乐观态度。在涉及Temu项目的观点方面，Hayden Capital的看法如下：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;拼多多高度重视Temu项目&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;由之前主导多多买菜项目的顾娉娉团队领导Temu项目。&lt;/li&gt;
+&lt;li&gt;拼多多通过高薪（3～5倍薪资）挖SheIn的员工，获得了宝贵的人才资源。&lt;/li&gt;
+&lt;li&gt;预计将在一年内投入约70亿人民币。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;拼多多在Temu项目的择时具备精心计划&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;全球经济下行导致中国工厂有大量的产能富余。&lt;/li&gt;
+&lt;li&gt;美国消费者可支配收入减少，推动消费者寻求更为经济实惠的商品（而Temu定价通常相当于亚马逊的30%~50%）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Temu将受益于拼多多对国内供应商的整合&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;拼多多通过缩短供应链、减少中间商数量等举措，提高了供应商的利润率。此外，他们还推出了适用于工厂操作逻辑的广告营销自动化工具，进一步增强了供应商的利润潜力。在此期间，拼多多与供应商之间建立的信任将在其未来拓展海外业务时构筑壁垒。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;海外扩张过程中流量是Temu的主要挑战&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;因失去与微信的合作，Temu难以在海外实现像拼多多国内那样迅速的增长。&lt;/li&gt;
+&lt;li&gt;与Temu直接竞争的TikTok是海外最大的流量来源之一，这直接削弱了Temu获取流量的渠道。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;招商证券2022年11月10日&#34;&gt;招商证券（2022年11月10日）&lt;/h3&gt;
+&lt;p&gt;　　Temu在海外的竞争中具备两方面优势可能帮助其取得成功：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;其在国内业务中积累了非常成熟的&lt;strong&gt;低价优质供应商资源&lt;/strong&gt;及&lt;strong&gt;运营能力&lt;/strong&gt;；&lt;/li&gt;
+&lt;li&gt;其在开展国外业务时充分借鉴了前人经验。比如其回避了Wish的平台模式而采用自营模式，确保了商品质量和用户体验。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;　　招商证券认为，Temu前期每年约50亿元的亏损不足以对其母公司整体利润（2022年315亿元）造成影响。而后期Temu大概率会开展商业模式（从自营转为平台）和品类结构（从低单价转为高单价）的转型，以获得更大的利润空间。&lt;/p&gt;
+&lt;p&gt;　　招商证券对Temu母公司拼多多的股票给出了“强烈推荐”的评级。基于3年的利润预估（同比增速115%、39%、30%），招商证券认为其股价有望从59美元增长至92美元（以20221109股价为参考）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p3_%E6%8B%9B%E5%95%86221110.png&#34;
+	width=&#34;826&#34;
+	height=&#34;1169&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p3_%E6%8B%9B%E5%95%86221110_hua7c75fd684772959e0cb7fb34922d6e5_4559604_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p3_%E6%8B%9B%E5%95%86221110_hua7c75fd684772959e0cb7fb34922d6e5_4559604_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;招商证券于2022年11月10日发布的研报&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;70&#34;
+		data-flex-basis=&#34;169px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;浙商证券2022年9月28日&#34;&gt;浙商证券（2022年9月28日）&lt;/h3&gt;
+&lt;p&gt;　　Temu在&lt;strong&gt;需求背景&lt;/strong&gt;、&lt;strong&gt;组织能力&lt;/strong&gt;和&lt;strong&gt;商业模式&lt;/strong&gt;上具有优势，同时也面临物流成本高昂、流量成本攀升、电商巨头竞争等挑战。其发展值得看好，能否成功还需观察其业务开展后的实际表现。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;需求背景：世界经济下行，人均购买力下降。Temu切入的低价赛道增长势头好&lt;/li&gt;
+&lt;li&gt;组织能力：Temu团队以多多买菜为主体搭建，有望复制多多买菜的运营能力及成功经验&lt;/li&gt;
+&lt;li&gt;商业模式：借鉴了Wish的前车之鉴，在商家入驻和选品上强把关，提升用户体验&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p2_%E6%B5%99%E5%95%86220928.png&#34;
+	width=&#34;832&#34;
+	height=&#34;460&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p2_%E6%B5%99%E5%95%86220928_hufe9ff07126fcbd4ebb14bed14d1b333c_277513_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p2_%E6%B5%99%E5%95%86220928_hufe9ff07126fcbd4ebb14bed14d1b333c_277513_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;浙商证券于2022年9月28日发布的研报&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;180&#34;
+		data-flex-basis=&#34;434px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;美国民众对temu的看法&#34;&gt;美国民众对Temu的看法&lt;/h2&gt;
+&lt;p&gt;　　我们在美国社交论坛Reddit搜集了关键词“Temu”搜索结果中点赞评论量最多的帖子中用户讨论的要点。从中我们总结出美国民众对Temu的以下看法：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;对Temu低价的顾虑&lt;/strong&gt;。点赞量较高的讨论中，意见领袖认为低价会伴随着某些对应的代价，这些代价包括：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;不道德（Ethical）的劳工关系&lt;/strong&gt;。有用户指出低价商品往往伴随着对劳工的压榨，同时也有反对声音指出劳工压榨的现象不仅存在于Temu，Temu至少提供了更低的价格；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;个人隐私的泄漏&lt;/strong&gt;。有用户怀疑Temu可能是在用低价商品来换取用户个人信息，而个人信息才是Temu的主要获利手段；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;对产品质量的不抱期望&lt;/strong&gt;。相当多用户认为Temu就是Wish 2.0，甚至更差，虽然Temu已经借鉴Wish的失败，通过自营模式加强了对商品的审核，但用户对此的感知似乎并不强。也有用户表示在Temu的消费“基本值得你付出的钱，一笔订单中一半的商品可能存在质量问题”。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;　　事实上，我们认为Temu目前的低价主要是由母公司的现金流补贴支持的（而非对劳工的压榨）；而且在美国严格的个人信息法规下，通过转卖个人信息获利的风险与回报完全不成正比，也并非Temu拓展海外业务的初衷。但&lt;strong&gt;这些信息无疑反映了美国民众对Temu的不信任，Temu可能需要考虑如何扭转自己的低价定位在用户心目中的印象&lt;/strong&gt;。至于针对产品质量的批评，在Temu追求极致低价的策略下确实可能有较多产品存在质量问题，这也是Temu后期需要投入大量资源去克服的问题，否则很可能重蹈Wish的覆辙。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p5_%E5%8A%B3%E5%B7%A5%E7%A6%8F%E5%88%A9.png&#34;
+	width=&#34;832&#34;
+	height=&#34;216&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p5_%E5%8A%B3%E5%B7%A5%E7%A6%8F%E5%88%A9_hu9ca757986ca607ae366ace3f065fb31e_72008_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p5_%E5%8A%B3%E5%B7%A5%E7%A6%8F%E5%88%A9_hu9ca757986ca607ae366ace3f065fb31e_72008_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;美国用户对Temu劳工福利的担忧&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;385&#34;
+		data-flex-basis=&#34;924px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p6_%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8.png&#34;
+	width=&#34;832&#34;
+	height=&#34;282&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p6_%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8_hu0879e5077e4d1d13371a4bc6f32b0125_74872_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p6_%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8_hu0879e5077e4d1d13371a4bc6f32b0125_74872_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;美国用户对个人信息安全的担忧&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;295&#34;
+		data-flex-basis=&#34;708px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p7_%E4%BA%A7%E5%93%81%E8%B4%A8%E9%87%8F.png&#34;
+	width=&#34;832&#34;
+	height=&#34;462&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p7_%E4%BA%A7%E5%93%81%E8%B4%A8%E9%87%8F_hu633702e0505d50ed32208e7276425c4f_99199_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p7_%E4%BA%A7%E5%93%81%E8%B4%A8%E9%87%8F_hu633702e0505d50ed32208e7276425c4f_99199_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;美国用户对Temu产品质量的预期很低&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;180&#34;
+		data-flex-basis=&#34;432px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p8_wish.png&#34;
+	width=&#34;832&#34;
+	height=&#34;298&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p8_wish_hud87d07220517d500c43a9a6ebd7d4b80_47943_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p8_wish_hud87d07220517d500c43a9a6ebd7d4b80_47943_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;美国用户认为Temu是Wish 2.0&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;279&#34;
+		data-flex-basis=&#34;670px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p13_wish%E8%82%A1%E4%BB%B7.png&#34;
+	width=&#34;832&#34;
+	height=&#34;430&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p13_wish%E8%82%A1%E4%BB%B7_hu60707d31fb57e3d128363fd03363658d_88187_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p13_wish%E8%82%A1%E4%BB%B7_hu60707d31fb57e3d128363fd03363658d_88187_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;过去两年Wish股价随着用户的流失一路下跌&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;193&#34;
+		data-flex-basis=&#34;464px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;&lt;strong&gt;对Temu营销方式的不满&lt;/strong&gt;。点赞量较多的帖子中，美国民众对Temu营销的方案主要体现在两个个方面：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;对Temu洗脑式营销的反感&lt;/strong&gt;。有用户反映Temu提供的产品和服务与其广告语“Shop Like a Billionaire”（向亿万富翁一样购物）严重不符，这些用户认为亿万富翁不会购买如此低价的产品。Temu重金投入的广告效果可能适得其反；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;怀疑Temu是骗局&lt;/strong&gt;。直到2023年6月，“Scam”（骗局）一直是Reddit论坛“Temu”搜索结果中最常的关键词。用户普遍对Temu带来的体验感到迷惑：一方面过低的价格让用户对商品质量和个人隐私产生忧虑，另一方面与广告宣传脱节的使用体验也引起用户不满。再加之很多美国用户已经有过在Wish购物的糟糕体验，许多用户对Temu的出现持警惕态度。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p9_scam.png&#34;
+	width=&#34;832&#34;
+	height=&#34;436&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p9_scam_hud08c6a7ea86172eb8346c3e20b20b62c_163046_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p9_scam_hud08c6a7ea86172eb8346c3e20b20b62c_163046_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;用户不满于Temu大量的垃圾营销信息，认为Temu是个骗局&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;190&#34;
+		data-flex-basis=&#34;457px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;　　Temu目前在美国民众中的印象与拼多多早期在中国时非常相像。拼多多是在微信的熟人社交的加持下，加之重金投入百亿补贴，才逐渐扭转了品牌在消费者心中的糟糕印象。而&lt;strong&gt;Temu脱离了微信的流量，再加之中国互联网企业整体融资困难，未来Temu是否能有能力和财力来扭转其在美国民众心目中的印象还不得而知&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;　　此外，我们发现在美国进行拼多多式的病毒营销并不容易。在本项研究进行的过程中，Reddit已经大量关闭了Temu分享邀请码的Subreddits和帖子，而微信早期对拼多多的病毒式营销分享则是持相对开放态度的。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p10_banned.png&#34;
+	width=&#34;832&#34;
+	height=&#34;360&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p10_banned_hu10d0cd51f483040bba0ec8efe86a30db_57306_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p10_banned_hu10d0cd51f483040bba0ec8efe86a30db_57306_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Reddit已经关闭大量共享Reddit邀请码的帖子&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;231&#34;
+		data-flex-basis=&#34;554px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;综上，我们认为主流研报很可能低估了美国消费者与中国消费者的差异，相较中国消费者，美国消费者会更多的考虑劳工福利及个人隐私，这意味着更高的信任建立成本；同时，美国的互联网环境也与中国大不相同，脱离了微信的流量加持，面临着更强的病毒营销监管，Temu在海外很可能面临着超出管理团队预期的获客成本。&lt;/p&gt;
+&lt;h2 id=&#34;temu团队的上个作品多多买菜&#34;&gt;Temu团队的上个作品：多多买菜&lt;/h2&gt;
+&lt;p&gt;主流研究机构普遍看好多多买菜团队，认为其在短时间内快速占领了相当部分的线上生鲜市场。而民众间的声音则截然不同。
+　　1. 消费者侧，自提点波动过大的提货体验被诟病。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;一方面，自提点自身的素质和硬件设施差异化较大，茶叶店、洗衣店这类平时客流量较小的线下店成为了多多买菜的完美宿主。有用户反映部分自提点没有冰箱。在我们自己测试的订单中，自提点对货物的管理相当混乱，消费者需要花费10分钟以上的时间自行在货物堆中分拣出自己的订单，而这种模式难免将导致较多的订单错配。我们测试的500g阳光玫瑰订单中，500g的水果被分装了成了2盒（各250g），自提时稍有不慎没有检查订单重量即有可能拿错。&lt;/li&gt;
+&lt;li&gt;另一方面，自提点所依赖的店铺发生店铺转让或关店并非小概率事件。一旦出现关店、转让的情况，不仅用户当次的订单会受影响，后续重新与其他自提点建立信任又是个漫长的过程。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p11_%E5%A4%9A%E5%A4%9A%E4%B9%B0%E8%8F%9C.jpg&#34;
+	width=&#34;828&#34;
+	height=&#34;1316&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p11_%E5%A4%9A%E5%A4%9A%E4%B9%B0%E8%8F%9C_hu00179e06dbbaa1bbfcb293208e799479_129759_480x0_resize_q75_box.jpg 480w, https://timsun001.github.io/p/t1/p11_%E5%A4%9A%E5%A4%9A%E4%B9%B0%E8%8F%9C_hu00179e06dbbaa1bbfcb293208e799479_129759_1024x0_resize_q75_box.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;多多买菜自提点分布的相当密集，其中不乏茶叶店这种与生鲜无关的店铺&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;62&#34;
+		data-flex-basis=&#34;151px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;　　2. 供应商侧，有供应商抱怨拼多多的竞价制度，称在此竞争环境下大概率会导致劣币驱逐良币。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://timsun001.github.io/p/t1/p12_%E8%8F%9C%E5%86%9C.png&#34;
+	width=&#34;832&#34;
+	height=&#34;870&#34;
+	srcset=&#34;https://timsun001.github.io/p/t1/p12_%E8%8F%9C%E5%86%9C_hu2b4e53200b38dcca0483663d42fea563_368478_480x0_resize_box_3.png 480w, https://timsun001.github.io/p/t1/p12_%E8%8F%9C%E5%86%9C_hu2b4e53200b38dcca0483663d42fea563_368478_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;失望的多多买菜供应商菜农在知乎的发帖&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;95&#34;
+		data-flex-basis=&#34;229px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;　　综上，我们认为多多买菜在项目启动前期或许确实具备用更小资金撬动更大市场占有率的能力。但作为交换，他们可能会弱化维持用户体验和供应商关系的重要性。而后者是关乎项目能否长期盈利的至关重要因素。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;　　Temu在业务拓展早期交上了亮眼的答卷，但后续能否持续提升用户体验，能否持续与供应商共赢，以及能否顶住海外流量的激烈竞争还尚不可知。仅从目前美国民众的声音及Temu团队的过往经验来看，Temu的未来发展似乎并不乐观。接下来仍需关注Temu在提升用户体验和转变品牌形象上有哪些作为来避免自己滑落成为Wish 2.0。&lt;/p&gt;
 </description>
         </item>
         
