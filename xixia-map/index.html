@@ -1,1331 +1,1327 @@
-     1|<!DOCTYPE html>
-     2|<html lang="zh-CN">
-     3|<head>
-     4|<meta charset="UTF-8">
-     5|<meta name="viewport" content="width=device-width, initial-scale=1.0">
-     6|<title>西夏遗珍 · Western Xia Heritage</title>
-     7|<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='60' height='60' x='20' y='20' rx='0' fill='%238B2500' transform='rotate(45 50 50)'/><rect width='46' height='46' x='27' y='27' rx='0' fill='none' stroke='%23DAA520' stroke-width='2' transform='rotate(45 50 50)'/></svg>">
-     8|<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-     9|<style>
-    10|/* Self-hosted Tangut font — Google Fonts blocked in CN */
-    11|@font-face {
-    12|  font-family: 'Noto Serif Tangut';
-    13|  font-style: normal;
-    14|  font-weight: 400;
-    15|  font-display: swap;
-    16|  src: url('NotoSerifTangut.ttf') format('truetype');
-    17|}
-    18|/* ============================================
-    19|   WESTERN XIA HERITAGE MAP V3 — DESIGN SYSTEM
-    20|   Claude Design principles: type-first hierarchy,
-    21|   intentional color, no faux-texture tropes.
-    22|   ============================================ */
-    23|
-    24|:root {
-    25|  /* Core palette — restrained, each color earns its place */
-    26|  --ink:       #0d0a08;
-    27|  --ink-soft:  #1a1410;
-    28|  --surface:   #f4ede0;
-    29|  --surface-2: #ece3d2;
-    30|  --surface-3: #e5dac4;
-    31|
-    32|  --terracotta:      #8B2500;
-    33|  --terracotta-glow: #a8320a;
-    34|  --terracotta-muted: #c47a5a;
-    35|
-    36|  --gold:       #b88a2e;
-    37|  --gold-bright:#d4a83a;
-    38|  --gold-pale:  #e8d5a0;
-    39|
-    40|  --text:       #1a1008;
-    41|  --text-soft:  #5c4a38;
-    42|  --text-muted: #8c7a68;
-    43|
-    44|  /* Spacing scale */
-    45|  --space-xs: 4px;
-    46|  --space-sm: 8px;
-    47|  --space-md: 16px;
-    48|  --space-lg: 24px;
-    49|  --space-xl: 32px;
-    50|  --space-2xl: 48px;
-    51|
-    52|  /* Typography */
-    53|  --font-display: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
-    54|  --font-body:    'Noto Serif SC', 'Songti SC', 'STSong', serif;
-    55|  --font-en:      'Noto Serif', Georgia, serif;
-    56|  --font-tangut:   'Noto Serif Tangut', serif;
-    57|
-    58|  --leading-tight: 1.2;
-    59|  --leading-body:  1.6;
-    60|
-    61|  /* Radii — squared with slight rounding, avoids pill-shape clichés */
-    62|  --radius: 3px;
-    63|
-    64|  /* Shadows — used sparingly */
-    65|  --shadow-card: 0 1px 3px rgba(0,0,0,0.08);
-    66|  --shadow-elevated: 0 4px 16px rgba(0,0,0,0.12);
-    67|
-    68|  /* Transitions */
-    69|  --ease: 0.25s cubic-bezier(0.4,0,0.2,1);
-    70|  --ease-spring: 0.35s cubic-bezier(0.34,1.56,0.64,1);
-    71|}
-    72|
-    73|* { margin: 0; padding: 0; box-sizing: border-box; }
-    74|
-    75|html, body {
-    76|  height: 100%;
-    77|  overflow: hidden;
-    78|  font-family: var(--font-body);
-    79|  background: var(--ink);
-    80|  color: var(--text);
-    81|  -webkit-font-smoothing: antialiased;
-    82|}
-    83|
-    84|#app {
-    85|  display: flex;
-    86|  height: 100vh;
-    87|}
-    88|
-    89|/* ============================================
-    90|   SIDEBAR — clean, breathing, no faux-aging
-    91|   ============================================ */
-    92|#sidebar {
-    93|  width: 420px;
-    94|  min-width: 420px;
-    95|  display: flex;
-    96|  flex-direction: column;
-    97|  background: var(--surface);
-    98|  border-right: 1px solid var(--surface-3);
-    99|  box-shadow: 4px 0 24px rgba(0,0,0,0.25);
-   100|  position: relative;
-   101|  z-index: 10;
-   102|}
-   103|
-   104|/* ============================================
-   105|   HEADER
-   106|   ============================================ */
-   107|#header {
-   108|  padding: var(--space-xl) var(--space-lg) var(--space-md);
-   109|  text-align: center;
-   110|  border-bottom: 1px solid var(--surface-3);
-   111|  flex-shrink: 0;
-   112|}
-   113|
-   114|/* Diamond seal — preserved but refined */
-   115|.seal {
-   116|  display: inline-block;
-   117|  width: 48px;
-   118|  height: 48px;
-   119|  margin-bottom: var(--space-md);
-   120|  position: relative;
-   121|  transform: rotate(45deg);
-   122|  border: 2.5px solid var(--terracotta);
-   123|  background: transparent;
-   124|}
-   125|.seal::after {
-   126|  content: '𘜶';
-   127|  position: absolute;
-   128|  inset: 0;
-   129|  display: flex;
-   130|  align-items: center;
-   131|  justify-content: center;
-   132|  transform: rotate(-45deg);
-   133|  font-size: 26px;
-   134|  font-weight: 400;
-   135|  color: var(--terracotta);
-   136|  font-family: 'Noto Serif Tangut', serif;
-   137|}
-   138|
-   139|#header h1 {
-   140|  font-size: 28px;
-   141|  font-weight: 900;
-   142|  color: var(--text);
-   143|  letter-spacing: 0.08em;
-   144|  margin-bottom: 4px;
-   145|  font-family: var(--font-tangut), var(--font-display);
-   146|}
-   147|
-   148|#header .subtitle {
-   149|  font-size: 11px;
-   150|  color: var(--text-muted);
-   151|  letter-spacing: 0.08em;
-   152|  text-transform: none;
-   153|  font-weight: 400;
-   154|  font-family: var(--font-tangut), var(--font-en);
-   155|}
-   156|
-   157|#header .dynasty-note {
-   158|  display: block;
-   159|  margin-top: 6px;
-   160|  font-size: 11px;
-   161|  color: var(--terracotta-muted);
-   162|  letter-spacing: 0.08em;
-   163|}
-   164|
-   165|/* ============================================
-   166|   FILTER TABS — simple, clear state
-   167|   ============================================ */
-   168|#filters {
-   169|  display: flex;
-   170|  padding: var(--space-md) var(--space-md);
-   171|  gap: var(--space-sm);
-   172|  border-bottom: 1px solid var(--surface-3);
-   173|  flex-shrink: 0;
-   174|}
-   175|
-   176|.filter-btn {
-   177|  flex: 1;
-   178|  padding: 10px 4px;
-   179|  border: 1px solid var(--surface-3);
-   180|  background: transparent;
-   181|  color: var(--text-soft);
-   182|  cursor: pointer;
-   183|  font-family: var(--font-body);
-   184|  font-size: 13px;
-   185|  font-weight: 500;
-   186|  letter-spacing: 0.05em;
-   187|  border-radius: var(--radius);
-   188|  transition: all var(--ease);
-   189|  text-align: center;
-   190|  line-height: 1.3;
-   191|}
-   192|.filter-btn:hover {
-   193|  border-color: var(--gold);
-   194|  color: var(--text);
-   195|}
-   196|.filter-btn.active {
-   197|  background: var(--terracotta);
-   198|  color: #fff;
-   199|  border-color: var(--terracotta);
-   200|  font-weight: 700;
-   201|}
-   202|.filter-btn .count {
-   203|  display: block;
-   204|  font-size: 10px;
-   205|  opacity: 0.6;
-   206|  font-weight: 400;
-   207|  margin-top: 2px;
-   208|}
-   209|
-   210|/* ============================================
-   211|   SITE LIST — cards with breathing room
-   212|   ============================================ */
-   213|#site-list {
-   214|  flex: 1;
-   215|  overflow-y: auto;
-   216|  padding: var(--space-md) var(--space-md) var(--space-sm);
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>西夏遗珍 · Western Xia Heritage</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='60' height='60' x='20' y='20' rx='0' fill='%238B2500' transform='rotate(45 50 50)'/><rect width='46' height='46' x='27' y='27' rx='0' fill='none' stroke='%23DAA520' stroke-width='2' transform='rotate(45 50 50)'/></svg>">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+/* Self-hosted Tangut font — Google Fonts blocked in CN */
+@font-face {
+  font-family: 'Noto Serif Tangut';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('NotoSerifTangut.ttf') format('truetype');
+}
+/* ============================================
+   WESTERN XIA HERITAGE MAP V3 — DESIGN SYSTEM
+   Claude Design principles: type-first hierarchy,
+   intentional color, no faux-texture tropes.
+   ============================================ */
+
+:root {
+  /* Core palette — restrained, each color earns its place */
+  --ink:       #0d0a08;
+  --ink-soft:  #1a1410;
+  --surface:   #f4ede0;
+  --surface-2: #ece3d2;
+  --surface-3: #e5dac4;
+
+  --terracotta:      #8B2500;
+  --terracotta-glow: #a8320a;
+  --terracotta-muted: #c47a5a;
+
+  --gold:       #b88a2e;
+  --gold-bright:#d4a83a;
+  --gold-pale:  #e8d5a0;
+
+  --text:       #1a1008;
+  --text-soft:  #5c4a38;
+  --text-muted: #8c7a68;
+
+  /* Spacing scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Typography */
+  --font-display: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
+  --font-body:    'Noto Serif SC', 'Songti SC', 'STSong', serif;
+  --font-en:      'Noto Serif', Georgia, serif;
+  --font-tangut:   'Noto Serif Tangut', serif;
+
+  --leading-tight: 1.2;
+  --leading-body:  1.6;
+
+  /* Radii — squared with slight rounding, avoids pill-shape clichés */
+  --radius: 3px;
+
+  /* Shadows — used sparingly */
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-elevated: 0 4px 16px rgba(0,0,0,0.12);
+
+  /* Transitions */
+  --ease: 0.25s cubic-bezier(0.4,0,0.2,1);
+  --ease-spring: 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-body);
+  background: var(--ink);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+}
+
+/* ============================================
+   SIDEBAR — clean, breathing, no faux-aging
+   ============================================ */
+#sidebar {
+  width: 420px;
+  min-width: 420px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-right: 1px solid var(--surface-3);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.25);
+  position: relative;
+  z-index: 10;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+#header {
+  padding: var(--space-xl) var(--space-lg) var(--space-md);
+  text-align: center;
+  border-bottom: 1px solid var(--surface-3);
+  flex-shrink: 0;
+}
+
+/* Diamond seal — preserved but refined */
+.seal {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-md);
+  position: relative;
+  transform: rotate(45deg);
+  border: 2.5px solid var(--terracotta);
+  background: transparent;
+}
+.seal::after {
+  content: '𘜶';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-45deg);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--terracotta);
+  font-family: 'Noto Serif Tangut', serif;
+}
+
+#header h1 {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+  font-family: var(--font-tangut), var(--font-display);
+}
+
+#header .subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: none;
+  font-weight: 400;
+  font-family: var(--font-tangut), var(--font-en);
+}
+
+#header .dynasty-note {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--terracotta-muted);
+  letter-spacing: 0.08em;
+}
+
+/* ============================================
+   FILTER TABS — simple, clear state
+   ============================================ */
+#filters {
+  display: flex;
+  padding: var(--space-md) var(--space-md);
+  gap: var(--space-sm);
+  border-bottom: 1px solid var(--surface-3);
+  flex-shrink: 0;
+}
+
+.filter-btn {
+  flex: 1;
+  padding: 10px 4px;
+  border: 1px solid var(--surface-3);
+  background: transparent;
+  color: var(--text-soft);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius);
+  transition: all var(--ease);
+  text-align: center;
+  line-height: 1.3;
+}
+.filter-btn:hover {
+  border-color: var(--gold);
+  color: var(--text);
+}
+.filter-btn.active {
+  background: var(--terracotta);
+  color: #fff;
+  border-color: var(--terracotta);
+  font-weight: 700;
+}
+.filter-btn .count {
+  display: block;
+  font-size: 10px;
+  opacity: 0.6;
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+/* ============================================
+   SITE LIST — cards with breathing room
+   ============================================ */
+#site-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md) var(--space-md) var(--space-sm);
   scroll-behavior: smooth;
-   219|}
-   220|
-   221|#site-list::-webkit-scrollbar { width: 4px; }
-   222|#site-list::-webkit-scrollbar-track { background: transparent; }
-   223|#site-list::-webkit-scrollbar-thumb {
-   224|  background: var(--surface-3);
-   225|  border-radius: 10px;
-   226|}
-   227|#site-list::-webkit-scrollbar-thumb:hover {
-   228|  background: var(--text-muted);
-   229|}
-   230|
-   231|.site-card {
-   232|  padding: 14px 16px;
-   233|  margin-bottom: 8px;
-   234|  cursor: pointer;
-   235|  border-radius: var(--radius);
-   236|  background: rgba(255,255,255,0.5);
-   237|  border: 1px solid transparent;
-   238|  transition: all var(--ease);
-   239|  position: relative;
-   240|}
-   241|.site-card:hover {
-   242|  background: rgba(255,255,255,0.85);
-   243|  border-color: var(--gold-pale);
-   244|  box-shadow: var(--shadow-card);
-   245|  transform: translateX(2px);
-   246|}
-   247|.site-card.selected {
-   248|  background: rgba(139,37,0,0.05);
-   249|  border-color: var(--terracotta);
-   250|  box-shadow: inset 3px 0 0 var(--terracotta);
-   251|}
-   252|
-   253|.card-header {
-   254|  display: flex;
-   255|  align-items: flex-start;
-   256|  justify-content: space-between;
-   257|  margin-bottom: 4px;
-   258|}
-   259|
-   260|.card-title {
-   261|  font-size: 15px;
-   262|  font-weight: 700;
-   263|  color: var(--text);
-   264|  letter-spacing: 0.02em;
-   265|  line-height: var(--leading-tight);
-   266|}
-   267|
-   268|.card-eng {
-   269|  font-size: 10px;
-   270|  color: var(--text-muted);
-   271|  font-style: italic;
-   272|  letter-spacing: 0.02em;
-   273|  margin-top: 2px;
-   274|  font-family: var(--font-en);
-   275|}
-   276|
-   277|.card-badge {
-   278|  font-size: 10px;
-   279|  padding: 3px 8px;
-   280|  border-radius: var(--radius);
-   281|  letter-spacing: 0.04em;
-   282|  font-weight: 600;
-   283|  white-space: nowrap;
-   284|  margin-left: 8px;
-   285|  flex-shrink: 0;
-   286|}
-   287|.badge-site       { background: rgba(139,37,0,0.1);  color: var(--terracotta); }
-   288|.badge-artifact   { background: rgba(184,138,46,0.12); color: #8b6914; }
-   289|.badge-abroad     { background: rgba(212,168,58,0.18); color: #7a5c14; border: 1px solid var(--gold-pale); }
-   290|
-   291|.card-location {
-   292|  font-size: 11px;
-   293|  color: var(--text-muted);
-   294|  line-height: 1.4;
-   295|}
-   296|
-   297|/* Card entrance animation — subtle */
-   298|@keyframes cardIn {
-   299|  from { opacity: 0; transform: translateY(8px); }
-   300|  to   { opacity: 1; transform: translateY(0); }
-   301|}
-   302|.site-card { animation: cardIn 0.3s var(--ease) both; }
-   303|
-   304|/* ============================================
-   305|   TIMELINE — horizontal scroll, at sidebar bottom
-   306|   ============================================ */
-   307|/* ============================================
-   412|   MAP CONTAINER
-   413|   ============================================ */
-   414|#map-container {
-   415|  flex: 1;
-   416|  position: relative;
-   417|  overflow: hidden;
-   418|}
-   419|
-   420|#map {
-   421|  width: 100%;
-   422|  height: 100%;
-   423|}
-   424|
-   425|/* Subtle vignette — kept for depth on dark tiles */
-   426|#map-vignette {
-   427|  position: absolute;
-   428|  inset: 0;
-   429|  z-index: 1000;
-   430|  pointer-events: none;
-   431|  box-shadow: inset 0 0 100px 50px rgba(13,10,8,0.6);
-   432|}
-   433|
-   434|/* Map overlay title */
-   435|#map-title {
-   436|  position: absolute;
-   437|  top: 20px;
-   438|  left: 50%;
-   439|  transform: translateX(-50%);
-   440|  z-index: 1001;
-   441|  pointer-events: none;
-   442|}
-   443|#map-title .map-label {
-   444|  background: rgba(13,10,8,0.85);
-   445|  color: var(--gold-bright);
-   446|  padding: 8px 20px;
-   447|  font-size: 13px;
-   448|  font-weight: 400;
-   449|  letter-spacing: 0.08em;
-   450|  border: 1px solid rgba(184,138,46,0.3);
-   451|  font-family: var(--font-tangut), var(--font-display);
-   452|  border-radius: var(--radius);
-   453|  text-align: center;
-   454|}
-   455|
-   456|/* ============================================
-   457|   LEGEND — updated with territory
-   458|   ============================================ */
-   459|#legend {
-   460|  position: absolute;
-   461|  bottom: 24px;
-   462|  right: 16px;
-   463|  z-index: 1001;
-   464|  background: rgba(13,10,8,0.88);
-   465|  border: 1px solid rgba(184,138,46,0.2);
-   466|  border-radius: var(--radius);
-   467|  padding: 14px 16px;
-   468|  color: #e5dac4;
-   469|  font-size: 11px;
-   470|  letter-spacing: 0.03em;
-   471|  line-height: 1.8;
-   472|}
-   473|#legend h4 {
-   474|  font-size: 10px;
-   475|  margin-bottom: 8px;
-   476|  color: var(--gold);
-   477|  letter-spacing: 0.2em;
-   478|  text-align: center;
-   479|  font-weight: 600;
-   480|}
-   481|.legend-item {
-   482|  display: flex;
-   483|  align-items: center;
-   484|  gap: 8px;
-   485|}
-   486|.legend-dot {
-   487|  width: 12px;
-   488|  height: 12px;
-   489|  min-width: 12px;
-   490|  border-radius: 2px;
-   491|}
-   492|.legend-dot.site-dot {
-   493|  background: var(--terracotta-glow);
-   494|  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-   495|}
-   496|.legend-dot.artifact-dot {
-   497|  background: var(--gold);
-   498|  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-   499|}
-   500|.legend-dot.abroad-dot {
-   501|  background: var(--gold-bright);
-   502|  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-   503|}
-   504|.legend-territory {
-   505|  display: flex;
-   506|  align-items: center;
-   507|  gap: 8px;
-   508|
-   509|  margin-top: 2px;
-   510|}
-   511|.legend-territory-swatch {
-   512|  width: 12px;
-   513|  height: 12px;
-   514|  min-width: 12px;
-   515|  background: rgba(200,150,46,0.25);
-   516|  border: 1.5px dashed rgba(200,150,46,0.5);
-   517|  border-radius: 1px;
-   518|}
-   519|
-   520|/* ============================================
-   521|   CUSTOM LEAFLET POPUPS — clean, elevated
-   522|   ============================================ */
-   523|.xixia-popup .leaflet-popup-content-wrapper {
-   524|  background: var(--surface);
-   525|  border: 1px solid var(--surface-3);
-   526|  border-radius: var(--radius);
-   527|  box-shadow: 4px 4px 0 rgba(0,0,0,0.2), 0 12px 32px rgba(0,0,0,0.3);
-   528|  padding: 0;
-   529|  font-family: var(--font-body);
-   530|  max-width: 340px;
-   531|}
-   532|.xixia-popup .leaflet-popup-content { margin: 0; padding: 0; }
-   533|.xixia-popup .leaflet-popup-tip {
-   534|  background: var(--surface);
-   535|  box-shadow: none;
-   536|}
-   537|
-   538|.popup-inner { padding: 0; }
-   539|.popup-image {
-   540|  width: 100%;
-   541|  height: 160px;
-   542|  overflow: hidden;
-   543|  border-bottom: 2px solid var(--gold-dark);
-   544|}
-   545|.popup-image img {
-   546|  width: 100%;
-   547|  height: 100%;
-   548|  object-fit: cover;
-   549|  display: block;
-   550|}
-   551|.popup-body {
-   552|  padding: 20px;
-   553|}
-   554|.popup-header {
-   555|  border-bottom: 1px solid var(--surface-3);
-   556|  padding-bottom: 12px;
-   557|  margin-bottom: 12px;
-   558|  display: flex;
-   559|  align-items: flex-start;
-   560|  gap: 12px;
-   561|}
-   562|.popup-icon {
-   563|  width: 38px; height: 38px;
-   564|  min-width: 38px;
-   565|  display: flex;
-   566|  align-items: center;
-   567|  justify-content: center;
-   568|  font-size: 18px;
-   569|  transform: rotate(45deg);
-   570|  border: 2px solid;
-   571|}
-   572|.popup-icon.site-icon     { border-color: var(--terracotta); color: var(--terracotta); }
-   573|.popup-icon.artifact-icon { border-color: #8b6914; color: #8b6914; }
-   574|.popup-icon span { transform: rotate(-45deg); display: block; }
-   575|.popup-title {
-   576|  font-size: 16px;
-   577|  font-weight: 700;
-   578|  color: var(--text);
-   579|  line-height: 1.3;
-   580|}
-   581|.popup-title .en {
-   582|  display: block;
-   583|  font-size: 10px;
-   584|  font-weight: 400;
-   585|  color: var(--text-muted);
-   586|  letter-spacing: 0.02em;
-   587|  margin-top: 3px;
-   588|  font-family: var(--font-en);
-   589|  font-style: italic;
-   590|}
-   591|.popup-meta {
-   592|  display: flex;
-   593|  flex-direction: column;
-   594|  gap: 6px;
-   595|  font-size: 12px;
-   596|}
-   597|.popup-row {
-   598|  display: flex;
-   599|  gap: 8px;
-   600|  line-height: 1.5;
-   601|}
-   602|.popup-label {
-   603|  color: var(--terracotta);
-   604|  font-weight: 700;
-   605|  min-width: 44px;
-   606|  font-size: 11px;
-   607|  letter-spacing: 0.04em;
-   608|}
-   609|.popup-value { color: var(--text); flex: 1; }
-   610|.popup-abroad {
-   611|  margin-top: 10px;
-   612|  padding: 8px 10px;
-   613|  background: rgba(184,138,46,0.1);
-   614|  border-left: 3px solid var(--gold);
-   615|  border-radius: 0 var(--radius) var(--radius) 0;
-   616|  font-size: 11px;
-   617|  color: #7a5c14;
-   618|}
-   619|.popup-note {
-   620|  margin-top: 10px;
-   621|  padding-top: 10px;
-   622|  border-top: 1px dotted var(--surface-3);
-   623|  font-size: 11px;
-   624|  color: var(--text-soft);
-   625|  line-height: 1.7;
-   626|}
-   627|
-   628|/* ============================================
-   629|   MARKER ANIMATIONS — subtle pulse
-   630|   ============================================ */
-   631|@keyframes markerPulse {
-   632|  0%, 100% { filter: drop-shadow(0 0 2px rgba(200,150,46,0.2)); }
-   633|  50%      { filter: drop-shadow(0 0 5px rgba(200,150,46,0.45)); }
-   634|}
-   635|@keyframes markerPulseAbroad {
-   636|  0%, 100% { filter: drop-shadow(0 0 3px rgba(212,168,58,0.3)); }
-   637|  50%      { filter: drop-shadow(0 0 7px rgba(212,168,58,0.6)); }
-   638|}
-   639|.leaflet-marker-icon.custom-marker {
-   640|  animation: markerPulse 3s ease-in-out infinite;
-   641|}
-   642|.leaflet-marker-icon.abroad-marker {
-   643|  animation: markerPulseAbroad 2.5s ease-in-out infinite;
-   644|}
-   645|
-   646|.leaflet-marker-icon.custom-marker:hover {
-   647|  filter: drop-shadow(0 0 8px var(--gold-bright)) !important;
-   648|  transform: scale(1.2);
-   649|  transition: all 0.15s ease;
-   650|  z-index: 10000 !important;
-   651|}
-   652|
-   653|/* ============================================
-   654|   KEYBOARD HINT
-   655|   ============================================ */
-   656|#kbd-hint {
-   657|  position: absolute;
-   658|  bottom: 24px;
-   659|  left: 16px;
-   660|  z-index: 1001;
-   661|  color: rgba(255,255,255,0.25);
-   662|  font-size: 10px;
-   663|  letter-spacing: 0.08em;
-   664|  pointer-events: none;
-   665|}
-   666|#kbd-hint kbd {
-   667|  display: inline-block;
-   668|  padding: 1px 5px;
-   669|  background: rgba(255,255,255,0.08);
-   670|  border-radius: 2px;
-   671|  font-family: inherit;
-   672|  border: 1px solid rgba(255,255,255,0.12);
-   673|  margin: 0 2px;
-   674|}
-   675|
-   676|/* ============================================
-   677|   MOBILE MENU TOGGLE
-   678|   ============================================ */
-   679|#menu-toggle {
-   680|  display: none;
-   681|  position: absolute;
-   682|  top: 12px;
-   683|  left: 12px;
-   684|  z-index: 2000;
-   685|  background: rgba(13,10,8,0.9);
-   686|  border: 1px solid rgba(184,138,46,0.25);
-   687|  color: var(--gold);
-   688|  padding: 8px 12px;
-   689|  font-size: 18px;
-   690|  cursor: pointer;
-   691|  border-radius: var(--radius);
-   692|}
-   693|
-   694|/* ============================================
-   695|   RESPONSIVE
-   696|   ============================================ */
-   697|@media (max-width: 768px) {
-   698|  #app { flex-direction: column; }
-   699|
-   700|  #menu-toggle { display: block; }
-   701|
-   702|  #sidebar {
-   703|    position: fixed;
-   704|    top: 0; left: 0; bottom: 0;
-   705|    width: 85vw;
-   706|    max-width: 360px;
-   707|    min-width: unset;
-   708|    transform: translateX(-100%);
-   709|    transition: transform 0.3s var(--ease);
-   710|    z-index: 1500;
-   711|    box-shadow: 4px 0 32px rgba(0,0,0,0.5);
-   712|  }
-   713|  #sidebar.open { transform: translateX(0); }
-   714|
-   715|  #sidebar-overlay {
-   716|    display: none;
-   717|    position: fixed;
-   718|    inset: 0;
-   719|    background: rgba(0,0,0,0.5);
-   720|    z-index: 1400;
-   721|  }
-   722|  #sidebar-overlay.show { display: block; }
-   723|
-   724|  #map-container {
-   725|    flex: 1;
-   726|    min-height: 100vh;
-   727|  }
-   728|  #map-title { top: 56px; }
-   729|  #legend {
-   730|    bottom: 12px;
-   731|    right: 8px;
-   732|    font-size: 10px;
-   733|    padding: 10px 12px;
-   734|  }
-   735|  #kbd-hint { display: none; }
-   736|   737|   738|}
-   739|
-   740|@media (max-width: 400px) {
-   741|  #sidebar { max-width: 300px; }
-   742|  #legend { display: none; }
-   743|   744|   745|   746|}
-   747|
-   748|/* ============================================
-   749|   LEAFLET OVERRIDES
-   750|   ============================================ */
-   751|.leaflet-control-zoom a {
-   752|  background: rgba(13,10,8,0.85) !important;
-   753|  color: var(--gold) !important;
-   754|  border-color: rgba(184,138,46,0.25) !important;
-   755|  border-radius: var(--radius) !important;
-   756|}
-   757|.leaflet-control-zoom a:hover {
-   758|  background: rgba(26,20,16,0.9) !important;
-   759|}
-   760|.leaflet-control-attribution {
-   761|  background: rgba(13,10,8,0.7) !important;
-   762|  color: rgba(255,255,255,0.35) !important;
-   763|  font-size: 9px !important;
-   764|  padding: 2px 6px !important;
-   765|}
-   766|.leaflet-control-attribution a {
-   767|  color: rgba(255,255,255,0.45) !important;
-   768|}
-   769|</style>
-   770|</head>
-   771|<body>
-   772|
-   773|<!-- Mobile menu toggle -->
-   774|<button id="menu-toggle" aria-label="菜单">☰</button>
-   775|<div id="sidebar-overlay"></div>
-   776|
-   777|<div id="app">
-   778|
-   779|  <!-- ====== SIDEBAR ====== -->
-   780|  <div id="sidebar">
-   781|    <div id="header">
-   782|      <div class="seal"></div>
-   783|      <h1>𘜶 西夏遗珍</h1>
-   784|      <div class="subtitle">𗴂𗹭𘜶𗴲𗂧 · Western Xia</div>
-   785|      <span class="dynasty-note">大夏 · 1038 – 1227</span>
-   786|    </div>
-   787|
-   788|    <div id="filters">
-   789|      <button class="filter-btn active" data-filter="all">
-   790|        全部<span class="count" id="count-all"></span>
-   791|      </button>
-   792|      <button class="filter-btn" data-filter="site">
-   793|        遗址<span class="count" id="count-site"></span>
-   794|      </button>
-   795|      <button class="filter-btn" data-filter="artifact">
-   796|        文物<span class="count" id="count-artifact"></span>
-   797|      </button>
-   798|      <button class="filter-btn" data-filter="abroad">
-   799|        海外<span class="count" id="count-abroad"></span>
-   800|      </button>
-   801|    </div>
-   802|
-   803|    <div id="site-list"></div>
-   804|
+}
+
+#site-list::-webkit-scrollbar { width: 4px; }
+#site-list::-webkit-scrollbar-track { background: transparent; }
+#site-list::-webkit-scrollbar-thumb {
+  background: var(--surface-3);
+  border-radius: 10px;
+}
+#site-list::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+.site-card {
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.5);
+  border: 1px solid transparent;
+  transition: all var(--ease);
+  position: relative;
+}
+.site-card:hover {
+  background: rgba(255,255,255,0.85);
+  border-color: var(--gold-pale);
+  box-shadow: var(--shadow-card);
+  transform: translateX(2px);
+}
+.site-card.selected {
+  background: rgba(139,37,0,0.05);
+  border-color: var(--terracotta);
+  box-shadow: inset 3px 0 0 var(--terracotta);
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  line-height: var(--leading-tight);
+}
+
+.card-eng {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-style: italic;
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+  font-family: var(--font-en);
+}
+
+.card-badge {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: var(--radius);
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+.badge-site       { background: rgba(139,37,0,0.1);  color: var(--terracotta); }
+.badge-artifact   { background: rgba(184,138,46,0.12); color: #8b6914; }
+.badge-abroad     { background: rgba(212,168,58,0.18); color: #7a5c14; border: 1px solid var(--gold-pale); }
+
+.card-location {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Card entrance animation — subtle */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.site-card { animation: cardIn 0.3s var(--ease) both; }
+
+/* ============================================
+   MAP CONTAINER
+   ============================================ */
+#map-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+/* Subtle vignette — kept for depth on dark tiles */
+#map-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  box-shadow: inset 0 0 100px 50px rgba(13,10,8,0.6);
+}
+
+/* Map overlay title */
+#map-title {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  pointer-events: none;
+}
+#map-title .map-label {
+  background: rgba(13,10,8,0.85);
+  color: var(--gold-bright);
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(184,138,46,0.3);
+  font-family: var(--font-tangut), var(--font-display);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+/* ============================================
+   LEGEND — updated with territory
+   ============================================ */
+#legend {
+  position: absolute;
+  bottom: 24px;
+  right: 16px;
+  z-index: 1001;
+  background: rgba(13,10,8,0.88);
+  border: 1px solid rgba(184,138,46,0.2);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  color: #e5dac4;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  line-height: 1.8;
+}
+#legend h4 {
+  font-size: 10px;
+  margin-bottom: 8px;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  text-align: center;
+  font-weight: 600;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  border-radius: 2px;
+}
+.legend-dot.site-dot {
+  background: var(--terracotta-glow);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+.legend-dot.artifact-dot {
+  background: var(--gold);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+.legend-dot.abroad-dot {
+  background: var(--gold-bright);
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+.legend-territory {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 2px;
+}
+.legend-territory-swatch {
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  background: rgba(200,150,46,0.25);
+  border: 1.5px dashed rgba(200,150,46,0.5);
+  border-radius: 1px;
+}
+
+/* ============================================
+   CUSTOM LEAFLET POPUPS — clean, elevated
+   ============================================ */
+.xixia-popup .leaflet-popup-content-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--surface-3);
+  border-radius: var(--radius);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.2), 0 12px 32px rgba(0,0,0,0.3);
+  padding: 0;
+  font-family: var(--font-body);
+  max-width: 340px;
+}
+.xixia-popup .leaflet-popup-content { margin: 0; padding: 0; }
+.xixia-popup .leaflet-popup-tip {
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.popup-inner { padding: 0; }
+.popup-image {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  border-bottom: 2px solid var(--gold-dark);
+}
+.popup-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.popup-body {
+  padding: 20px;
+}
+.popup-header {
+  border-bottom: 1px solid var(--surface-3);
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.popup-icon {
+  width: 38px; height: 38px;
+  min-width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transform: rotate(45deg);
+  border: 2px solid;
+}
+.popup-icon.site-icon     { border-color: var(--terracotta); color: var(--terracotta); }
+.popup-icon.artifact-icon { border-color: #8b6914; color: #8b6914; }
+.popup-icon span { transform: rotate(-45deg); display: block; }
+.popup-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+.popup-title .en {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  margin-top: 3px;
+  font-family: var(--font-en);
+  font-style: italic;
+}
+.popup-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+}
+.popup-row {
+  display: flex;
+  gap: 8px;
+  line-height: 1.5;
+}
+.popup-label {
+  color: var(--terracotta);
+  font-weight: 700;
+  min-width: 44px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+.popup-value { color: var(--text); flex: 1; }
+.popup-abroad {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: rgba(184,138,46,0.1);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 11px;
+  color: #7a5c14;
+}
+.popup-note {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dotted var(--surface-3);
+  font-size: 11px;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+/* ============================================
+   MARKER ANIMATIONS — subtle pulse
+   ============================================ */
+@keyframes markerPulse {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(200,150,46,0.2)); }
+  50%      { filter: drop-shadow(0 0 5px rgba(200,150,46,0.45)); }
+}
+@keyframes markerPulseAbroad {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(212,168,58,0.3)); }
+  50%      { filter: drop-shadow(0 0 7px rgba(212,168,58,0.6)); }
+}
+.leaflet-marker-icon.custom-marker {
+  animation: markerPulse 3s ease-in-out infinite;
+}
+.leaflet-marker-icon.abroad-marker {
+  animation: markerPulseAbroad 2.5s ease-in-out infinite;
+}
+
+.leaflet-marker-icon.custom-marker:hover {
+  filter: drop-shadow(0 0 8px var(--gold-bright)) !important;
+  transform: scale(1.2);
+  transition: all 0.15s ease;
+  z-index: 10000 !important;
+}
+
+/* ============================================
+   KEYBOARD HINT
+   ============================================ */
+#kbd-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 16px;
+  z-index: 1001;
+  color: rgba(255,255,255,0.25);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+#kbd-hint kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  font-family: inherit;
+  border: 1px solid rgba(255,255,255,0.12);
+  margin: 0 2px;
+}
+
+/* ============================================
+   MOBILE MENU TOGGLE
+   ============================================ */
+#menu-toggle {
+  display: none;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2000;
+  background: rgba(13,10,8,0.9);
+  border: 1px solid rgba(184,138,46,0.25);
+  color: var(--gold);
+  padding: 8px 12px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  #app { flex-direction: column; }
+
+  #menu-toggle { display: block; }
+
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 85vw;
+    max-width: 360px;
+    min-width: unset;
+    transform: translateX(-100%);
+    transition: transform 0.3s var(--ease);
+    z-index: 1500;
+    box-shadow: 4px 0 32px rgba(0,0,0,0.5);
+  }
+  #sidebar.open { transform: translateX(0); }
+
+  #sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1400;
+  }
+  #sidebar-overlay.show { display: block; }
+
+  #map-container {
+    flex: 1;
+    min-height: 100vh;
+  }
+  #map-title { top: 56px; }
+  #legend {
+    bottom: 12px;
+    right: 8px;
+    font-size: 10px;
+    padding: 10px 12px;
+  }
+  #kbd-hint { display: none; }
+}
+
+@media (max-width: 400px) {
+  #sidebar { max-width: 300px; }
+  #legend { display: none; }
+}
+
+/* ============================================
+   LEAFLET OVERRIDES
+   ============================================ */
+.leaflet-control-zoom a {
+  background: rgba(13,10,8,0.85) !important;
+  color: var(--gold) !important;
+  border-color: rgba(184,138,46,0.25) !important;
+  border-radius: var(--radius) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: rgba(26,20,16,0.9) !important;
+}
+.leaflet-control-attribution {
+  background: rgba(13,10,8,0.7) !important;
+  color: rgba(255,255,255,0.35) !important;
+  font-size: 9px !important;
+  padding: 2px 6px !important;
+}
+.leaflet-control-attribution a {
+  color: rgba(255,255,255,0.45) !important;
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile menu toggle -->
+<button id="menu-toggle" aria-label="菜单">☰</button>
+<div id="sidebar-overlay"></div>
+
+<div id="app">
+
+  <!-- ====== SIDEBAR ====== -->
+  <div id="sidebar">
+    <div id="header">
+      <div class="seal"></div>
+      <h1>𘜶 西夏遗珍</h1>
+      <div class="subtitle">𗴂𗹭𘜶𗴲𗂧 · Western Xia</div>
+      <span class="dynasty-note">大夏 · 1038 – 1227</span>
+    </div>
+
+    <div id="filters">
+      <button class="filter-btn active" data-filter="all">
+        全部<span class="count" id="count-all"></span>
+      </button>
+      <button class="filter-btn" data-filter="site">
+        遗址<span class="count" id="count-site"></span>
+      </button>
+      <button class="filter-btn" data-filter="artifact">
+        文物<span class="count" id="count-artifact"></span>
+      </button>
+      <button class="filter-btn" data-filter="abroad">
+        海外<span class="count" id="count-abroad"></span>
+      </button>
+    </div>
+
+    <div id="site-list"></div>
+
   </div>
-   811|
-   812|  <!-- ====== MAP ====== -->
-   813|  <div id="map-container">
-   814|    <div id="map-title"><span class="map-label">𘜶 疆域</span></div>
-   815|    <div id="map"></div>
-   816|    <div id="map-vignette"></div>
-   817|    <div id="legend">
-   818|      <h4>图 例</h4>
-   819|      <div class="legend-item"><span class="legend-dot site-dot"></span> 历史遗址</div>
-   820|      <div class="legend-item"><span class="legend-dot artifact-dot"></span> 馆藏文物</div>
-   821|      <div class="legend-item"><span class="legend-dot abroad-dot"></span> 海外藏品</div>
-   822|      <div class="legend-territory"><span class="legend-territory-swatch"></span> 西夏疆域</div>
-   823|    </div>
-   824|    <div id="kbd-hint">
-   825|      <kbd>Esc</kbd> 重置视图 · 点击列表或标记探索
-   826|    </div>
-   827|  </div>
-   828|
-   829|</div>
-   830|
-   831|<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-   832|<script>
-   833|// ===== WESTERN XIA DATA =====
-   834|const sites = [
-   835|  {
-   836|    id: 'tombs', name: '西夏王陵', nameEn: 'Western Xia Imperial Tombs',
-   837|    type: 'site', category: '遗址群', lat: 38.435, lng: 105.987,
-   838|    location: '宁夏银川市西郊贺兰山东麓',
-   839|    museum: '原址 / 西夏王陵博物馆 (银川)',
-   840|    note: '现存9座帝陵、253座陪葬墓，被誉为"东方金字塔"。陵区面积约50平方公里，是中国现存规模最大、地面遗迹保存最完整的帝王陵园之一。',
-   841|    image: 'images/tombs.jpg',
-   842|    abroad: false
-   843|  },
-   844|  {
-   845|    id: 'khara-khoto', name: '黑水城遗址', nameEn: 'Khara-Khoto (Heicheng)',
-   846|    type: 'site', category: '古城遗址', lat: 41.76, lng: 101.15,
-   847|    location: '内蒙古额济纳旗达来呼布镇东南25公里',
-   848|    museum: '原址 / 出土文献藏于俄罗斯圣彼得堡东方文献研究所',
-   849|    note: '西夏黑水镇燕军司驻地，1226年被蒙古军攻破。1908-1909年俄国探险家科兹洛夫在此发掘出大量西夏文文献、佛像、绘画等珍贵文物。',
-   850|    image: 'images/khara-khoto.jpg',
-   851|    abroad: false
-   852|  },
-   853|  {
-   854|    id: 'xingqing', name: '兴庆府遗址', nameEn: 'Xingqing Prefecture (Capital)',
-   855|    type: 'site', category: '都城遗址', lat: 38.47, lng: 106.27,
-   856|    location: '宁夏银川市兴庆区',
-   857|    museum: '原址（现银川老城区）',
-   858|    note: '西夏国都，1038年李元昊在此称帝建国。城垣周长约18里，现仅存部分城墙遗迹和中山公园内的西夏避暑宫遗址。',
-   859|    image: 'images/xingqing-xixia-tombs.jpg',
-   860|    abroad: false
-   861|  },
-   862|  {
-   863|    id: 'baisikou', name: '拜寺口双塔', nameEn: 'Baisikou Twin Pagodas',
-   864|    type: 'site', category: '佛塔', lat: 38.72, lng: 105.98,
-   865|    location: '宁夏银川市贺兰县贺兰山拜寺口',
-   866|    museum: '原址（全国重点文物保护单位）',
-   867|    note: '东西两座八角形密檐式砖塔，始建于西夏时期，是贺兰山现存最完整的西夏佛塔建筑。塔身有精美影塑和彩绘。',
-   868|    image: 'images/baisikou.jpg',
-   869|    abroad: false
-   870|  },
-   871|  {
-   872|    id: 'chengtian', name: '承天寺塔', nameEn: 'Chengtian Temple Pagoda',
-   873|    type: 'site', category: '佛塔', lat: 38.46, lng: 106.27,
-   874|    location: '宁夏银川市兴庆区进宁南街',
-   875|    museum: '原址（宁夏博物馆旁）',
-   876|    note: '俗称"西塔"，始建于西夏毅宗天祐垂圣元年（1050年），为八角形11层楼阁式砖塔，高64.5米，是银川现存最高的古建筑。',
-   877|    image: 'images/chengtian.jpg',
-   878|    abroad: false
-   879|  },
-   880|  {
-   881|    id: '108pagodas', name: '一百零八塔', nameEn: '108 Pagodas',
-   882|    type: 'site', category: '塔群', lat: 37.88, lng: 105.98,
-   883|    location: '宁夏青铜峡市峡口山黄河西岸',
-   884|    museum: '原址（全国重点文物保护单位）',
-   885|    note: '依山势分12层阶梯排列的108座覆钵式实心砖塔，是中国现存规模最大的喇嘛式塔群。始建于西夏，体现藏传佛教在西夏的影响。',
-   886|    image: 'images/108pagodas.jpg',
-   887|    abroad: false
-   888|  },
-   889|  {
-   890|    id: 'hongfo', name: '宏佛塔', nameEn: 'Hongfo Pagoda',
-   891|    type: 'site', category: '佛塔', lat: 38.55, lng: 106.34,
-   892|    location: '宁夏贺兰县潘昶乡',
-   893|    museum: '原址（出土文物藏宁夏博物馆）',
-   894|    note: '西夏晚期建造的复合式砖塔，1990年维修时在天宫中出土大量西夏文物，包括彩绘绢质佛画、木雕、西夏文木简等。',
-   895|    image: 'images/hongfo.jpg',
-   896|    abroad: false
-   897|  },
-   898|  {
-   899|    id: 'dunhuang-xixia', name: '敦煌莫高窟·西夏窟', nameEn: 'Mogao Caves (W. Xia Grottoes)',
-   900|    type: 'site', category: '石窟寺', lat: 40.04, lng: 94.80,
-   901|    location: '甘肃省敦煌市莫高窟',
-   902|    museum: '原址（世界文化遗产）',
-   903|    note: '莫高窟中西夏时期开凿和重修的洞窟约80余个，西夏壁画融合汉藏风格，藻井图案独具特色，绿底团花、龙凤纹饰极富装饰性。',
-   904|    image: 'images/dunhuang-xixia.jpg',
-   905|    abroad: false
-   906|  },
-   907|  {
-   908|    id: 'zhangye', name: '张掖大佛寺', nameEn: 'Zhangye Giant Buddha Temple',
-   909|    type: 'site', category: '寺院', lat: 38.93, lng: 100.45,
-   910|    location: '甘肃省张掖市甘州区',
-   911|    museum: '原址（全国重点文物保护单位）',
-   912|    note: '始建于西夏崇宗永安元年（1098年），寺内卧佛身长34.5米，为中国现存最大的室内卧佛。是西夏皇家寺院的重要遗存。',
-   913|    image: 'images/zhangye.jpg',
-   914|    abroad: false
-   915|  },
-   916|  {
-   917|    id: 'liangzhou-stele', name: '凉州护国寺感应塔碑', nameEn: 'Liangzhou Stele',
-   918|    type: 'site', category: '碑刻', lat: 37.93, lng: 102.64,
-   919|    location: '甘肃省武威市',
-   920|    museum: '原址（武威西夏博物馆）',
-   921|    note: '又名"西夏碑"，刻于西夏崇宗天祐民安五年（1094年），正面西夏文、背面汉文，是研究西夏文字和社会历史的关键实物资料。',
-   922|    image: 'images/liangzhou-stele.jpg',
-   923|    abroad: false
-   924|  },
-   925|  // ARTIFACTS
-   926|  {
-   927|    id: 'bronze-ox', name: '西夏鎏金铜牛', nameEn: 'Gilt Bronze Ox',
-   928|    type: 'artifact', category: '青铜器', lat: 38.47, lng: 106.27,
-   929|    location: '出土于西夏王陵M177陪葬墓',
-   930|    museum: '宁夏博物馆 · 宁夏银川',
-   931|    note: '长120厘米、宽38厘米、高45厘米，重188公斤，通体鎏金，造型写实、工艺精湛，是西夏青铜铸造艺术的巅峰之作，国家一级文物。',
-   932|    image: 'images/bronze-ox.jpg',
-   933|    abroad: false
-   934|  },
-   935|  {
-   936|    id: 'khara-manuscripts', name: '黑水城唐古特文书', nameEn: 'Khara-Khoto Tangut Manuscripts',
-   937|    type: 'artifact', category: '文献', lat: 59.94, lng: 30.31,
-   938|    location: '出土于黑水城（内蒙古额济纳旗）',
-   939|    museum: '俄罗斯科学院东方文献研究所 · 圣彼得堡 🇷🇺',
-   940|    note: '科兹洛夫1908-1909年从黑水城运走的西夏文文献约8000余件，涵盖佛经、字典、法律文书、医书、诗歌等，是世界上最大的西夏文献收藏。',
-   941|    image: 'images/khara-manuscripts.jpg',
-   942|    abroad: true
-   943|  },
-   944|  {
-   945|    id: 'hermitage-murals', name: '西夏壁画残片', nameEn: 'W. Xia Mural Fragments',
-   946|    type: 'artifact', category: '壁画', lat: 59.94, lng: 30.315,
-   947|    location: '出土于黑水城佛塔',
-   948|    museum: '艾尔米塔什博物馆（冬宫）· 圣彼得堡 🇷🇺',
-   949|    note: '科兹洛夫从黑水城佛塔中剥离运走的西夏佛教壁画、麻布画和绢画，融合汉、藏、回鹘艺术风格，色彩至今鲜艳。',
-   950|    image: 'images/hermitage-murals.jpg',
-   951|    abroad: true
-   952|  },
-   953|  {
-   954|    id: 'tangut-art-of-war', name: '西夏文《孙子兵法》残卷', nameEn: 'Tangut "Art of War" Fragments',
-   955|    type: 'artifact', category: '文献', lat: 59.94, lng: 30.31,
-   956|    location: '出土于黑水城',
-   957|    museum: '俄罗斯科学院东方文献研究所 · 圣彼得堡 🇷🇺',
-   958|    note: '西夏文译本的《孙子兵法》残卷，证明中原兵家经典在西夏的深度传播。西夏文译本保留了独特的军事术语翻译。',
-   959|    image: 'images/tangut-art-of-war.jpg',
-   960|    abroad: true
-   961|  },
-   962|  {
-   963|    id: 'british-coins', name: '西夏铜钱', nameEn: 'Western Xia Coins',
-   964|    type: 'artifact', category: '钱币', lat: 51.519, lng: -0.127,
-   965|    location: '出土于甘肃、宁夏、内蒙古等地',
-   966|    museum: '大英博物馆 · 伦敦 🇬🇧 + 宁夏博物馆等',
-   967|    note: '西夏铸造的汉文和西夏文钱币，包括"天授通宝""大安通宝""乾祐元宝"等，部分为大英博物馆斯坦因收藏。',
-   968|    image: 'images/british-coins.jpg',
-   969|    abroad: true
-   970|  },
-   971|  {
-   972|    id: 'guimet-stele', name: '西夏文石碑拓片', nameEn: 'Tangut Stele Rubbings',
-   973|    type: 'artifact', category: '金石', lat: 48.865, lng: 2.294,
-   974|    location: '来源不明（可能为甘肃、宁夏地区）',
-   975|    museum: '吉美博物馆 · 巴黎 🇫🇷',
-   976|    note: '法国汉学家伯希和（Paul Pelliot）1908年从中国西北考察时收集，包含部分西夏文碑刻拓片和手稿残片。',
-   977|    image: 'images/guimet-stele.jpg',
-   978|    abroad: true
-   979|  },
-   980|  {
-   981|    id: 'ningxia-museum-artifacts', name: '西夏文大藏经残页', nameEn: 'Tangut Buddhist Canon Pages',
-   982|    type: 'artifact', category: '文献', lat: 38.47, lng: 106.27,
-   983|    location: '出土于宏佛塔、拜寺口等地',
-   984|    museum: '宁夏博物馆 · 银川 + 中国国家图书馆 · 北京',
-   985|    note: '西夏时期大量翻译和刊印汉文大藏经为西夏文，使用活字印刷技术。宏佛塔天宫中发现的西夏文佛经是重要见证。',
-   986|    image: 'images/tangut-buddhist-canon.jpg',
-   987|    abroad: false
-   988|  },
-   989|  {
-   990|    id: 'ceramics', name: '西夏剔刻花瓷', nameEn: 'W. Xia Sgraffito Ceramics',
-   991|    type: 'artifact', category: '陶瓷', lat: 38.47, lng: 106.27,
-   992|    location: '出土于灵武窑址、西夏王陵等地',
-   993|    museum: '宁夏博物馆 · 银川 + 大英博物馆 · 伦敦 🇬🇧',
-   994|    note: '西夏瓷器以黑釉剔刻花为特色，纹饰粗犷豪放。灵武磁窑堡窑址是西夏最大的瓷器生产基地，部分精品流失海外。',
-   995|    image: 'images/tangut-ceramics-vase.jpg',
-   996|    abroad: true
-   997|  },
-   998|  {
-   999|    id: 'gold-buddha', name: '西夏鎏金佛像', nameEn: 'Gilt Buddha Statues',
-  1000|    type: 'artifact', category: '佛教造像', lat: 38.47, lng: 106.27,
-  1001|    location: '出土于宏佛塔天宫',
-  1002|    museum: '宁夏博物馆 · 银川',
-  1003|    note: '宏佛塔天宫出土多尊西夏鎏金铜佛像，包括释迦牟尼、观音、韦陀等，造型融合汉藏风格，工艺精细。',
-  1004|    image: 'images/gold_buddha_bronze.jpg',
-  1005|    abroad: false
-  1006|  },
-  1007|  {
-  1008|    id: 'textile', name: '西夏绢画与丝织品', nameEn: 'Tangut Silk Paintings & Textiles',
-  1009|    type: 'artifact', category: '纺织品', lat: 59.94, lng: 30.315,
-  1010|    location: '出土于黑水城佛塔',
-  1011|    museum: '艾尔米塔什博物馆 · 圣彼得堡 🇷🇺',
-  1012|    note: '黑水城出土的西夏绢质佛画色彩绚丽，采用天然矿物颜料，保存完好。包括《阿弥陀佛来迎图》《炽盛光佛图》等珍品。',
-  1013|    image: 'images/textile_tejaprabha.jpg',
-  1014|    abroad: true
-  1015|  }
-  1016|];
-  1017|
-  1018|
+
+  <!-- ====== MAP ====== -->
+  <div id="map-container">
+    <div id="map-title"><span class="map-label">𘜶 疆域</span></div>
+    <div id="map"></div>
+    <div id="map-vignette"></div>
+    <div id="legend">
+      <h4>图 例</h4>
+      <div class="legend-item"><span class="legend-dot site-dot"></span> 历史遗址</div>
+      <div class="legend-item"><span class="legend-dot artifact-dot"></span> 馆藏文物</div>
+      <div class="legend-item"><span class="legend-dot abroad-dot"></span> 海外藏品</div>
+      <div class="legend-territory"><span class="legend-territory-swatch"></span> 西夏疆域</div>
+    </div>
+    <div id="kbd-hint">
+      <kbd>Esc</kbd> 重置视图 · 点击列表或标记探索
+    </div>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ===== WESTERN XIA DATA =====
+const sites = [
+  {
+    id: 'tombs', name: '西夏王陵', nameEn: 'Western Xia Imperial Tombs',
+    type: 'site', category: '遗址群', lat: 38.435, lng: 105.987,
+    location: '宁夏银川市西郊贺兰山东麓',
+    museum: '原址 / 西夏王陵博物馆 (银川)',
+    note: '现存9座帝陵、253座陪葬墓，被誉为"东方金字塔"。陵区面积约50平方公里，是中国现存规模最大、地面遗迹保存最完整的帝王陵园之一。',
+    image: 'images/tombs.jpg',
+    abroad: false
+  },
+  {
+    id: 'khara-khoto', name: '黑水城遗址', nameEn: 'Khara-Khoto (Heicheng)',
+    type: 'site', category: '古城遗址', lat: 41.76, lng: 101.15,
+    location: '内蒙古额济纳旗达来呼布镇东南25公里',
+    museum: '原址 / 出土文献藏于俄罗斯圣彼得堡东方文献研究所',
+    note: '西夏黑水镇燕军司驻地，1226年被蒙古军攻破。1908-1909年俄国探险家科兹洛夫在此发掘出大量西夏文文献、佛像、绘画等珍贵文物。',
+    image: 'images/khara-khoto.jpg',
+    abroad: false
+  },
+  {
+    id: 'xingqing', name: '兴庆府遗址', nameEn: 'Xingqing Prefecture (Capital)',
+    type: 'site', category: '都城遗址', lat: 38.47, lng: 106.27,
+    location: '宁夏银川市兴庆区',
+    museum: '原址（现银川老城区）',
+    note: '西夏国都，1038年李元昊在此称帝建国。城垣周长约18里，现仅存部分城墙遗迹和中山公园内的西夏避暑宫遗址。',
+    image: 'images/xingqing-xixia-tombs.jpg',
+    abroad: false
+  },
+  {
+    id: 'baisikou', name: '拜寺口双塔', nameEn: 'Baisikou Twin Pagodas',
+    type: 'site', category: '佛塔', lat: 38.72, lng: 105.98,
+    location: '宁夏银川市贺兰县贺兰山拜寺口',
+    museum: '原址（全国重点文物保护单位）',
+    note: '东西两座八角形密檐式砖塔，始建于西夏时期，是贺兰山现存最完整的西夏佛塔建筑。塔身有精美影塑和彩绘。',
+    image: 'images/baisikou.jpg',
+    abroad: false
+  },
+  {
+    id: 'chengtian', name: '承天寺塔', nameEn: 'Chengtian Temple Pagoda',
+    type: 'site', category: '佛塔', lat: 38.46, lng: 106.27,
+    location: '宁夏银川市兴庆区进宁南街',
+    museum: '原址（宁夏博物馆旁）',
+    note: '俗称"西塔"，始建于西夏毅宗天祐垂圣元年（1050年），为八角形11层楼阁式砖塔，高64.5米，是银川现存最高的古建筑。',
+    image: 'images/chengtian.jpg',
+    abroad: false
+  },
+  {
+    id: '108pagodas', name: '一百零八塔', nameEn: '108 Pagodas',
+    type: 'site', category: '塔群', lat: 37.88, lng: 105.98,
+    location: '宁夏青铜峡市峡口山黄河西岸',
+    museum: '原址（全国重点文物保护单位）',
+    note: '依山势分12层阶梯排列的108座覆钵式实心砖塔，是中国现存规模最大的喇嘛式塔群。始建于西夏，体现藏传佛教在西夏的影响。',
+    image: 'images/108pagodas.jpg',
+    abroad: false
+  },
+  {
+    id: 'hongfo', name: '宏佛塔', nameEn: 'Hongfo Pagoda',
+    type: 'site', category: '佛塔', lat: 38.55, lng: 106.34,
+    location: '宁夏贺兰县潘昶乡',
+    museum: '原址（出土文物藏宁夏博物馆）',
+    note: '西夏晚期建造的复合式砖塔，1990年维修时在天宫中出土大量西夏文物，包括彩绘绢质佛画、木雕、西夏文木简等。',
+    image: 'images/hongfo.jpg',
+    abroad: false
+  },
+  {
+    id: 'dunhuang-xixia', name: '敦煌莫高窟·西夏窟', nameEn: 'Mogao Caves (W. Xia Grottoes)',
+    type: 'site', category: '石窟寺', lat: 40.04, lng: 94.80,
+    location: '甘肃省敦煌市莫高窟',
+    museum: '原址（世界文化遗产）',
+    note: '莫高窟中西夏时期开凿和重修的洞窟约80余个，西夏壁画融合汉藏风格，藻井图案独具特色，绿底团花、龙凤纹饰极富装饰性。',
+    image: 'images/dunhuang-xixia.jpg',
+    abroad: false
+  },
+  {
+    id: 'zhangye', name: '张掖大佛寺', nameEn: 'Zhangye Giant Buddha Temple',
+    type: 'site', category: '寺院', lat: 38.93, lng: 100.45,
+    location: '甘肃省张掖市甘州区',
+    museum: '原址（全国重点文物保护单位）',
+    note: '始建于西夏崇宗永安元年（1098年），寺内卧佛身长34.5米，为中国现存最大的室内卧佛。是西夏皇家寺院的重要遗存。',
+    image: 'images/zhangye.jpg',
+    abroad: false
+  },
+  {
+    id: 'liangzhou-stele', name: '凉州护国寺感应塔碑', nameEn: 'Liangzhou Stele',
+    type: 'site', category: '碑刻', lat: 37.93, lng: 102.64,
+    location: '甘肃省武威市',
+    museum: '原址（武威西夏博物馆）',
+    note: '又名"西夏碑"，刻于西夏崇宗天祐民安五年（1094年），正面西夏文、背面汉文，是研究西夏文字和社会历史的关键实物资料。',
+    image: 'images/liangzhou-stele.jpg',
+    abroad: false
+  },
+  // ARTIFACTS
+  {
+    id: 'bronze-ox', name: '西夏鎏金铜牛', nameEn: 'Gilt Bronze Ox',
+    type: 'artifact', category: '青铜器', lat: 38.47, lng: 106.27,
+    location: '出土于西夏王陵M177陪葬墓',
+    museum: '宁夏博物馆 · 宁夏银川',
+    note: '长120厘米、宽38厘米、高45厘米，重188公斤，通体鎏金，造型写实、工艺精湛，是西夏青铜铸造艺术的巅峰之作，国家一级文物。',
+    image: 'images/bronze-ox.jpg',
+    abroad: false
+  },
+  {
+    id: 'khara-manuscripts', name: '黑水城唐古特文书', nameEn: 'Khara-Khoto Tangut Manuscripts',
+    type: 'artifact', category: '文献', lat: 59.94, lng: 30.31,
+    location: '出土于黑水城（内蒙古额济纳旗）',
+    museum: '俄罗斯科学院东方文献研究所 · 圣彼得堡 🇷🇺',
+    note: '科兹洛夫1908-1909年从黑水城运走的西夏文文献约8000余件，涵盖佛经、字典、法律文书、医书、诗歌等，是世界上最大的西夏文献收藏。',
+    image: 'images/khara-manuscripts.jpg',
+    abroad: true
+  },
+  {
+    id: 'hermitage-murals', name: '西夏壁画残片', nameEn: 'W. Xia Mural Fragments',
+    type: 'artifact', category: '壁画', lat: 59.94, lng: 30.315,
+    location: '出土于黑水城佛塔',
+    museum: '艾尔米塔什博物馆（冬宫）· 圣彼得堡 🇷🇺',
+    note: '科兹洛夫从黑水城佛塔中剥离运走的西夏佛教壁画、麻布画和绢画，融合汉、藏、回鹘艺术风格，色彩至今鲜艳。',
+    image: 'images/hermitage-murals.jpg',
+    abroad: true
+  },
+  {
+    id: 'tangut-art-of-war', name: '西夏文《孙子兵法》残卷', nameEn: 'Tangut "Art of War" Fragments',
+    type: 'artifact', category: '文献', lat: 59.94, lng: 30.31,
+    location: '出土于黑水城',
+    museum: '俄罗斯科学院东方文献研究所 · 圣彼得堡 🇷🇺',
+    note: '西夏文译本的《孙子兵法》残卷，证明中原兵家经典在西夏的深度传播。西夏文译本保留了独特的军事术语翻译。',
+    image: 'images/tangut-art-of-war.jpg',
+    abroad: true
+  },
+  {
+    id: 'british-coins', name: '西夏铜钱', nameEn: 'Western Xia Coins',
+    type: 'artifact', category: '钱币', lat: 51.519, lng: -0.127,
+    location: '出土于甘肃、宁夏、内蒙古等地',
+    museum: '大英博物馆 · 伦敦 🇬🇧 + 宁夏博物馆等',
+    note: '西夏铸造的汉文和西夏文钱币，包括"天授通宝""大安通宝""乾祐元宝"等，部分为大英博物馆斯坦因收藏。',
+    image: 'images/british-coins.jpg',
+    abroad: true
+  },
+  {
+    id: 'guimet-stele', name: '西夏文石碑拓片', nameEn: 'Tangut Stele Rubbings',
+    type: 'artifact', category: '金石', lat: 48.865, lng: 2.294,
+    location: '来源不明（可能为甘肃、宁夏地区）',
+    museum: '吉美博物馆 · 巴黎 🇫🇷',
+    note: '法国汉学家伯希和（Paul Pelliot）1908年从中国西北考察时收集，包含部分西夏文碑刻拓片和手稿残片。',
+    image: 'images/guimet-stele.jpg',
+    abroad: true
+  },
+  {
+    id: 'ningxia-museum-artifacts', name: '西夏文大藏经残页', nameEn: 'Tangut Buddhist Canon Pages',
+    type: 'artifact', category: '文献', lat: 38.47, lng: 106.27,
+    location: '出土于宏佛塔、拜寺口等地',
+    museum: '宁夏博物馆 · 银川 + 中国国家图书馆 · 北京',
+    note: '西夏时期大量翻译和刊印汉文大藏经为西夏文，使用活字印刷技术。宏佛塔天宫中发现的西夏文佛经是重要见证。',
+    image: 'images/tangut-buddhist-canon.jpg',
+    abroad: false
+  },
+  {
+    id: 'ceramics', name: '西夏剔刻花瓷', nameEn: 'W. Xia Sgraffito Ceramics',
+    type: 'artifact', category: '陶瓷', lat: 38.47, lng: 106.27,
+    location: '出土于灵武窑址、西夏王陵等地',
+    museum: '宁夏博物馆 · 银川 + 大英博物馆 · 伦敦 🇬🇧',
+    note: '西夏瓷器以黑釉剔刻花为特色，纹饰粗犷豪放。灵武磁窑堡窑址是西夏最大的瓷器生产基地，部分精品流失海外。',
+    image: 'images/tangut-ceramics-vase.jpg',
+    abroad: true
+  },
+  {
+    id: 'gold-buddha', name: '西夏鎏金佛像', nameEn: 'Gilt Buddha Statues',
+    type: 'artifact', category: '佛教造像', lat: 38.47, lng: 106.27,
+    location: '出土于宏佛塔天宫',
+    museum: '宁夏博物馆 · 银川',
+    note: '宏佛塔天宫出土多尊西夏鎏金铜佛像，包括释迦牟尼、观音、韦陀等，造型融合汉藏风格，工艺精细。',
+    image: 'images/gold_buddha_bronze.jpg',
+    abroad: false
+  },
+  {
+    id: 'textile', name: '西夏绢画与丝织品', nameEn: 'Tangut Silk Paintings & Textiles',
+    type: 'artifact', category: '纺织品', lat: 59.94, lng: 30.315,
+    location: '出土于黑水城佛塔',
+    museum: '艾尔米塔什博物馆 · 圣彼得堡 🇷🇺',
+    note: '黑水城出土的西夏绢质佛画色彩绚丽，采用天然矿物颜料，保存完好。包括《阿弥陀佛来迎图》《炽盛光佛图》等珍品。',
+    image: 'images/textile_tejaprabha.jpg',
+    abroad: true
+  }
+];
+
+
 // Dynamic filter counts
-  1034|document.getElementById('count-all').textContent = sites.length;
-  1035|document.getElementById('count-site').textContent = sites.filter(s => s.type === 'site').length;
-  1036|document.getElementById('count-artifact').textContent = sites.filter(s => s.type === 'artifact').length;
-  1037|document.getElementById('count-abroad').textContent = sites.filter(s => s.abroad).length;
-  1038|
-  1039|// ===== INIT MAP =====
-  1040|const map = L.map('map', {
-  1041|  center: [39.000612, 103.502578],
-  1042|  zoom: 6,
-  1043|  zoomControl: true,
-  1044|  maxBounds: [[20, -20], [70, 140]],
-  1045|  maxBoundsViscosity: 0.5,
-  1046|  fadeAnimation: true,
-  1047|  zoomAnimation: true
-  1048|});
-  1049|
-  1050|// Dark minimal tiles — CartoDB dark_nolabels
-  1051|L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-  1052|  attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
-  1053|  maxZoom: 13,
-  1054|  subdomains: 'abcd',
-  1055|  crossOrigin: 'anonymous'
-  1056|}).addTo(map);
-  1057|
-  1058|// ===== WESTERN XIA TERRITORY POLYGON =====
-  1059|// Western Xia territory — high-res boundary following historical borders
-  1060|// Covers: Ningxia, Gansu Corridor, W Inner Mongolia, N Shaanxi, NE Qinghai
-  1061|const xixiaTerritory = [
-  1062|  // West edge — Hexi Corridor, Dunhuang area
-  1063|  [40.200703, 94.701137],
-  1064|  [40.500837, 95.001247],
-  1065|  [40.700964, 95.501229],
-  1066|  [40.801048, 96.000868],
-  1067|  [40.700950, 96.800447],  // Dunhuang
-  1068|  [40.400891, 97.200678],
-  1069|  [40.100800, 97.500676],
-  1070|  [39.800800, 98.000594],  // Guazhou
-  1071|  [39.600785, 98.500611],
-  1072|  [39.700813, 99.001013],
-  1073|  // North edge — Gobi / Alxa
-  1074|  [40.000840, 99.501447],
-  1075|  [40.400910, 100.001559],
-  1076|  [40.701041, 100.801718],
-  1077|  [41.001337, 101.502181], // Juyan Lake area
-  1078|  [41.401638, 102.002110],
-  1079|  [41.701709, 102.802135], // Khara-Khoto
-  1080|  [41.901773, 103.502756],
-  1081|  [42.001826, 104.303093],
-  1082|  [41.801810, 105.003773],
-  1083|  [41.501729, 105.804489],
-  1084|  [41.201615, 106.504746], // Langshan Mountains
-  1085|  [40.801301, 107.005095],
-  1086|  [40.501121, 107.505367], // Near Bayan Nur
-  1087|  // East edge — Yellow River loop, border with Song/Liao
-  1088|  [40.200997, 107.805272],
-  1089|  [39.801022, 108.005227],
-  1090|  [39.400980, 108.305159],
-  1091|  [39.000721, 108.505064],
-  1092|  [38.600564, 108.205100], // Ordos border
-  1093|  [38.300436, 107.805082],
-  1094|  [38.000524, 107.505116],
-  1095|  [37.700610, 107.305067],
-  1096|  [37.400516, 107.004772],
-  1097|  [37.200371, 106.704458],
-  1098|  // SE edge — northern Shaanxi, border with Song
-  1099|  [37.000280, 106.504371],
-  1100|  [36.800179, 106.304326],
-  1101|  [36.600004, 106.004185],
-  1102|  [36.399864, 105.804060],
-  1103|  [36.199841, 105.503928],
-  1104|  // South edge — along mountains
-  1105|  [35.999834, 105.203659],
-  1106|  [35.799685, 104.803029],
-  1107|  [35.699725, 104.302697],
-  1108|  [35.599578, 103.802448],
-  1109|  [35.699705, 103.202258],
-  1110|  [35.799504, 102.601575],
-  1111|  // SW edge — NE Qinghai
-  1112|  [35.999732, 102.001855],
-  1113|  [36.199766, 101.501952],
-  1114|  [36.499858, 101.001734],
-  1115|  [36.800023, 100.501464],
-  1116|  [37.000153, 100.001429],
-  1117|  [37.300325, 99.501350],
-  1118|  [37.600397, 99.000950],
-  1119|  [37.900362, 98.500571],
-  1120|  [38.200288, 98.000557],
-  1121|  [38.500273, 97.500638],
-  1122|  [38.800363, 97.000517],
-  1123|  [39.100523, 96.500489],
-  1124|  [39.400668, 96.000833],
-  1125|  [39.700736, 95.501199],
-  1126|  [40.000741, 95.001232]
-  1127|];
-  1128|
-  1129|const territoryPolygon = L.polygon(xixiaTerritory, {
-  1130|  color: '#c8962e',
-  1131|  weight: 1.5,
-  1132|  dashArray: '6, 4',
-  1133|  fillColor: '#c8962e',
-  1134|  fillOpacity: 0.12,
-  1135|  className: 'territory-layer'
-  1136|}).addTo(map);
-  1137|
-  1138|// Territory tooltip on hover
-  1139|territoryPolygon.bindTooltip('西夏疆域 (1038–1227)', {
-  1140|  sticky: true,
-  1141|  direction: 'center',
-  1142|  className: 'territory-tooltip',
-  1143|  opacity: 0.9
-  1144|});
-  1145|
-  1146|// Style the territory tooltip
-  1147|const territoryTooltipStyle = document.createElement('style');
-  1148|territoryTooltipStyle.textContent = `
-  1149|  .territory-tooltip {
-  1150|    background: rgba(13,10,8,0.85);
-  1151|    border: 1px solid rgba(200,150,46,0.3);
-  1152|    color: #e8d5a0;
-  1153|    font-family: 'Noto Serif SC', serif;
-  1154|    font-size: 13px;
-  1155|    letter-spacing: 0.08em;
-  1156|    padding: 6px 14px;
-  1157|    border-radius: 3px;
-  1158|    box-shadow: none;
-  1159|  }
-  1160|  .territory-tooltip::before { border-top-color: rgba(13,10,8,0.85); }
-  1161|`;
-  1162|document.head.appendChild(territoryTooltipStyle);
-  1163|
-  1164|// ===== CUSTOM MARKER ICONS =====
-  1165|function createMarkerIcon(type, abroad) {
-  1166|  const size = type === 'site' ? 30 : 26;
-  1167|  const color = abroad ? '#d4a83a' : (type === 'site' ? '#a8320a' : '#b88a2e');
-  1168|  const strokeColor = abroad ? '#7a5c14' : '#0d0a08';
-  1169|
-  1170|  let svg;
-  1171|  if (type === 'site') {
-  1172|    svg = `<svg width="${size}" height="${size}" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
-  1173|      <polygon points="15,3 27,9 27,21 15,27 3,21 3,9" fill="${color}" stroke="${strokeColor}" stroke-width="1.5"/>
-  1174|      <text x="15" y="19" text-anchor="middle" fill="#f4ede0" font-size="12" font-family="serif" font-weight="bold">⬡</text>
-  1175|    </svg>`;
-  1176|  } else if (abroad) {
-  1177|    svg = `<svg width="${size}" height="${size}" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
-  1178|      <polygon points="15,3 28,11 24,25 6,25 2,11" fill="${color}" stroke="${strokeColor}" stroke-width="1.5"/>
-  1179|      <text x="15" y="19" text-anchor="middle" fill="#0d0a08" font-size="12" font-family="serif" font-weight="bold">◆</text>
-  1180|    </svg>`;
-  1181|  } else {
-  1182|    svg = `<svg width="${size}" height="${size}" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
-  1183|      <polygon points="15,3 27,15 15,27 3,15" fill="${color}" stroke="${strokeColor}" stroke-width="1.5"/>
-  1184|      <text x="15" y="19" text-anchor="middle" fill="#f4ede0" font-size="12" font-family="serif" font-weight="bold">◇</text>
-  1185|    </svg>`;
-  1186|  }
-  1187|
-  1188|  const className = abroad ? 'custom-marker abroad-marker' : 'custom-marker';
-  1189|
-  1190|  return L.divIcon({
-  1191|    className: className,
-  1192|    html: svg,
-  1193|    iconSize: [size, size],
-  1194|    iconAnchor: [size/2, size/2],
-  1195|    popupAnchor: [0, -size/2]
-  1196|  });
-  1197|}
-  1198|
-  1199|// ===== BUILD POPUP HTML (with cluster support) =====
-  1200|function buildPopupHTML(site, clusterInfo) {
-  1201|  const iconClass = site.type === 'site' ? 'site-icon' : 'artifact-icon';
-  1202|  const iconChar = site.type === 'site' ? '⬡' : '◇';
-  1203|
-  1204|  let html = `
-  1205|    <div class="popup-inner">`;
-  1206|
-  1207|  // Image section
-  1208|  if (site.image) {
-  1209|    html += `
-  1210|      <div class="popup-image">
-  1211|        <img src="${site.image}" alt="${site.name}" loading="lazy" onerror="this.parentElement.style.display='none'">
-  1212|      </div>`;
-  1213|  }
-  1214|
-  1215|  html += `
-  1216|      <div class="popup-body">
-  1217|      <div class="popup-header">
-  1218|        <div class="popup-icon ${iconClass}"><span>${iconChar}</span></div>
-  1219|        <div class="popup-title">
-  1220|          ${site.name}
-  1221|          <span class="en">${site.nameEn}</span>
-  1222|        </div>
-  1223|      </div>
-  1224|      <div class="popup-meta">
-  1225|        <div class="popup-row">
-  1226|          <span class="popup-label">类型</span>
-  1227|          <span class="popup-value">${site.category}</span>
-  1228|        </div>
-  1229|        <div class="popup-row">
-  1230|          <span class="popup-label">原址</span>
-  1231|          <span class="popup-value">${site.location}</span>
-  1232|        </div>
-  1233|        <div class="popup-row">
-  1234|          <span class="popup-label">现藏</span>
-  1235|          <span class="popup-value">${site.museum}</span>
-  1236|        </div>
-  1237|      </div>`;
-  1238|
-  1239|  if (site.abroad) {
-  1240|    html += `<div class="popup-abroad">🌍 该文物目前收藏于海外</div>`;
-  1241|  }
-  1242|
-  1243|  html += `
-  1244|      <div class="popup-note">${site.note}</div>`;
-  1245|
-  1246|  // Cluster navigation
-  1247|  if (clusterInfo && clusterInfo.length > 1) {
-  1248|    html += `
-  1249|      <div class="cluster-nav">
-  1250|        <button class="cluster-btn" onclick="event.stopPropagation(); clusterPrev()" title="上一个">◀</button>
-  1251|        <span class="cluster-counter">${clusterInfo.cur + 1} / ${clusterInfo.length}</span>
-  1252|        <button class="cluster-btn" onclick="event.stopPropagation(); clusterNext()" title="下一个">▶</button>
-  1253|      </div>`;
-  1254|  }
-  1255|
-  1256|  html += `
-  1257|      </div>
-  1258|    </div>`;
-  1259|
-  1260|  return html;
-  1261|}
-  1262|
-  1263|// Active cluster state
-  1264|let activeCluster = null; // { ids: [...], curIdx: 0, marker: L.marker }
-  1265|
-  1266|function buildPopup(site) {
-  1267|  // Check for cluster at this site's coordinates
-  1268|  const key = `${site.lat.toFixed(6)},${site.lng.toFixed(6)}`;
-  1269|  const cluster = clusterMap[key];
-  1270|  if (cluster && cluster.length > 1) {
-  1271|    const curIdx = cluster.indexOf(site.id);
-  1272|    return buildPopupHTML(site, { length: cluster.length, cur: curIdx >= 0 ? curIdx : 0 });
-  1273|  }
-  1274|  return buildPopupHTML(site, null);
-  1275|}
-  1276|
-  1277|function clusterPrev() {
-  1278|  if (!activeCluster) return;
-  1279|  const newIdx = (activeCluster.curIdx - 1 + activeCluster.ids.length) % activeCluster.ids.length;
-  1280|  activeCluster.curIdx = newIdx;
-  1281|  const site = sites.find(s => s.id === activeCluster.ids[newIdx]);
-  1282|  if (site && activeCluster.marker) {
-  1283|    activeCluster.marker.setPopupContent(buildPopupHTML(site, {
-  1284|      length: activeCluster.ids.length,
-  1285|      cur: newIdx
-  1286|    }));
-  1287|  }
-  1288|}
-  1289|
-  1290|function clusterNext() {
-  1291|  if (!activeCluster) return;
-  1292|  const newIdx = (activeCluster.curIdx + 1) % activeCluster.ids.length;
-  1293|  activeCluster.curIdx = newIdx;
-  1294|  const site = sites.find(s => s.id === activeCluster.ids[newIdx]);
-  1295|  if (site && activeCluster.marker) {
-  1296|    activeCluster.marker.setPopupContent(buildPopupHTML(site, {
-  1297|      length: activeCluster.ids.length,
-  1298|      cur: newIdx
-  1299|    }));
-  1300|  }
-  1301|}
-  1302|
-  1303|// ===== RENDER SITE LIST =====
-  1304|const siteListEl = document.getElementById('site-list');
-  1305|let activeFilter = 'all';
-  1306|let markers = {};
-  1307|let selectedId = null;
-  1308|
-  1309|function renderList(filter) {
-  1310|  siteListEl.innerHTML = '';
-  1311|  const filtered = filter === 'all'
-  1312|    ? sites
-  1313|    : filter === 'abroad'
-  1314|      ? sites.filter(s => s.abroad)
-  1315|      : sites.filter(s => s.type === filter);
-  1316|
-  1317|  filtered.forEach((site, i) => {
-  1318|    const el = document.createElement('div');
-  1319|    el.className = 'site-card' + (site.id === selectedId ? ' selected' : '');
-  1320|    el.style.animationDelay = `${i * 0.03}s`;
-  1321|
-  1322|    let badgeClass = site.abroad ? 'badge-abroad' : (site.type === 'site' ? 'badge-site' : 'badge-artifact');
-  1323|    let badgeText = site.abroad ? '海外' : (site.type === 'site' ? '遗址' : '文物');
-  1324|
-  1325|    el.innerHTML = `
-  1326|      <div class="card-header">
-  1327|        <div>
-  1328|          <div class="card-title">${site.name}</div>
-  1329|          <div class="card-eng">${site.nameEn}</div>
-  1330|        </div>
-  1331|        <span class="card-badge ${badgeClass}">${badgeText}</span>
-  1332|      </div>
-  1333|      <div class="card-location">📍 ${site.location}</div>
-  1334|    `;
-  1335|
-  1336|    el.addEventListener('click', () => selectSite(site.id));
-  1337|    siteListEl.appendChild(el);
-  1338|  });
-  1339|}
-  1340|
-  1341|function selectSite(id) {
-  1342|  selectedId = id;
-  1343|  renderList(activeFilter);
-  1344|
-  1345|  const site = sites.find(s => s.id === id);
-  1346|  if (!site) return;
-  1347|
-  1348|  const marker = markers[id];
-  1349|  if (marker) {
-  1350|    map.flyTo([site.lat, site.lng], site.type === 'site' ? 10 : 8, {
-  1351|      duration: 1.5,
-  1352|      easeLinearity: 0.25
-  1353|    });
-  1354|    setTimeout(() => marker.openPopup(), 900);
-  1355|  }
-  1356|}
-  1357|
-  1358|// ===== BUILD CLUSTER MAP (coords → site ids) =====
-  1359|const clusterMap = {};
-  1360|sites.forEach(site => {
-  1361|  const key = `${site.lat.toFixed(6)},${site.lng.toFixed(6)}`;
-  1362|  if (!clusterMap[key]) clusterMap[key] = [];
-  1363|  clusterMap[key].push(site.id);
-  1364|});
-  1365|
-  1366|// ===== ADD MARKERS TO MAP =====
-  1367|sites.forEach(site => {
-  1368|  const icon = createMarkerIcon(site.type, site.abroad);
-  1369|  const marker = L.marker([site.lat, site.lng], { icon })
-  1370|    .bindPopup(buildPopup(site), {
-  1371|      className: 'xixia-popup',
-  1372|      maxWidth: 340,
-  1373|      closeButton: true,
-  1374|      autoPanPaddingTopLeft: [60, 20]
-  1375|    })
-  1376|    .addTo(map);
-  1377|
-  1378|  marker.on('popupopen', () => {
-  1379|    // Set active cluster state
-  1380|    const key = `${site.lat.toFixed(6)},${site.lng.toFixed(6)}`;
-  1381|    const cluster = clusterMap[key];
-  1382|    if (cluster && cluster.length > 1) {
-  1383|      activeCluster = { ids: cluster, curIdx: cluster.indexOf(site.id), marker: marker };
-  1384|    } else {
-  1385|      activeCluster = null;
-  1386|    }
-  1387|    selectSite(site.id);
-  1388|  });
-  1389|  markers[site.id] = marker;
-  1390|});
-  1391|
-  1392|// ===== FILTER BUTTONS =====
-  1393|document.querySelectorAll('.filter-btn').forEach(btn => {
-  1394|  btn.addEventListener('click', () => {
-  1395|    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  1396|    btn.classList.add('active');
-  1397|    activeFilter = btn.dataset.filter;
-  1398|
-  1399|    sites.forEach(site => {
-  1400|      const marker = markers[site.id];
-  1401|      if (!marker) return;
-  1402|      const visible = activeFilter === 'all'
-  1403|        || (activeFilter === 'abroad' && site.abroad)
-  1404|        || site.type === activeFilter;
-  1405|      if (visible) {
-  1406|        if (!map.hasLayer(marker)) marker.addTo(map);
-  1407|      } else {
-  1408|        if (map.hasLayer(marker)) marker.remove();
-  1409|      }
-  1410|    });
-  1411|
-  1412|    selectedId = null;
-  1413|    renderList(activeFilter);
-  1414|  });
-  1415|});
-  1416|
-  1417|// ===== INITIAL RENDER =====
-  1418|renderList('all');
-  1419|
-  1420|// ===== KEYBOARD =====
-  1421|document.addEventListener('keydown', (e) => {
-  1422|  if (e.key === 'Escape') {
-  1423|    selectedId = null;
-  1424|    renderList(activeFilter);
-  1425|    map.closePopup();
-  1426|    map.flyTo([39.000612, 103.502578], 6, { duration: 1.2 });
-  1427|  }
-  1428|});
-  1429|
-  1430|// ===== MOBILE SIDEBAR TOGGLE =====
-  1431|const menuToggle = document.getElementById('menu-toggle');
-  1432|const sidebar = document.getElementById('sidebar');
-  1433|const overlay = document.getElementById('sidebar-overlay');
-  1434|
-  1435|function openSidebar() {
-  1436|  sidebar.classList.add('open');
-  1437|  overlay.classList.add('show');
-  1438|}
-  1439|function closeSidebar() {
-  1440|  sidebar.classList.remove('open');
-  1441|  overlay.classList.remove('show');
-  1442|}
-  1443|
-  1444|menuToggle.addEventListener('click', () => {
-  1445|  sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
-  1446|});
-  1447|overlay.addEventListener('click', closeSidebar);
-  1448|
-  1449|// Close sidebar when selecting a site on mobile
-  1450|document.getElementById('site-list').addEventListener('click', (e) => {
-  1451|  if (e.target.closest('.site-card') && window.innerWidth <= 768) {
-  1452|    setTimeout(closeSidebar, 300);
-  1453|  }
-  1454|});
-  1455|
-  1456|console.log(`🏯 西夏遗珍 V3 · Western Xia Heritage Map · ${sites.length} treasures`);
-  1534|</script>
-  1535|</body>
-  1536|</html>
-  1537|
+document.getElementById('count-all').textContent = sites.length;
+document.getElementById('count-site').textContent = sites.filter(s => s.type === 'site').length;
+document.getElementById('count-artifact').textContent = sites.filter(s => s.type === 'artifact').length;
+document.getElementById('count-abroad').textContent = sites.filter(s => s.abroad).length;
+
+// ===== INIT MAP =====
+const map = L.map('map', {
+  center: [39.000612, 103.502578],
+  zoom: 6,
+  zoomControl: true,
+  maxBounds: [[20, -20], [70, 140]],
+  maxBoundsViscosity: 0.5,
+  fadeAnimation: true,
+  zoomAnimation: true
+});
+
+// Dark minimal tiles — CartoDB dark_nolabels
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+  maxZoom: 13,
+  subdomains: 'abcd',
+  crossOrigin: 'anonymous'
+}).addTo(map);
+
+// ===== WESTERN XIA TERRITORY POLYGON =====
+// Western Xia territory — high-res boundary following historical borders
+// Covers: Ningxia, Gansu Corridor, W Inner Mongolia, N Shaanxi, NE Qinghai
+const xixiaTerritory = [
+  // West edge — Hexi Corridor, Dunhuang area
+  [40.200703, 94.701137],
+  [40.500837, 95.001247],
+  [40.700964, 95.501229],
+  [40.801048, 96.000868],
+  [40.700950, 96.800447],  // Dunhuang
+  [40.400891, 97.200678],
+  [40.100800, 97.500676],
+  [39.800800, 98.000594],  // Guazhou
+  [39.600785, 98.500611],
+  [39.700813, 99.001013],
+  // North edge — Gobi / Alxa
+  [40.000840, 99.501447],
+  [40.400910, 100.001559],
+  [40.701041, 100.801718],
+  [41.001337, 101.502181], // Juyan Lake area
+  [41.401638, 102.002110],
+  [41.701709, 102.802135], // Khara-Khoto
+  [41.901773, 103.502756],
+  [42.001826, 104.303093],
+  [41.801810, 105.003773],
+  [41.501729, 105.804489],
+  [41.201615, 106.504746], // Langshan Mountains
+  [40.801301, 107.005095],
+  [40.501121, 107.505367], // Near Bayan Nur
+  // East edge — Yellow River loop, border with Song/Liao
+  [40.200997, 107.805272],
+  [39.801022, 108.005227],
+  [39.400980, 108.305159],
+  [39.000721, 108.505064],
+  [38.600564, 108.205100], // Ordos border
+  [38.300436, 107.805082],
+  [38.000524, 107.505116],
+  [37.700610, 107.305067],
+  [37.400516, 107.004772],
+  [37.200371, 106.704458],
+  // SE edge — northern Shaanxi, border with Song
+  [37.000280, 106.504371],
+  [36.800179, 106.304326],
+  [36.600004, 106.004185],
+  [36.399864, 105.804060],
+  [36.199841, 105.503928],
+  // South edge — along mountains
+  [35.999834, 105.203659],
+  [35.799685, 104.803029],
+  [35.699725, 104.302697],
+  [35.599578, 103.802448],
+  [35.699705, 103.202258],
+  [35.799504, 102.601575],
+  // SW edge — NE Qinghai
+  [35.999732, 102.001855],
+  [36.199766, 101.501952],
+  [36.499858, 101.001734],
+  [36.800023, 100.501464],
+  [37.000153, 100.001429],
+  [37.300325, 99.501350],
+  [37.600397, 99.000950],
+  [37.900362, 98.500571],
+  [38.200288, 98.000557],
+  [38.500273, 97.500638],
+  [38.800363, 97.000517],
+  [39.100523, 96.500489],
+  [39.400668, 96.000833],
+  [39.700736, 95.501199],
+  [40.000741, 95.001232]
+];
+
+const territoryPolygon = L.polygon(xixiaTerritory, {
+  color: '#c8962e',
+  weight: 1.5,
+  dashArray: '6, 4',
+  fillColor: '#c8962e',
+  fillOpacity: 0.12,
+  className: 'territory-layer'
+}).addTo(map);
+
+// Territory tooltip on hover
+territoryPolygon.bindTooltip('西夏疆域 (1038–1227)', {
+  sticky: true,
+  direction: 'center',
+  className: 'territory-tooltip',
+  opacity: 0.9
+});
+
+// Style the territory tooltip
+const territoryTooltipStyle = document.createElement('style');
+territoryTooltipStyle.textContent = `
+  .territory-tooltip {
+    background: rgba(13,10,8,0.85);
+    border: 1px solid rgba(200,150,46,0.3);
+    color: #e8d5a0;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    padding: 6px 14px;
+    border-radius: 3px;
+    box-shadow: none;
+  }
+  .territory-tooltip::before { border-top-color: rgba(13,10,8,0.85); }
+`;
+document.head.appendChild(territoryTooltipStyle);
+
+// ===== CUSTOM MARKER ICONS =====
+function createMarkerIcon(type, abroad) {
+  const size = type === 'site' ? 30 : 26;
+  const color = abroad ? '#d4a83a' : (type === 'site' ? '#a8320a' : '#b88a2e');
+  const strokeColor = abroad ? '#7a5c14' : '#0d0a08';
+
+  let svg;
+  if (type === 'site') {
+    svg = `<svg width="${size}" height="${size}" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="15,3 27,9 27,21 15,27 3,21 3,9" fill="${color}" stroke="${strokeColor}" stroke-width="1.5"/>
+      <text x="15" y="19" text-anchor="middle" fill="#f4ede0" font-size="12" font-family="serif" font-weight="bold">⬡</text>
+    </svg>`;
+  } else if (abroad) {
+    svg = `<svg width="${size}" height="${size}" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="15,3 28,11 24,25 6,25 2,11" fill="${color}" stroke="${strokeColor}" stroke-width="1.5"/>
+      <text x="15" y="19" text-anchor="middle" fill="#0d0a08" font-size="12" font-family="serif" font-weight="bold">◆</text>
+    </svg>`;
+  } else {
+    svg = `<svg width="${size}" height="${size}" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="15,3 27,15 15,27 3,15" fill="${color}" stroke="${strokeColor}" stroke-width="1.5"/>
+      <text x="15" y="19" text-anchor="middle" fill="#f4ede0" font-size="12" font-family="serif" font-weight="bold">◇</text>
+    </svg>`;
+  }
+
+  const className = abroad ? 'custom-marker abroad-marker' : 'custom-marker';
+
+  return L.divIcon({
+    className: className,
+    html: svg,
+    iconSize: [size, size],
+    iconAnchor: [size/2, size/2],
+    popupAnchor: [0, -size/2]
+  });
+}
+
+// ===== BUILD POPUP HTML (with cluster support) =====
+function buildPopupHTML(site, clusterInfo) {
+  const iconClass = site.type === 'site' ? 'site-icon' : 'artifact-icon';
+  const iconChar = site.type === 'site' ? '⬡' : '◇';
+
+  let html = `
+    <div class="popup-inner">`;
+
+  // Image section
+  if (site.image) {
+    html += `
+      <div class="popup-image">
+        <img src="${site.image}" alt="${site.name}" loading="lazy" onerror="this.parentElement.style.display='none'">
+      </div>`;
+  }
+
+  html += `
+      <div class="popup-body">
+      <div class="popup-header">
+        <div class="popup-icon ${iconClass}"><span>${iconChar}</span></div>
+        <div class="popup-title">
+          ${site.name}
+          <span class="en">${site.nameEn}</span>
+        </div>
+      </div>
+      <div class="popup-meta">
+        <div class="popup-row">
+          <span class="popup-label">类型</span>
+          <span class="popup-value">${site.category}</span>
+        </div>
+        <div class="popup-row">
+          <span class="popup-label">原址</span>
+          <span class="popup-value">${site.location}</span>
+        </div>
+        <div class="popup-row">
+          <span class="popup-label">现藏</span>
+          <span class="popup-value">${site.museum}</span>
+        </div>
+      </div>`;
+
+  if (site.abroad) {
+    html += `<div class="popup-abroad">🌍 该文物目前收藏于海外</div>`;
+  }
+
+  html += `
+      <div class="popup-note">${site.note}</div>`;
+
+  // Cluster navigation
+  if (clusterInfo && clusterInfo.length > 1) {
+    html += `
+      <div class="cluster-nav">
+        <button class="cluster-btn" onclick="event.stopPropagation(); clusterPrev()" title="上一个">◀</button>
+        <span class="cluster-counter">${clusterInfo.cur + 1} / ${clusterInfo.length}</span>
+        <button class="cluster-btn" onclick="event.stopPropagation(); clusterNext()" title="下一个">▶</button>
+      </div>`;
+  }
+
+  html += `
+      </div>
+    </div>`;
+
+  return html;
+}
+
+// Active cluster state
+let activeCluster = null; // { ids: [...], curIdx: 0, marker: L.marker }
+
+function buildPopup(site) {
+  // Check for cluster at this site's coordinates
+  const key = `${site.lat.toFixed(6)},${site.lng.toFixed(6)}`;
+  const cluster = clusterMap[key];
+  if (cluster && cluster.length > 1) {
+    const curIdx = cluster.indexOf(site.id);
+    return buildPopupHTML(site, { length: cluster.length, cur: curIdx >= 0 ? curIdx : 0 });
+  }
+  return buildPopupHTML(site, null);
+}
+
+function clusterPrev() {
+  if (!activeCluster) return;
+  const newIdx = (activeCluster.curIdx - 1 + activeCluster.ids.length) % activeCluster.ids.length;
+  activeCluster.curIdx = newIdx;
+  const site = sites.find(s => s.id === activeCluster.ids[newIdx]);
+  if (site && activeCluster.marker) {
+    activeCluster.marker.setPopupContent(buildPopupHTML(site, {
+      length: activeCluster.ids.length,
+      cur: newIdx
+    }));
+  }
+}
+
+function clusterNext() {
+  if (!activeCluster) return;
+  const newIdx = (activeCluster.curIdx + 1) % activeCluster.ids.length;
+  activeCluster.curIdx = newIdx;
+  const site = sites.find(s => s.id === activeCluster.ids[newIdx]);
+  if (site && activeCluster.marker) {
+    activeCluster.marker.setPopupContent(buildPopupHTML(site, {
+      length: activeCluster.ids.length,
+      cur: newIdx
+    }));
+  }
+}
+
+// ===== RENDER SITE LIST =====
+const siteListEl = document.getElementById('site-list');
+let activeFilter = 'all';
+let markers = {};
+let selectedId = null;
+
+function renderList(filter) {
+  siteListEl.innerHTML = '';
+  const filtered = filter === 'all'
+    ? sites
+    : filter === 'abroad'
+      ? sites.filter(s => s.abroad)
+      : sites.filter(s => s.type === filter);
+
+  filtered.forEach((site, i) => {
+    const el = document.createElement('div');
+    el.className = 'site-card' + (site.id === selectedId ? ' selected' : '');
+    el.style.animationDelay = `${i * 0.03}s`;
+
+    let badgeClass = site.abroad ? 'badge-abroad' : (site.type === 'site' ? 'badge-site' : 'badge-artifact');
+    let badgeText = site.abroad ? '海外' : (site.type === 'site' ? '遗址' : '文物');
+
+    el.innerHTML = `
+      <div class="card-header">
+        <div>
+          <div class="card-title">${site.name}</div>
+          <div class="card-eng">${site.nameEn}</div>
+        </div>
+        <span class="card-badge ${badgeClass}">${badgeText}</span>
+      </div>
+      <div class="card-location">📍 ${site.location}</div>
+    `;
+
+    el.addEventListener('click', () => selectSite(site.id));
+    siteListEl.appendChild(el);
+  });
+}
+
+function selectSite(id) {
+  selectedId = id;
+  renderList(activeFilter);
+
+  const site = sites.find(s => s.id === id);
+  if (!site) return;
+
+  const marker = markers[id];
+  if (marker) {
+    map.flyTo([site.lat, site.lng], site.type === 'site' ? 10 : 8, {
+      duration: 1.5,
+      easeLinearity: 0.25
+    });
+    setTimeout(() => marker.openPopup(), 900);
+  }
+}
+
+// ===== BUILD CLUSTER MAP (coords → site ids) =====
+const clusterMap = {};
+sites.forEach(site => {
+  const key = `${site.lat.toFixed(6)},${site.lng.toFixed(6)}`;
+  if (!clusterMap[key]) clusterMap[key] = [];
+  clusterMap[key].push(site.id);
+});
+
+// ===== ADD MARKERS TO MAP =====
+sites.forEach(site => {
+  const icon = createMarkerIcon(site.type, site.abroad);
+  const marker = L.marker([site.lat, site.lng], { icon })
+    .bindPopup(buildPopup(site), {
+      className: 'xixia-popup',
+      maxWidth: 340,
+      closeButton: true,
+      autoPanPaddingTopLeft: [60, 20]
+    })
+    .addTo(map);
+
+  marker.on('popupopen', () => {
+    // Set active cluster state
+    const key = `${site.lat.toFixed(6)},${site.lng.toFixed(6)}`;
+    const cluster = clusterMap[key];
+    if (cluster && cluster.length > 1) {
+      activeCluster = { ids: cluster, curIdx: cluster.indexOf(site.id), marker: marker };
+    } else {
+      activeCluster = null;
+    }
+    selectSite(site.id);
+  });
+  markers[site.id] = marker;
+});
+
+// ===== FILTER BUTTONS =====
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+
+    sites.forEach(site => {
+      const marker = markers[site.id];
+      if (!marker) return;
+      const visible = activeFilter === 'all'
+        || (activeFilter === 'abroad' && site.abroad)
+        || site.type === activeFilter;
+      if (visible) {
+        if (!map.hasLayer(marker)) marker.addTo(map);
+      } else {
+        if (map.hasLayer(marker)) marker.remove();
+      }
+    });
+
+    selectedId = null;
+    renderList(activeFilter);
+  });
+});
+
+// ===== INITIAL RENDER =====
+renderList('all');
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    selectedId = null;
+    renderList(activeFilter);
+    map.closePopup();
+    map.flyTo([39.000612, 103.502578], 6, { duration: 1.2 });
+  }
+});
+
+// ===== MOBILE SIDEBAR TOGGLE =====
+const menuToggle = document.getElementById('menu-toggle');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebar-overlay');
+
+function openSidebar() {
+  sidebar.classList.add('open');
+  overlay.classList.add('show');
+}
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('show');
+}
+
+menuToggle.addEventListener('click', () => {
+  sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+overlay.addEventListener('click', closeSidebar);
+
+// Close sidebar when selecting a site on mobile
+document.getElementById('site-list').addEventListener('click', (e) => {
+  if (e.target.closest('.site-card') && window.innerWidth <= 768) {
+    setTimeout(closeSidebar, 300);
+  }
+});
+
+console.log(`🏯 西夏遗珍 V3 · Western Xia Heritage Map · ${sites.length} treasures`);
+</script>
+</body>
+</html>
