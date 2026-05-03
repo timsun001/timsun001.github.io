@@ -7,14 +7,6 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='60' height='60' x='20' y='20' rx='0' fill='%238B2500' transform='rotate(45 50 50)'/><rect width='46' height='46' x='27' y='27' rx='0' fill='none' stroke='%23DAA520' stroke-width='2' transform='rotate(45 50 50)'/></svg>">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
-/* Self-hosted Tangut font — Google Fonts blocked in CN */
-@font-face {
-  font-family: 'Noto Serif Tangut';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('NotoSerifTangut.ttf') format('truetype');
-}
 /* ============================================
    WESTERN XIA HERITAGE MAP V3 — DESIGN SYSTEM
    Claude Design principles: type-first hierarchy,
@@ -53,7 +45,6 @@
   --font-display: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
   --font-body:    'Noto Serif SC', 'Songti SC', 'STSong', serif;
   --font-en:      'Noto Serif', Georgia, serif;
-  --font-tangut:   'Noto Serif Tangut', serif;
 
   --leading-tight: 1.2;
   --leading-body:  1.6;
@@ -122,19 +113,24 @@ html, body {
   border: 2.5px solid var(--terracotta);
   background: transparent;
 }
-.seal::after {
-  content: '𘜶';
+.seal .seal-img {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   transform: rotate(-45deg);
-  font-size: 26px;
-  font-weight: 400;
-  color: var(--terracotta);
-  font-family: 'Noto Serif Tangut', serif;
+  width: 32px;
+  height: 32px;
+  margin: auto;
 }
+
+
+/* Tangut character images — zero font dependency, works on all devices */
+.tangut-char { display: inline-block; vertical-align: middle; }
+.tangut-h1   { height: 30px; width: auto; margin-right: 2px; }
+.tangut-sub  { height: 14px; width: auto; }
+.tangut-map  { height: 16px; width: auto; margin-right: 2px; }
 
 #header h1 {
   font-size: 28px;
@@ -142,7 +138,7 @@ html, body {
   color: var(--text);
   letter-spacing: 0.08em;
   margin-bottom: 4px;
-  font-family: var(--font-tangut), var(--font-display);
+  font-family: var(--font-display);
 }
 
 #header .subtitle {
@@ -151,7 +147,7 @@ html, body {
   letter-spacing: 0.08em;
   text-transform: none;
   font-weight: 400;
-  font-family: var(--font-tangut), var(--font-en);
+  font-family: var(--font-en);
 }
 
 #header .dynasty-note {
@@ -340,7 +336,7 @@ html, body {
   font-weight: 400;
   letter-spacing: 0.08em;
   border: 1px solid rgba(184,138,46,0.3);
-  font-family: var(--font-tangut), var(--font-display);
+  font-family: var(--font-display);
   border-radius: var(--radius);
   text-align: center;
 }
@@ -666,9 +662,9 @@ html, body {
   <!-- ====== SIDEBAR ====== -->
   <div id="sidebar">
     <div id="header">
-      <div class="seal"></div>
-      <h1>𘜶 西夏遗珍</h1>
-      <div class="subtitle">𗴂𗹭𘜶𗴲𗂧 · Western Xia</div>
+      <div class="seal"><img src="data:image/png;base64,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" alt="夏" class="seal-img"></div>
+      <h1><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAAE7UlEQVR4nM2Ye4weUxjGf19bLeJWXdKNuBW1tCxpE6wSJZEQVPvHrrtSqpE26xZxCy2hEdIgNOJWl6D9R2VDBaHuQStptERKaCjKqktbtmrblVeekdfZM/Od+fZr15NMMvPOmTPPnHnOe6vQG2cCPwPfAKuBv2Q/F/hF9q+B32Q/FuiUvYty2AfYBKyhRhjBHh2bgfaI3Y4rInYjfVGJd72oD3wA2LevZE/JsR+XY58MDEp8z4nBx9sKzwUqtZLdvqS9QbaD3crHMBj42D33LXAqcFARMVuFRmCIsw105/Zr/ixh3xsYCiwEDgHGApdGtDwTOEzntidagXdJwNPB76j3sSh43zFAt7t/GYkwfRwIjHa2R4BhOm913iDFfgGw3s1lG3Qp8L2u7S8uAfbS9c3AbQEn+yMr9ew20WwMOwAfurGzI2N2B9YCnwFnpWy2rUF2O+nYxmwBrs4Zd18gIduEE1LJDkkk+zvwhEjFiD6n5zZIQjE0SVrZO94DrgVOLiL7CfB2RPirpaMOYICzj8ghmeEmvfwrYBT5WOSIbtBeqhlj3UYycnOAPRKeawR+FYFxOWPODn7/5SmEzE/ul3DM1aSrgOaEeadq/Dq5Lo/h2lQZ0VdTo9g7NfhRW7FJVeatAG86wme4ex1urjXOrUUn8bCockCVF5tLaQts9qJzgPkFz+0v19Wg8abl74B5um+b6yTtlz7DdHpPsKrdcupjgk2Xh3EK0z6ry86nUyc0RiSySrlsWZyfEJJrxvEKl37yZ4Fd+zDnW8F8FigeS/QuubgqcNTrlbN6tGpHp6K9YLNahTItUVL/YidgQTDRjyJ/pAurg7QiWxRx2oKUMcTpTqdLpNONEdIrtAhVXZiFvU+DTTQLmBJM+IfTbBal7PhCiXSIMXJzPcpdd5H9KCXfPWVID5RbWucGW4hs0f3Jzv6ltOwxO9DgFHev2Tn+xfpzHsMLfPwy7053Ax5V5eoHmRM/3EWta9y99yNRbYQm9is/TL67U7YFQXLkMUBhNuNhcrk4NvDuGiJXyjFVWrfzOxPD6J7Akxr/H1SCXHK69GeajVWjM1xmZuNiOE0rslJ6+0g9hSZVsHm4XvKYKQ9U0UfmItNnDF6zbyREu4rOn9Iz9xaM39lpeqmq4z6hDFmP0c5d5WX93pv0KJnvVUiGzvdCbYZl6pY8BBxBdVjWtRx4CXgYuAU4VPdWqIJGPtlaRh4WCa9015uV3DSov5C0ehat7ne7t2hlz3P3TG8d8jK+z5A5/+VBqJ4TrKpt9iQUEUola/4yhlvdmNe1atmmy+yfqwqOIrUvVQ/cofLFaqvxwOPyw1n91q2mXtf/gexG+d3X5CmMuMcNBX/lH5TKbuqAxdJoiI4UrW5rslnLyPKPcNWLyvl+IzvLZVwZLNK9HHiQfifbpoQIJSy++XYC8IE8RL+TbVFQQLlCi4KQpZMZRorwhP4kOwp4AdhRSVKLOoUW2S4JEhaTyPOqpAdvTbKdkd7BSOlxqEgcrb5Zhnk57aJ2lUpN9Y5gDSIVfnwz8INC8I1V8tlpQUc8O7qUO1SKVtZrqRp+Uv7qnxmvj1qr/tbtVfLTB1W7WRPPY5Oe71WmT9TS3xVpOfqVtShUhBlKhIyg7+WmwHJZ+/CsDLJueGlYBfCK/GSY5nlYJ/IZ9bZqhen7ulA2fwNJTgIjn9l/HgAAAABJRU5ErkJggg==" alt="夏" class="tangut-char tangut-h1"> 西夏遗珍</h1>
+      <div class="subtitle"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAeCAYAAADQBxWhAAAChUlEQVR4nL2WW4hNYRTHf84czoNxmWEiuYW8TIPIJUqZh8GLe+FBBi/ILeWBUIo35cGLPClPpFBSmpoHJWm8SJH7g0gx0yljzLjMaOm/tWx7n/Odk33+tc/3nfWtb/3Xt9dlfxCOJmAUNcQY4BHwDthcRnc6cA9YEGJ4AvAZ6E14BoAh91zQnpsJut+l8xXYVc0JhwMHgG4ZugssLKHfAnyRbjdwptKQrAGeycBzYENACF64Uy6thGwe0KnNn4CDOnGEiQl7hulV256fwPpQsnXAFW3qB84CY2M6pxW3fSKKcNzFe6+TF4BrwIw00tk62Q+gLyWhfDJdBnJAmxw12SXgKdABnAfqgJVAEVieRryohFfHHOFJyabJ0ciJKZp/0zzCLR1kBYGw13jKEV4EGhXrJ5J1KO6T9d/C49Em+UeggTIYD9zWBqu/I3LCYv1A8gGVSa8rl6GE0AxKvieNLA/sB3qk2AUsAUY7HZsfiiVU2klRl7K1ncQQGXojBTvNWrdelNddesVxlCJtUq3/Lj/72aRy6RHRUWBWwsaijDYnrJUj/QuW1juA+cAIJ29VJ+pUHXrSJIfSSNuBrQRilWuBDVWSNqtUBlVyib2zVQYLjvSh04mTboxlaDx7++RAv9as6/3Tc323CSEtd9JEWBuLwz7U28gQuSyNV0JaNt2rwGpl8Z/OE2GkRqvV/4mpypFxyoUTntSEhpeBxpYBd2KyqCUWlL2RrE49+jDwypNO0ng/kNR6aX1C9r4VQX1ITOeqiG+QMXJuvlifMfM0U+Q1zgTmANupAXIadwPngMe1IM3rG2r3oi2xNbugvQauOpndh+xq8iHFnuXEe+B6CLn/+meOXyVGyM5uGORwAAAAAElFTkSuQmCC" alt="" class="tangut-char tangut-sub"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAdCAYAAACwuqxLAAABN0lEQVR4nNXWzSpFURwF8N/lykfpppRkpGtowtDQx0TJ8L4CE1PlCSgzr2AsM0ORB5AHwOAOKMVA4earXfvWIRfHPZus2qfTf++zVru1/mfvEtZwhToOcatg3OAFWygXTZ4VGJMAHQVyVbGP0RQ76MVx5Al+TjUnSlGggkZc8FOUM+/XGMdlUTv4FQ8KE+hJKbCEU8zm+ajpwQPuvxhPce0zVvIKfMfkzbh2O0Yzmcl13KUU+AjTGEklUMVO7OaZ7ETeTi6jM5r9+I4n1MUwhF/FSTsmr//rTv4zgUHsYiCVwAYWcYCholMk1gNfwB4WUqeoltrkWkqBCiZTCsyjqx2B7k/mAudyPPn68t7kwn8mIJxsc5l6SE8gDqMfw7F+FB4X8U76pkFaYAJn8UQLaWo1QuTPsfoKvblXKtfLcSUAAAAASUVORK5CYII=" alt="" class="tangut-char tangut-sub"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAAE7UlEQVR4nM2Ye4weUxjGf19bLeJWXdKNuBW1tCxpE6wSJZEQVPvHrrtSqpE26xZxCy2hEdIgNOJWl6D9R2VDBaHuQStptERKaCjKqktbtmrblVeekdfZM/Od+fZr15NMMvPOmTPPnHnOe6vQG2cCPwPfAKuBv2Q/F/hF9q+B32Q/FuiUvYty2AfYBKyhRhjBHh2bgfaI3Y4rInYjfVGJd72oD3wA2LevZE/JsR+XY58MDEp8z4nBx9sKzwUqtZLdvqS9QbaD3crHMBj42D33LXAqcFARMVuFRmCIsw105/Zr/ixh3xsYCiwEDgHGApdGtDwTOEzntidagXdJwNPB76j3sSh43zFAt7t/GYkwfRwIjHa2R4BhOm913iDFfgGw3s1lG3Qp8L2u7S8uAfbS9c3AbQEn+yMr9ew20WwMOwAfurGzI2N2B9YCnwFnpWy2rUF2O+nYxmwBrs4Zd18gIduEE1LJDkkk+zvwhEjFiD6n5zZIQjE0SVrZO94DrgVOLiL7CfB2RPirpaMOYICzj8ghmeEmvfwrYBT5WOSIbtBeqhlj3UYycnOAPRKeawR+FYFxOWPODn7/5SmEzE/ul3DM1aSrgOaEeadq/Dq5Lo/h2lQZ0VdTo9g7NfhRW7FJVeatAG86wme4ex1urjXOrUUn8bCockCVF5tLaQts9qJzgPkFz+0v19Wg8abl74B5um+b6yTtlz7DdHpPsKrdcupjgk2Xh3EK0z6ry86nUyc0RiSySrlsWZyfEJJrxvEKl37yZ4Fd+zDnW8F8FigeS/QuubgqcNTrlbN6tGpHp6K9YLNahTItUVL/YidgQTDRjyJ/pAurg7QiWxRx2oKUMcTpTqdLpNONEdIrtAhVXZiFvU+DTTQLmBJM+IfTbBal7PhCiXSIMXJzPcpdd5H9KCXfPWVID5RbWucGW4hs0f3Jzv6ltOwxO9DgFHev2Tn+xfpzHsMLfPwy7053Ax5V5eoHmRM/3EWta9y99yNRbYQm9is/TL67U7YFQXLkMUBhNuNhcrk4NvDuGiJXyjFVWrfzOxPD6J7Akxr/H1SCXHK69GeajVWjM1xmZuNiOE0rslJ6+0g9hSZVsHm4XvKYKQ9U0UfmItNnDF6zbyREu4rOn9Iz9xaM39lpeqmq4z6hDFmP0c5d5WX93pv0KJnvVUiGzvdCbYZl6pY8BBxBdVjWtRx4CXgYuAU4VPdWqIJGPtlaRh4WCa9015uV3DSov5C0ehat7ne7t2hlz3P3TG8d8jK+z5A5/+VBqJ4TrKpt9iQUEUola/4yhlvdmNe1atmmy+yfqwqOIrUvVQ/cofLFaqvxwOPyw1n91q2mXtf/gexG+d3X5CmMuMcNBX/lH5TKbuqAxdJoiI4UrW5rslnLyPKPcNWLyvl+IzvLZVwZLNK9HHiQfifbpoQIJSy++XYC8IE8RL+TbVFQQLlCi4KQpZMZRorwhP4kOwp4AdhRSVKLOoUW2S4JEhaTyPOqpAdvTbKdkd7BSOlxqEgcrb5Zhnk57aJ2lUpN9Y5gDSIVfnwz8INC8I1V8tlpQUc8O7qUO1SKVtZrqRp+Uv7qnxmvj1qr/tbtVfLTB1W7WRPPY5Oe71WmT9TS3xVpOfqVtShUhBlKhIyg7+WmwHJZ+/CsDLJueGlYBfCK/GSY5nlYJ/IZ9bZqhen7ulA2fwNJTgIjn9l/HgAAAABJRU5ErkJggg==" alt="夏" class="tangut-char tangut-sub"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAdCAYAAAC9pNwMAAACjklEQVR4nMWWS4iNYRjHf+ecQSOXMAvl1oSQsWE1NUXJgkTp1JRsBhtFiMyQbJShjMTCRkkUSS4bFlhYYIrIBkm533Jn3Iejp/5fvb293+04zL/ezjnPc77n/3zvc4V/i06dAv8R84HfQAU4DtS7St+TDp1aoB9Qcn7vB1bS1ygk6DYDTcBDXdVVR3cb6JFuBfBK8qHAMcnvAzuBn3mdOqz4nASGe7rX0rV68gbJ7ZSTjBczOHAReBuju5nw3Cnn+2zgPDAsD/HfYjRwROTdwMQoxkZ+L3CdA5WZ34Dvnm6Inv2kkolQkM7wQZ8l2YlwF5iRJcZrArooxpMTYlyXZLxIH6GYoKuoJCyBxib8J4TPXghyIYpLWXHeBgySbA/Q5jher1gOABa62VstSmoW9ma/gENO8riwNtsLPALWUwOscpLFpkwcOvSf07Wqv48yeMkriThia61+lu8CBmcltXo8I2N3gBGObnWgjOKIOyV/AszLQrzBIR3jyJsUy6/AWmfIhIjHA1+U3cuBUWmkszRRunVVLs6J4AfQBUyJIbZsvyBZe5Y3nQq8A/YC/T3dIifRNno6n3hrHlLDDrXDpV7LG6mZW9G0KiYQt2mamaO50ALcUNdaIpKzMvw4JlYR8VPgqJcXuVAHbFdiPJDR98C0Kuu4FZjkE4TQK2PWrTY5iXUrxeG4NWeBbjDTkJgLrANeaocqK1Or6cMt/n4XRzwHOAFcA6arxJ4BM5VcttRlxQRNt9QRvFiFv9trk80KgcXygPdMu+SXA/a60pY/I7Fxd11vGILVtxl548mthKIaf6EW+VyrUSS3RG0MGd0HLEu5knEyetCT26i0fdocMgI71t1s77JReQXY4sb5D3OfsQEXzzezAAAAAElFTkSuQmCC" alt="" class="tangut-char tangut-sub"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAYAAABWk2cPAAADCUlEQVR4nLWWWYiOYRTHfwwaS8PINhTJUkJkbOHCFtejuDAxaLIUKRlluTFKUaRIWUou5IJCJm6EweQCF5YhjSX72GqMZQZjRqf+bx2v532/b0ZOPX3fc87znP97znM2+L+UC+SEBB2B4UDngKwAuACMbANgO+AkcAnoFxcao0XrVOzL9oj/A9gGdHKyI0Bdyvrk9L4BJoVAm2IfMxhokGw/UNhKSwuBZoEviHsyCbRC/GtAB/FGA4uydO1loBGYCbQHumYCXSTeQ71rpOgqsDAL0FXAZwEaHZCusUmgw3ThQSwASoBHQB/gY+ANv8myBv3/6mSNWm/1bH+A5gvM9o+dS/J1oTTBsr7u/cuy8AQetBKoAXaLt9O555WL3njubdf5fQH9BUrLIKitY0APoBfwE/gOFCsKvQXLlF6Tgd56jh0BwO7AfaDKxcZflnq6Ln6zlJqCiEol+wXUy7VRbn5xb1nvDHoNDEShnES3Y+FvCuN0HshTDpqHNupDyrTP0z7KiOeZQGvdf3NzJrJcXieg2YFiUu0PJlE2QPHcHALsAtanHUyztJt+LwLLMwDaW5UDB4HN+oCctAtJgbQCWKw3NQX9A4FUofe8AmyQbK1kN4Ex0tsS7zRJoJ7KFY0lAdBZwATxLX0+qBoVq2VmBTo3UOKii7ZOACsdqKfTitYix2uzpTU6U6WS6C2NqEyAq7XP+RfQoc7KJQH3Gi0F3gFzXAt8pphoE2gUGHWuAXjQrWoGIySzOntL8huqaK0GvSP5JsfzoKOAcarFloJ7XfTmhixNKw5G0+SqWs1LIbqn33oNcTNU7orUQ1tVHFBZM1qjxpxGlQI0q+YBL9IOJ7l3ovhHA3dKFalRO5uvifGJWuJTYLpkTfJGxhkJzavVKuBxsrTpqWoVdZbjKp0L3Due1T4rSxdqVh2UwUNngJcBxdZl3rtUu6tAnBJNH3FQK2U2gCXNuRZ8VpFsujNFUWOI0wBVrwjY1rlo6Lbpzrr6IR3eAoxPUGST3GEViS4pXvA0VekUzVv8BgjqD4qeN5PaAAAAAElFTkSuQmCC" alt="" class="tangut-char tangut-sub"> · Western Xia</div>
       <span class="dynasty-note">大夏 · 1038 – 1227</span>
     </div>
 
@@ -693,7 +689,7 @@ html, body {
 
   <!-- ====== MAP ====== -->
   <div id="map-container">
-    <div id="map-title"><span class="map-label">𘜶 疆域</span></div>
+    <div id="map-title"><span class="map-label"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAAE7UlEQVR4nM2Ye4weUxjGf19bLeJWXdKNuBW1tCxpE6wSJZEQVPvHrrtSqpE26xZxCy2hEdIgNOJWl6D9R2VDBaHuQStptERKaCjKqktbtmrblVeekdfZM/Od+fZr15NMMvPOmTPPnHnOe6vQG2cCPwPfAKuBv2Q/F/hF9q+B32Q/FuiUvYty2AfYBKyhRhjBHh2bgfaI3Y4rInYjfVGJd72oD3wA2LevZE/JsR+XY58MDEp8z4nBx9sKzwUqtZLdvqS9QbaD3crHMBj42D33LXAqcFARMVuFRmCIsw105/Zr/ixh3xsYCiwEDgHGApdGtDwTOEzntidagXdJwNPB76j3sSh43zFAt7t/GYkwfRwIjHa2R4BhOm913iDFfgGw3s1lG3Qp8L2u7S8uAfbS9c3AbQEn+yMr9ew20WwMOwAfurGzI2N2B9YCnwFnpWy2rUF2O+nYxmwBrs4Zd18gIduEE1LJDkkk+zvwhEjFiD6n5zZIQjE0SVrZO94DrgVOLiL7CfB2RPirpaMOYICzj8ghmeEmvfwrYBT5WOSIbtBeqhlj3UYycnOAPRKeawR+FYFxOWPODn7/5SmEzE/ul3DM1aSrgOaEeadq/Dq5Lo/h2lQZ0VdTo9g7NfhRW7FJVeatAG86wme4ex1urjXOrUUn8bCockCVF5tLaQts9qJzgPkFz+0v19Wg8abl74B5um+b6yTtlz7DdHpPsKrdcupjgk2Xh3EK0z6ry86nUyc0RiSySrlsWZyfEJJrxvEKl37yZ4Fd+zDnW8F8FigeS/QuubgqcNTrlbN6tGpHp6K9YLNahTItUVL/YidgQTDRjyJ/pAurg7QiWxRx2oKUMcTpTqdLpNONEdIrtAhVXZiFvU+DTTQLmBJM+IfTbBal7PhCiXSIMXJzPcpdd5H9KCXfPWVID5RbWucGW4hs0f3Jzv6ltOwxO9DgFHev2Tn+xfpzHsMLfPwy7053Ax5V5eoHmRM/3EWta9y99yNRbYQm9is/TL67U7YFQXLkMUBhNuNhcrk4NvDuGiJXyjFVWrfzOxPD6J7Akxr/H1SCXHK69GeajVWjM1xmZuNiOE0rslJ6+0g9hSZVsHm4XvKYKQ9U0UfmItNnDF6zbyREu4rOn9Iz9xaM39lpeqmq4z6hDFmP0c5d5WX93pv0KJnvVUiGzvdCbYZl6pY8BBxBdVjWtRx4CXgYuAU4VPdWqIJGPtlaRh4WCa9015uV3DSov5C0ehat7ne7t2hlz3P3TG8d8jK+z5A5/+VBqJ4TrKpt9iQUEUola/4yhlvdmNe1atmmy+yfqwqOIrUvVQ/cofLFaqvxwOPyw1n91q2mXtf/gexG+d3X5CmMuMcNBX/lH5TKbuqAxdJoiI4UrW5rslnLyPKPcNWLyvl+IzvLZVwZLNK9HHiQfifbpoQIJSy++XYC8IE8RL+TbVFQQLlCi4KQpZMZRorwhP4kOwp4AdhRSVKLOoUW2S4JEhaTyPOqpAdvTbKdkd7BSOlxqEgcrb5Zhnk57aJ2lUpN9Y5gDSIVfnwz8INC8I1V8tlpQUc8O7qUO1SKVtZrqRp+Uv7qnxmvj1qr/tbtVfLTB1W7WRPPY5Oe71WmT9TS3xVpOfqVtShUhBlKhIyg7+WmwHJZ+/CsDLJueGlYBfCK/GSY5nlYJ/IZ9bZqhen7ulA2fwNJTgIjn9l/HgAAAABJRU5ErkJggg==" alt="夏" class="tangut-char tangut-map"> 疆域</span></div>
     <div id="map"></div>
     <div id="map-vignette"></div>
     <div id="legend">
