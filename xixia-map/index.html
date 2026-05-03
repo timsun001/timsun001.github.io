@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>𗴂𗹭𘜶𗴲𗂧 · Western Xia Heritage</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='0' fill='%238B2500' transform='rotate(45 50 50)'/><text x='50' y='68' text-anchor='middle' fill='%23DAA520' font-size='44' font-family='Noto Sans Tangut, serif' transform='rotate(-45 50 50)'>𘜶</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='60' height='60' x='20' y='20' rx='0' fill='%238B2500' transform='rotate(45 50 50)'/><rect width='46' height='46' x='27' y='27' rx='0' fill='none' stroke='%23DAA520' stroke-width='2' transform='rotate(45 50 50)'/></svg>">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tangut:wght@400&family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Tangut:wght@400&family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 /* ============================================
    WESTERN XIA HERITAGE MAP V3 — DESIGN SYSTEM
@@ -48,7 +48,7 @@
   --font-display: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
   --font-body:    'Noto Serif SC', 'Songti SC', 'STSong', serif;
   --font-en:      'Noto Serif', Georgia, serif;
-  --font-tangut:   'Noto Sans Tangut', serif;
+  --font-tangut:   'Noto Serif Tangut', serif;
 
   --leading-tight: 1.2;
   --leading-body:  1.6;
@@ -128,7 +128,7 @@ html, body {
   font-size: 26px;
   font-weight: 400;
   color: var(--terracotta);
-  font-family: 'Noto Sans Tangut', serif;
+  font-family: 'Noto Serif Tangut', serif;
 }
 
 #header h1 {
@@ -1042,11 +1042,11 @@ const map = L.map('map', {
   zoomAnimation: true
 });
 
-// Dark-themed tiles
-L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
-  attribution: '&copy; <a href="https://www.amap.com/">高德地图</a> | 西夏遗珍',
+// Dark minimal tiles — CartoDB dark_nolabels
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
   maxZoom: 13,
-  subdomains: '1234',
+  subdomains: 'abcd',
   crossOrigin: 'anonymous'
 }).addTo(map);
 
