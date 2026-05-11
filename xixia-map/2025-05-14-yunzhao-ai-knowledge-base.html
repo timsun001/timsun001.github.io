@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 知识库 · 与 Yunzhao 讨论大纲</title>
+<style>
+  :root {
+    --bg: #f8f9fb;
+    --card: #ffffff;
+    --border: #e8ecf1;
+    --text: #1a1d23;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --green: #059669;
+    --amber: #d97706;
+    --red: #dc2626;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro SC", "PingFang SC", "Noto Sans SC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem 1rem;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .header .meta {
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  .header .meta span { margin: 0 0.5rem; }
+
+  /* Sections */
+  section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  section h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  section h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  section h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1.25rem 0 0.5rem;
+  }
+  section p { margin-bottom: 0.75rem; }
+  section ul, section ol { margin: 0.5rem 0 0.75rem 1.25rem; }
+  section li { margin-bottom: 0.35rem; }
+
+  /* Blockquote (核心论点) */
+  blockquote {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+    font-size: 0.925rem;
+  }
+
+  /* Code blocks */
+  pre {
+    background: #1a1d23;
+    color: #e5e7eb;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+    font-family: "SF Mono", "JetBrains Mono", "Cascadia Code", monospace;
+  }
+
+  /* Tables */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 0.75rem 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  th, td {
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    background: var(--bg);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  tr:last-child td { border-bottom: none; }
+
+  /* Tags for levels */
+  .tag {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .tag-l1 { background: #fee2e2; color: #991b1b; }
+  .tag-l2 { background: #fef3c7; color: #92400e; }
+  .tag-l3 { background: #dbeafe; color: #1e40af; }
+  .tag-l4 { background: #d1fae5; color: #065f46; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
+  /* Open questions callout */
+  .callout {
+    background: #faf5ff;
+    border-left: 3px solid #9333ea;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+  }
+  .callout h4 {
+    color: #7c3aed;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.75rem;
+    padding: 2rem 0;
+  }
+
+  /* Summary boxes */
+  .summary-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  .summary-box h4 {
+    color: var(--green);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 1rem 0.75rem; }
+    section { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>B 端定制化 AI 知识库</h1>
+  <div class="meta">
+    <span>孙天 × Yunzhao</span> · <span>2026-05-14 周三 12:15</span>
+  </div>
+</div>
+
+<!-- 1 -->
+<section>
+  <h2><span class="num">1</span> 破冰与对齐 (5-10min)</h2>
+  <ul>
+    <li>互相近况</li>
+    <li>为什么聊这个方向：AI 知识库是当前企业最实的需求之一</li>
+    <li>目标：探讨合作可能性 + 市场判断</li>
+  </ul>
+</section>
+
+<!-- 2 -->
+<section>
+  <h2><span class="num">2</span> 市场格局 (10min)</h2>
+
+  <h3>海外头部玩家</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>产品</th><th>定位</th><th>估值 / ARR</th><th>核心壁垒</th></tr>
+    <tr><td><strong>Glean</strong></td><td>企业 AI 搜索</td><td>$4.6B, $100M+ ARR</td><td>权限继承, 100+ 连接器</td></tr>
+    <tr><td><strong>Notion AI</strong></td><td>中小团队知识库</td><td>$10B+</td><td>文档+AI 一体化</td></tr>
+    <tr><td><strong>Microsoft Copilot</strong></td><td>M365 底座</td><td>捆绑销售</td><td>用户基数碾压</td></tr>
+    <tr><td><strong>Hebbia</strong></td><td>金融/法律深度分析</td><td>$130M Series B</td><td>多步推理, 百万级文档</td></tr>
+  </table>
+  </div>
+
+  <h3>国内现状</h3>
+  <ul>
+    <li>没有明确的 Glean 级产品。百度 AI Cloud、腾讯云、阿里云都有 RAG 方案，但偏基础设施层，离产品差得远</li>
+    <li>大部分国内竞品停留在「文档问答」程度，缺乏：权限感知搜索、多源连接器（飞书/钉钉/企微）、Agentic 工作流</li>
+  </ul>
+
+  <blockquote>中国市场 ~$5-8B，增长 ~30% YoY，尚无主导者。窗口期还在。</blockquote>
+</section>
+
+<!-- 3 -->
+<section>
+  <h2><span class="num">3</span> 真正的难点：Feedback Loop (20min)</h2>
+
+  <blockquote>技术壁垒越来越低，真正的门槛在企业内部怎么让知识库转起来。</blockquote>
+
+  <h3>3.1 知识库的死因</h3>
+  <pre>上线 → 初期新鲜感 → 信息过期无人更新 → 用户问不到答案 → 不再使用 → 废弃</pre>
+  <ul>
+    <li><strong>信息沉淀难</strong> — 核心知识在人的脑子里（"这个问老王"），不在文档里</li>
+    <li><strong>更新滞后</strong> — 文档半年前过期，没人标记、没人更新、没人删</li>
+    <li><strong>无反馈回路</strong> — 用户问了个问题，系统给了错误/过期的回答，没人纠正</li>
+    <li><strong>参与激励缺失</strong> — 员工为什么要贡献知识？KPI 里没这项</li>
+  </ul>
+
+  <h3>3.2 如何建立 Feedback Loop？</h3>
+  <pre>用户提问 → AI 回答 → 满意度打分/纠错
+                ↓
+    [低分/纠错] → 通知知识负责人 → 更新文档 → 知识库优化
+                ↓
+    自动触发：重复纠错 → 模型微调 / RAG 策略调整</pre>
+
+  <p><strong>① 谁来维护知识？</strong> 专职 KA vs 众包模式 · 权限审核 · 自动 freshness check</p>
+  <p><strong>② 怎么让员工用？</strong> 飞书/钉钉/企微机器人入口 · 反馈收集机制 · 使用数据可视化</p>
+  <p><strong>③ 怎么让员工贡献？</strong> 被问到问题时一键录成 FAQ · 积分/KPI 激励 · 聊天记录一键入库</p>
+
+  <h3>3.3 分级作战策略</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>层级</th><th>做法</th><th>覆盖场景</th></tr>
+    <tr><td><span class="tag tag-l1">L1 文档差</span></td><td>上传 PDF/Word → RAG 问答</td><td>规章制度、产品手册、培训资料</td></tr>
+    <tr><td><span class="tag tag-l2">L2 有人维护</span></td><td>Wiki/飞书文档 → 实时同步</td><td>SOP、FAQ、项目文档</td></tr>
+    <tr><td><span class="tag tag-l3">L3 主动运营</span></td><td>专人维护 + dashboard + 定期 audit</td><td>客户服务、技术支持、合规</td></tr>
+    <tr><td><span class="tag tag-l4">L4 自动进化</span></td><td>用户反馈闭环 + 自动知识提取</td><td>头部客户，需持续优化</td></tr>
+  </table>
+  </div>
+
+  <blockquote>企业的知识管理水平决定了 AI 知识库的上限，而不是技术选型。一个连飞书文档都维护不好的企业，上 RAG 也是白搭。</blockquote>
+
+  <h3>3.4 技术参考（一句话）</h3>
+  <pre>文档 → 解析/OCR → 分块 → 向量化 → 存储
+用户提问 → [向量搜索 + 关键词搜索] → 重排序 → LLM → 答案</pre>
+
+  <div class="table-wrap">
+  <table>
+    <tr><th>组件</th><th>推荐</th></tr>
+    <tr><td>Embedding</td><td>BGE-M3 (BAAI, 多语言最强)</td></tr>
+    <tr><td>向量库</td><td>Qdrant (混合搜索最快)</td></tr>
+    <tr><td>LLM</td><td>DeepSeek-V4 / Qwen2.5</td></tr>
+    <tr><td>编排</td><td>LangChain + LangGraph</td></tr>
+    <tr><td>文档解析</td><td>PaddleOCR + Unstructured.io</td></tr>
+  </table>
+  </div>
+
+  <p><strong>重点：技术选型不是差异化，产品和运营才是。</strong> Yunzhao 的公司作为数据产品公司，核心价值应该是对客户的行业理解、实施能力、持续运营——这些才是大厂懒得做也做不好的。</p>
+
+  <div class="callout">
+    <h4>💬 聊一聊你们的经验</h4>
+    <ul>
+      <li>Yunzhao 之前的数据产品遇到过类似问题吗？怎么解决的？</li>
+      <li>他看到的客户，知识管理成熟度在哪个层次？（L1-L4）</li>
+      <li>有没有哪个行业/客户特别适合做第一个标杆？（文档密集 + 有人维护 + 预算充足）</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 4 -->
+<section>
+  <h2><span class="num">4</span> 商业模式 (10min)</h2>
+
+  <h3>国内 B 端可行定价模型</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>模式</th><th>定价区间</th><th>适合客户</th></tr>
+    <tr><td>一次性实施费</td><td>¥20-50 万</td><td>政府、国企</td></tr>
+    <tr><td>SaaS 月费</td><td>¥1-5 万/月</td><td>中小民企</td></tr>
+    <tr><td>私有化部署年费</td><td>¥20-50 万/年</td><td>金融、政府、合规敏感行业</td></tr>
+    <tr><td>定制开发项目</td><td>¥50-200 万</td><td>大型企业、复杂需求</td></tr>
+  </table>
+  </div>
+
+  <h3>海外对标</h3>
+  <ul>
+    <li>Glean: $30-50/seat/month</li>
+    <li>Notion AI: $10/seat/month (add-on)</li>
+    <li>Guru: $15-25/seat/month</li>
+    <li>国内 SaaS 定价通常比海外低 40-60%</li>
+  </ul>
+
+  <p><strong>利润模型：</strong> 标准 SaaS 70-80% 毛利率；私有化部署 50-60%（运维成本高）。关键成本项：GPU 算力 40-50%、运维人工 20-30%、API 费用 10-20%。</p>
+</section>
+
+<!-- 5 -->
+<section>
+  <h2><span class="num">5</span> 投入估算 (10min)</h2>
+
+  <h3>团队（5-6 人）</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>角色</th><th>人数</th></tr>
+    <tr><td>后端/ML 工程师（RAG + 向量）</td><td>2</td></tr>
+    <tr><td>前端工程师（Chat UI + 后台）</td><td>1-2</td></tr>
+    <tr><td>产品经理/行业专家</td><td>1</td></tr>
+    <tr><td>实施/交付经理</td><td>1</td></tr>
+  </table>
+  </div>
+
+  <h3>时间线</h3>
+  <ul>
+    <li><strong>MVP（1-2 月）：</strong> 单源 RAG（PDF），Chat Q&A，基础 UI</li>
+    <li><strong>Beta（3-4 月）：</strong> 多源接入，混合搜索，连接器框架</li>
+    <li><strong>正式版（5-8 月）：</strong> 权限体系，SSO，审计日志，多租户</li>
+    <li><strong>企业级（9-12 月）：</strong> 私有化部署，合规认证，Agentic 功能</li>
+  </ul>
+
+  <h3>成本</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>阶段</th><th>预算（人民币）</th></tr>
+    <tr><td>MVP 开发</td><td>¥50-100 万</td></tr>
+    <tr><td>Beta → 正式版</td><td>¥100-200 万</td></tr>
+    <tr><td>年度运维 (10-20 客户)</td><td>¥80-150 万/年</td></tr>
+    <tr><td><strong>总计启动</strong></td><td><strong>¥150-300 万</strong></td></tr>
+  </table>
+  </div>
+</section>
+
+<!-- 6 -->
+<section>
+  <h2><span class="num">6</span> 合作模式 (5min)</h2>
+
+  <h3>可能的分工</h3>
+  <ul>
+    <li>Yunzhao 方：客户资源、行业理解、交付落地</li>
+    <li>孙天方：技术架构、AI 能力、产品设计</li>
+  </ul>
+
+  <h3>前期试探方式</h3>
+  <ol>
+    <li><strong>先做一个标杆客户：</strong> 选一个具体行业（律所/金融机构），跑通闭环</li>
+    <li><strong>用 MVP 验证需求：</strong> 1-2 个月做最小产品，给 1-2 个客户试用</li>
+    <li><strong>再决定是否成立公司/产品线</strong></li>
+  </ol>
+
+  <div class="callout">
+    <h4>💬 开放问题</h4>
+    <ul>
+      <li>已有客户资源？最有可能的首个客户画像？</li>
+      <li>友商合作还是自研？</li>
+      <li>孙天这边可以出多少？（团队/算力/时间）</li>
+      <li>融资节奏？还是先接项目养团队？</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="summary-box">
+  <h4>🎯 核心结论（备说）</h4>
+  <ol>
+    <li>市场确实在，窗口期 ~12-18 个月</li>
+    <li>技术门槛不高，真正的难点是企业的知识管理水平和反馈闭环</li>
+    <li>用开源栈（BGE-M3 + Qdrant + DeepSeek-V4）快速迭代，零授权费</li>
+    <li>先做一个客户，再融钱扩团队，别反着来</li>
+    <li>潜在风险：大厂（阿里/腾讯/字节）可能做，但它们的问题是产品太重、定制化差</li>
+  </ol>
+</section>
+
+<div class="footer">
+  塔米丝编 · 大纲同步更新至产品备忘录
+</div>
+
+</div>
+</body>
+</html>
